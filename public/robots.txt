@@ -1,0 +1,15 @@
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://confial.fodivps1.cloud/sitemap.xml
+
+# Disallow admin and internal paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1

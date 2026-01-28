@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { toast } from "sonner";
 
 interface News {
   id: string;
@@ -40,11 +42,11 @@ export default function NewsEditPage() {
           status: news.status,
         });
       } else {
-        alert("News non trovata");
+        toast.error("News non trovata");
         router.push("/admin/news");
       }
     } catch (error) {
-      alert("Errore nel caricamento");
+      toast.error("Errore nel caricamento");
     } finally {
       setLoading(false);
     }
@@ -62,12 +64,13 @@ export default function NewsEditPage() {
       });
 
       if (response.ok) {
+        toast.success("News aggiornata con successo!");
         router.push("/admin/news");
       } else {
-        alert("Errore nel salvataggio della news");
+        toast.error("Errore nel salvataggio della news");
       }
     } catch (error) {
-      alert("Errore di rete");
+      toast.error("Errore di rete");
     } finally {
       setSaving(false);
     }
@@ -84,12 +87,13 @@ export default function NewsEditPage() {
       });
 
       if (response.ok) {
+        toast.success("News eliminata con successo!");
         router.push("/admin/news");
       } else {
-        alert("Errore nell'eliminazione");
+        toast.error("Errore nell'eliminazione");
       }
     } catch (error) {
-      alert("Errore di rete");
+      toast.error("Errore di rete");
     }
   }
 
@@ -161,22 +165,13 @@ export default function NewsEditPage() {
         </div>
 
         <div>
-          <label
-            htmlFor="content"
-            className="block text-sm font-medium text-gray-700 mb-2"
-          >
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Contenuto *
           </label>
-          <textarea
-            id="content"
-            value={formData.content}
-            onChange={(e) =>
-              setFormData({ ...formData, content: e.target.value })
-            }
-            required
-            rows={12}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
-            placeholder="Contenuto completo della news"
+          <RichTextEditor
+            content={formData.content}
+            onChange={(content) => setFormData({ ...formData, content })}
+            placeholder="Scrivi il contenuto della news..."
           />
         </div>
 

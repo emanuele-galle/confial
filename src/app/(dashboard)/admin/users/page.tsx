@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2, Shield, User } from "lucide-react";
+import { toast } from "sonner";
 
 interface UserData {
   id: string;
@@ -57,13 +58,14 @@ export default function UsersListPage() {
       });
 
       if (response.ok) {
+        toast.success("Utente eliminato con successo!");
         setUsers(users.filter((user) => user.id !== id));
       } else {
         const error = await response.json();
-        alert(error.error || "Errore durante l'eliminazione");
+        toast.error(error.error || "Errore durante l'eliminazione");
       }
     } catch (error) {
-      alert("Errore di rete");
+      toast.error("Errore di rete");
     }
   }
 

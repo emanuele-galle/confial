@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Plus, Download, Trash2, FileText } from "lucide-react";
+import { toast } from "sonner";
 
 interface Document {
   id: string;
@@ -49,12 +50,13 @@ export default function DocumentsListPage() {
       });
 
       if (response.ok) {
+        toast.success("Documento eliminato con successo!");
         setDocuments(documents.filter((doc) => doc.id !== id));
       } else {
-        alert("Errore durante l'eliminazione");
+        toast.error("Errore durante l'eliminazione");
       }
     } catch (error) {
-      alert("Errore di rete");
+      toast.error("Errore di rete");
     }
   }
 

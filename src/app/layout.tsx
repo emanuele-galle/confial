@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Lato } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
+import { ConditionalLayout } from "@/components/layout/conditional-layout";
 
 const lato = Lato({
   weight: ["400", "700"],
@@ -65,9 +64,7 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${lato.variable} ${montserrat.variable}`}>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
-        <Header />
-        <main className="pt-16">{children}</main>
-        <Footer />
+        <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
   );

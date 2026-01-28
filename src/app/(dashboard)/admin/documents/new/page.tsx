@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Upload, FileText, X } from "lucide-react";
+import { toast } from "sonner";
 
 export default function DocumentUploadPage() {
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function DocumentUploadPage() {
           });
         }
       } else {
-        alert("Solo file PDF sono permessi");
+        toast.error("Solo file PDF sono permessi");
       }
     }
   }
@@ -60,7 +61,7 @@ export default function DocumentUploadPage() {
           });
         }
       } else {
-        alert("Solo file PDF sono permessi");
+        toast.error("Solo file PDF sono permessi");
       }
     }
   }
@@ -69,7 +70,7 @@ export default function DocumentUploadPage() {
     e.preventDefault();
 
     if (!selectedFile) {
-      alert("Seleziona un file PDF");
+      toast.error("Seleziona un file PDF");
       return;
     }
 
@@ -92,13 +93,14 @@ export default function DocumentUploadPage() {
       });
 
       if (response.ok) {
+        toast.success("Documento caricato con successo!");
         router.push("/admin/documents");
       } else {
         const error = await response.json();
-        alert(error.error || "Errore durante l'upload");
+        toast.error(error.error || "Errore durante l'upload");
       }
     } catch (error) {
-      alert("Errore di rete");
+      toast.error("Errore di rete");
     } finally {
       setLoading(false);
     }

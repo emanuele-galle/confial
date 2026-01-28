@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 interface User {
   id: string;
@@ -39,11 +40,11 @@ export default function UserEditPage() {
           role: user.role,
         });
       } else {
-        alert("Utente non trovato");
+        toast.error("Utente non trovato");
         router.push("/admin/users");
       }
     } catch (error) {
-      alert("Errore nel caricamento");
+      toast.error("Errore nel caricamento");
     } finally {
       setLoading(false);
     }
@@ -72,13 +73,14 @@ export default function UserEditPage() {
       });
 
       if (response.ok) {
+        toast.success("Utente aggiornato con successo!");
         router.push("/admin/users");
       } else {
         const error = await response.json();
-        alert(error.error || "Errore nel salvataggio");
+        toast.error(error.error || "Errore nel salvataggio");
       }
     } catch (error) {
-      alert("Errore di rete");
+      toast.error("Errore di rete");
     } finally {
       setSaving(false);
     }

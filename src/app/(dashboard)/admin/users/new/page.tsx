@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function UserCreatePage() {
   const router = useRouter();
@@ -26,13 +27,14 @@ export default function UserCreatePage() {
       });
 
       if (response.ok) {
+        toast.success("Utente creato con successo!");
         router.push("/admin/users");
       } else {
         const error = await response.json();
-        alert(error.error || "Errore nella creazione dell'utente");
+        toast.error(error.error || "Errore nella creazione dell'utente");
       }
     } catch (error) {
-      alert("Errore di rete");
+      toast.error("Errore di rete");
     } finally {
       setLoading(false);
     }

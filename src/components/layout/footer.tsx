@@ -52,6 +52,7 @@ export function Footer() {
             </div>
             <p className="text-gray-400 text-xs sm:text-sm mb-6 sm:mb-8 max-w-md leading-relaxed">
               Federazione Autonoma Italiana Lavoratori Metalmeccanici e Servizi.
+              <br />
               Il sindacato dell&apos;industria che difende i diritti, governa le transizioni
               e costruisce futuro nei luoghi di lavoro.
             </p>

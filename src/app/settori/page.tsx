@@ -105,7 +105,7 @@ const settori = [
 const stats = [
   { value: 4, suffix: "", label: "Settori principali", icon: Cog },
   { value: 20, suffix: "+", label: "Sotto-categorie", icon: Factory },
-  { value: 1000, suffix: "+", label: "Lavoratori tutelati", icon: Users },
+  { value: 2000, suffix: "+", label: "Lavoratori tutelati", icon: Users },
   { value: 100, suffix: "%", label: "Territorio coperto", icon: Zap },
 ];
 

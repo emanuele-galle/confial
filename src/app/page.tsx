@@ -69,7 +69,7 @@ const heroSlides = [
     highlight: "grande industria",
     subtitle: "italiana",
     description: "Dai grandi gruppi siderurgici alle fonderie: rappresentiamo i lavoratori in tutta la filiera industriale.",
-    badge: "1000+ Lavoratori iscritti",
+    badge: "2000+ Lavoratori iscritti",
     floatingTitle: "Contrattazione forte",
     floatingSubtitle: "Accordi nazionali",
     floatingIcon: FileText,
@@ -140,9 +140,9 @@ const values = [
 
 const stats = [
   { value: 40, suffix: "+", label: "Anni di esperienza" },
-  { value: 1000, suffix: "+", label: "Lavoratori iscritti" },
+  { value: 2000, suffix: "+", label: "Lavoratori iscritti" },
   { value: 50, suffix: "+", label: "Accordi firmati" },
-  { value: 10, suffix: "+", label: "Sedi territoriali" },
+  { value: 25, suffix: "+", label: "Sedi territoriali" },
 ];
 
 export default function HomePage() {
@@ -569,7 +569,7 @@ export default function HomePage() {
                     <div className="relative">
                       <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-2xl overflow-hidden shadow-lg">
                         <Image
-                          src="/images/logo/logo-confial-orizzontale.png"
+                          src="/images/logo-failms-new.png"
                           alt="CONFIAL Logo"
                           fill
                           className="object-contain p-2 bg-white"

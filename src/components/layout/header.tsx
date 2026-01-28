@@ -47,7 +47,7 @@ export function Header() {
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
               <Image
-                src="/images/logo/logo-confial-orizzontale.png"
+                src="/images/logo-failms-new.png"
                 alt="FAILMS CONFIAL"
                 width={280}
                 height={94}
@@ -148,7 +148,7 @@ export function Header() {
             {/* Menu Header */}
             <div className="flex items-center justify-between p-4 border-b">
               <Image
-                src="/images/logo/logo-confial-orizzontale.png"
+                src="/images/logo-failms-new.png"
                 alt="FAILMS CONFIAL"
                 width={200}
                 height={67}

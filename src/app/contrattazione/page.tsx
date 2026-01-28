@@ -82,8 +82,8 @@ const principi = [
 const numeri = [
   { value: "50+", label: "Accordi firmati" },
   { value: "40+", label: "Anni di esperienza" },
-  { value: "1000+", label: "Lavoratori tutelati" },
-  { value: "20", label: "Regioni coperte" },
+  { value: "2000+", label: "Lavoratori tutelati" },
+  { value: "25", label: "Sedi territoriali" },
 ];
 
 export default function ContrattazionePage() {

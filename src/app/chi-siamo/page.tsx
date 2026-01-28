@@ -67,8 +67,8 @@ const valori = [
 
 const stats = [
   { value: 40, suffix: "+", label: "Anni di storia", icon: Calendar },
-  { value: 20, suffix: "", label: "Regioni", icon: Globe },
-  { value: 1000, suffix: "+", label: "Iscritti", icon: Users },
+  { value: 25, suffix: "", label: "Sedi territoriali", icon: Globe },
+  { value: 2000, suffix: "+", label: "Iscritti", icon: Users },
   { value: 50, suffix: "+", label: "Accordi", icon: Handshake },
 ];
 
@@ -119,9 +119,7 @@ export default function ChiSiamoPage() {
 
               <RevealOnScroll delay={200}>
                 <p className="text-lg text-white/70 mb-8 leading-relaxed max-w-lg">
-                  FAILMS rappresenta il lavoro industriale metalmeccanico e siderurgico,
-                  dalle grandi realtà industriali alle piccole e medie imprese.
-                  Un sindacato autonomo, democratico e partecipativo.
+                  Il sindacato dell'industria metalmeccanica e siderurgica che costruisce futuro nei luoghi di lavoro.
                 </p>
               </RevealOnScroll>
 
@@ -148,7 +146,7 @@ export default function ChiSiamoPage() {
                 <div className="relative">
                   <div className="bg-white rounded-3xl p-8 shadow-2xl">
                     <Image
-                      src="/images/logo/logo-confial-orizzontale.png"
+                      src="/images/logo-failms-new.png"
                       alt="FAILMS CONFIAL Logo"
                       width={500}
                       height={160}

@@ -43,7 +43,7 @@ export function Footer() {
             <div className="mb-4 sm:mb-6">
               <div className="relative w-64 sm:w-80 h-20 sm:h-28">
                 <Image
-                  src="/images/logo/logo-confial-orizzontale.png"
+                  src="/images/logo-failms-new.png"
                   alt="FAILMS CONFIAL Logo"
                   fill
                   className="object-contain object-left"
@@ -51,7 +51,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-gray-400 text-xs sm:text-sm mb-6 sm:mb-8 max-w-md leading-relaxed">
-              Federazione Autonoma Italiana Lavoratori Metalmeccanici e Siderurgici.
+              Federazione Autonoma Italiana Lavoratori Metalmeccanici e Servizi.
               Il sindacato dell&apos;industria che difende i diritti, governa le transizioni
               e costruisce futuro nei luoghi di lavoro.
             </p>
@@ -139,23 +139,23 @@ export function Footer() {
         {/* Contact info */}
         <div className="mt-16 pt-8 border-t border-gray-800">
           <div className="flex flex-wrap gap-8 text-sm">
-            <a href="mailto:info@confial.it" className="flex items-center text-gray-400 hover:text-emerald-400 transition-colors group">
+            <a href="mailto:failm.nazionale@confial.it" className="flex items-center text-gray-400 hover:text-emerald-400 transition-colors group">
               <div className="w-10 h-10 bg-gray-800/50 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-900/30 transition-colors">
                 <Mail className="h-4 w-4" />
               </div>
-              info@confial.it
+              failm.nazionale@confial.it
             </a>
-            <a href="tel:+390812345678" className="flex items-center text-gray-400 hover:text-emerald-400 transition-colors group">
+            <a href="tel:+390815538186" className="flex items-center text-gray-400 hover:text-emerald-400 transition-colors group">
               <div className="w-10 h-10 bg-gray-800/50 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-900/30 transition-colors">
                 <Phone className="h-4 w-4" />
               </div>
-              +39 081 234 5678
+              0815538186
             </a>
             <span className="flex items-center text-gray-400">
               <div className="w-10 h-10 bg-gray-800/50 rounded-lg flex items-center justify-center mr-3">
                 <MapPin className="h-4 w-4" />
               </div>
-              Napoli, Italia
+              Piazza Giuseppe Garibaldi n.39 – 80143 Napoli
             </span>
           </div>
         </div>

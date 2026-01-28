@@ -7,7 +7,7 @@ module.exports = {
     cwd: '/var/www/projects/confial',
     env: {
       NODE_ENV: 'production',
-      PORT: 3019
+      PORT: 3020
     },
     instances: 1,
     exec_mode: 'fork',

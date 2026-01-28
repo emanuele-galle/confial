@@ -1,14 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/editor/rich-text-editor";
 import { toast } from "sonner";
 
-export default function EventCreatePage() {
+interface Event {
+  id: string;
+  title: string;
+  description: string;
+  eventDate: string;
+  eventTime: string | null;
+  location: string | null;
+  address: string | null;
+  status: "DRAFT" | "PUBLISHED";
+  featured: boolean;
+  registrationOpen: boolean;
+  maxParticipants: number | null;
+}
+
+export default function EventEditPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const params = useParams();
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -22,9 +38,41 @@ export default function EventCreatePage() {
     maxParticipants: "",
   });
 
+  useEffect(() => {
+    fetchEvent();
+  }, [params.id]);
+
+  async function fetchEvent() {
+    try {
+      const response = await fetch(`/api/admin/events/${params.id}`);
+      if (response.ok) {
+        const event: Event = await response.json();
+        setFormData({
+          title: event.title,
+          description: event.description,
+          eventDate: new Date(event.eventDate).toISOString().split("T")[0],
+          eventTime: event.eventTime || "",
+          location: event.location || "",
+          address: event.address || "",
+          status: event.status,
+          featured: event.featured,
+          registrationOpen: event.registrationOpen,
+          maxParticipants: event.maxParticipants?.toString() || "",
+        });
+      } else {
+        toast.error("Evento non trovato");
+        router.push("/admin/events");
+      }
+    } catch (error) {
+      toast.error("Errore nel caricamento");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
 
     try {
       const payload = {
@@ -38,32 +86,68 @@ export default function EventCreatePage() {
           : null,
       };
 
-      const response = await fetch("/api/admin/events", {
-        method: "POST",
+      const response = await fetch(`/api/admin/events/${params.id}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       if (response.ok) {
-        toast.success("Evento creato con successo!");
+        toast.success("Evento aggiornato con successo!");
         router.push("/admin/events");
       } else {
-        toast.error("Errore nella creazione dell'evento");
+        toast.error("Errore nel salvataggio dell'evento");
       }
     } catch (error) {
       toast.error("Errore di rete");
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
+  }
+
+  async function handleDelete() {
+    if (!confirm("Sei sicuro di voler eliminare questo evento?")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/admin/events/${params.id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        toast.success("Evento eliminato con successo!");
+        router.push("/admin/events");
+      } else {
+        toast.error("Errore nell'eliminazione");
+      }
+    } catch (error) {
+      toast.error("Errore di rete");
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="max-w-5xl mx-auto space-y-6">
+        <h1 className="text-2xl font-bold text-gray-800">Caricamento...</h1>
+      </div>
+    );
   }
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-800">Crea Evento</h1>
-        <p className="text-gray-600 mt-1">
-          Compila i campi per creare un nuovo evento
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">Modifica Evento</h1>
+          <p className="text-gray-600 mt-1">Aggiorna i dettagli dell'evento</p>
+        </div>
+        <Button
+          variant="outline"
+          onClick={handleDelete}
+          className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+        >
+          Elimina Evento
+        </Button>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -87,7 +171,7 @@ export default function EventCreatePage() {
                 setFormData({ ...formData, title: e.target.value })
               }
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
               placeholder="Titolo dell'evento"
             />
           </div>
@@ -127,7 +211,7 @@ export default function EventCreatePage() {
                   setFormData({ ...formData, eventDate: e.target.value })
                 }
                 required
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
               />
             </div>
 
@@ -141,7 +225,7 @@ export default function EventCreatePage() {
                 onChange={(e) =>
                   setFormData({ ...formData, eventTime: e.target.value })
                 }
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
               />
             </div>
           </div>
@@ -156,7 +240,7 @@ export default function EventCreatePage() {
               onChange={(e) =>
                 setFormData({ ...formData, location: e.target.value })
               }
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
               placeholder="es. Sede CONFIAL, Roma"
             />
           </div>
@@ -171,7 +255,7 @@ export default function EventCreatePage() {
               onChange={(e) =>
                 setFormData({ ...formData, address: e.target.value })
               }
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
               placeholder="Via, Città, CAP"
             />
           </div>
@@ -199,7 +283,7 @@ export default function EventCreatePage() {
                     status: e.target.value as "DRAFT" | "PUBLISHED",
                   })
                 }
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
               >
                 <option value="DRAFT">Bozza</option>
                 <option value="PUBLISHED">Pubblicato</option>
@@ -217,7 +301,7 @@ export default function EventCreatePage() {
                   setFormData({ ...formData, maxParticipants: e.target.value })
                 }
                 min="1"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
                 placeholder="Lascia vuoto per illimitato"
               />
             </div>
@@ -269,8 +353,8 @@ export default function EventCreatePage() {
 
         {/* Actions */}
         <div className="flex gap-4">
-          <Button type="submit" disabled={loading} size="lg" className="shadow-lg">
-            {loading ? "Creazione..." : "Crea Evento"}
+          <Button type="submit" disabled={saving} size="lg" className="shadow-lg">
+            {saving ? "Salvataggio..." : "Salva Modifiche"}
           </Button>
 
           <Button

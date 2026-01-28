@@ -43,13 +43,13 @@ export default function NewsCreatePage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Crea News</h1>
-        <p className="text-gray-600">Compila i campi per creare una nuova news</p>
+        <h1 className="text-3xl font-bold text-gray-800">Crea News</h1>
+        <p className="text-gray-600 mt-1">Compila i campi per creare una nuova news</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
             Titolo *
           </label>
           <input
@@ -58,13 +58,13 @@ export default function NewsCreatePage() {
             value={formData.title}
             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             required
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
             placeholder="Titolo della news"
           />
         </div>
 
         <div>
-          <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="excerpt" className="block text-sm font-semibold text-gray-700 mb-2">
             Estratto
           </label>
           <textarea
@@ -72,13 +72,13 @@ export default function NewsCreatePage() {
             value={formData.excerpt}
             onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
             rows={3}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
             placeholder="Breve estratto (opzionale)"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Contenuto *
           </label>
           <RichTextEditor
@@ -89,14 +89,14 @@ export default function NewsCreatePage() {
         </div>
 
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="status" className="block text-sm font-semibold text-gray-700 mb-2">
             Stato
           </label>
           <select
             id="status"
             value={formData.status}
             onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
           >
             <option value="DRAFT">Bozza</option>
             <option value="PUBLISHED">Pubblicato</option>
@@ -104,13 +104,14 @@ export default function NewsCreatePage() {
         </div>
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={loading}>
+          <Button type="submit" disabled={loading} size="lg" className="shadow-lg">
             {loading ? "Salvataggio..." : "Crea News"}
           </Button>
 
           <Button
             type="button"
             variant="outline"
+            size="lg"
             onClick={() => router.back()}
           >
             Annulla

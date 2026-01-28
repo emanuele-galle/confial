@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==================== USER MANAGEMENT ====================
+
+enum UserRole {
+  ADMIN
+  SUPER_ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String    // bcrypt hashed
+  role          UserRole  @default(ADMIN)
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+  lastLoginAt   DateTime? @map("last_login_at")
+
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  newsArticles  News[]    @relation("NewsAuthor")
+  documents     Document[] @relation("DocumentUploader")
+
+  @@map("users")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String  @map("user_id")
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// ==================== CONTENT MANAGEMENT ====================
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model News {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  excerpt     String?       @db.Text
+  content     String        @db.Text
+  coverImage  String?
+  status      ContentStatus @default(DRAFT)
+  featured    Boolean       @default(false)
+  publishedAt DateTime?     @map("published_at")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  authorId    String        @map("author_id")
+  author      User          @relation("NewsAuthor", fields: [authorId], references: [id])
+
+  metaTitle       String?       @map("meta_title")
+  metaDescription String?       @map("meta_description")
+
+  @@index([slug])
+  @@index([status, publishedAt(sort: Desc)])
+  @@index([authorId])
+  @@map("news")
+}
+
+model Event {
+  id          String        @id @default(cuid())
+  title       String
+  slug        String        @unique
+  description String        @db.Text
+  eventDate   DateTime      @map("event_date")
+  eventTime   String?       @map("event_time")
+  location    String?
+  address     String?
+  coverImage  String?
+  status      ContentStatus @default(DRAFT)
+  featured    Boolean       @default(false)
+
+  registrationOpen Boolean   @default(false) @map("registration_open")
+  maxParticipants  Int?      @map("max_participants")
+
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@index([eventDate(sort: Desc)])
+  @@index([status])
+  @@map("events")
+}
+
+model Document {
+  id          String        @id @default(cuid())
+  title       String
+  description String?       @db.Text
+  filename    String
+  filepath    String        @unique
+  fileSize    Int
+  mimeType    String        @map("mime_type")
+  category    String?
+
+  uploadedById String       @map("uploaded_by_id")
+  uploadedBy   User         @relation("DocumentUploader", fields: [uploadedById], references: [id])
+  uploadedAt   DateTime     @default(now()) @map("uploaded_at")
+
+  downloadCount Int         @default(0) @map("download_count")
+  lastDownloadAt DateTime?  @map("last_download_at")
+
+  @@index([uploadedById])
+  @@index([category])
+  @@index([uploadedAt(sort: Desc)])
+  @@map("documents")
+}

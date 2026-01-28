@@ -1,0 +1,123 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+
+export default function NewsCreatePage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    excerpt: "",
+    status: "DRAFT" as "DRAFT" | "PUBLISHED",
+  });
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/admin/news", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        router.push("/admin/news");
+      } else {
+        alert("Errore nella creazione della news");
+      }
+    } catch (error) {
+      alert("Errore di rete");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-900">Crea News</h1>
+        <p className="text-gray-600">Compila i campi per creare una nuova news</p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
+        <div>
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+            Titolo *
+          </label>
+          <input
+            id="title"
+            type="text"
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            required
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+            placeholder="Titolo della news"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-2">
+            Estratto
+          </label>
+          <textarea
+            id="excerpt"
+            value={formData.excerpt}
+            onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+            rows={3}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+            placeholder="Breve estratto (opzionale)"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+            Contenuto *
+          </label>
+          <textarea
+            id="content"
+            value={formData.content}
+            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+            required
+            rows={12}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+            placeholder="Contenuto completo della news"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
+            Stato
+          </label>
+          <select
+            id="status"
+            value={formData.status}
+            onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+          >
+            <option value="DRAFT">Bozza</option>
+            <option value="PUBLISHED">Pubblicato</option>
+          </select>
+        </div>
+
+        <div className="flex gap-4">
+          <Button type="submit" disabled={loading}>
+            {loading ? "Salvataggio..." : "Crea News"}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => router.back()}
+          >
+            Annulla
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
+}

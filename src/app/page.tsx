@@ -651,13 +651,13 @@ export default function HomePage() {
 
             <RevealOnScroll direction="right" delay={200}>
               <div className="relative mt-8 lg:mt-0">
-                <div className="aspect-video rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative">
+                <div className="aspect-video rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl relative bg-gray-900">
                   {/* Vimeo Video Embed */}
                   <iframe
                     src="https://player.vimeo.com/video/1080282532?h=&badge=0&autopause=0&player_id=0&app_id=58479&background=1&loop=1&autoplay=1&muted=1"
                     frameBorder="0"
                     allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 w-full h-full bg-gray-900"
                     title="CONFIAL Italia TV"
                   />
                   {/* Overlay with link to CONFIAL TV */}

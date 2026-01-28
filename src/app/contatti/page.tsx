@@ -16,6 +16,8 @@ import {
   Facebook,
   Tv,
   Loader2,
+  FileText,
+  Download,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -348,6 +350,84 @@ export default function ContattiPage() {
               </form>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Documenti Utili */}
+      <section className="py-10 sm:py-16 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-20">
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Documenti Utili</h2>
+            <p className="text-gray-600 text-sm">Scarica i moduli per l'adesione a CONFIAL FAILMS</p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+            {/* Modulo Disdetta */}
+            <a
+              href="/documents/mod-disdetta-sindacato.pdf"
+              download
+              className="group flex flex-col p-5 bg-white rounded-xl border border-gray-200 hover:shadow-lg hover:border-[#018856] transition-all"
+            >
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-12 h-12 bg-emerald-50 rounded-lg flex items-center justify-center group-hover:bg-emerald-100 transition-colors flex-shrink-0">
+                  <FileText className="w-6 h-6 text-[#018856]" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-gray-900 font-bold text-base mb-1 group-hover:text-[#018856] transition-colors">
+                    Disdetta Altro Sindacato
+                  </h3>
+                  <p className="text-gray-600 text-xs leading-relaxed">
+                    Modulo per disdetta delega sindacale da altro sindacato con effetto immediato
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span className="text-xs text-gray-500 font-medium">PDF • 119 KB</span>
+                <div className="flex items-center gap-1.5 text-[#018856] font-medium text-sm group-hover:gap-2 transition-all">
+                  <Download className="w-4 h-4" />
+                  <span>Scarica</span>
+                </div>
+              </div>
+            </a>
+
+            {/* Modulo Delega */}
+            <a
+              href="/documents/mod-delega-confial-failms.pdf"
+              download
+              className="group flex flex-col p-5 bg-white rounded-xl border border-gray-200 hover:shadow-lg hover:border-[#018856] transition-all"
+            >
+              <div className="flex items-start gap-4 mb-3">
+                <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-colors flex-shrink-0">
+                  <FileText className="w-6 h-6 text-blue-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-gray-900 font-bold text-base mb-1 group-hover:text-[#018856] transition-colors">
+                    Delega CONFIAL FAILMS
+                  </h3>
+                  <p className="text-gray-600 text-xs leading-relaxed">
+                    Modulo delega trattenuta sindacale per iscrizione CONFIAL FAILMS Metalmeccanici
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span className="text-xs text-gray-500 font-medium">PDF • 247 KB</span>
+                <div className="flex items-center gap-1.5 text-[#018856] font-medium text-sm group-hover:gap-2 transition-all">
+                  <Download className="w-4 h-4" />
+                  <span>Scarica</span>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          {/* Istruzioni */}
+          <div className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-xl max-w-3xl mx-auto">
+            <p className="text-sm text-gray-700 text-center">
+              Una volta compilati, invia i moduli via email a{" "}
+              <a href="mailto:failm.nazionale@confial.it" className="font-semibold text-[#018856] hover:underline">
+                failm.nazionale@confial.it
+              </a>
+            </p>
+          </div>
         </div>
       </section>
 

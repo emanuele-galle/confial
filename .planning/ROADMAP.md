@@ -17,9 +17,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Advanced Editor** - TipTap with slash commands, media picker, link dialog, concurrent edit safety
 - [x] **Phase 3: Media Library** - Centralized management with smart cropping, AI focal points, on-the-fly thumbnails
 - [x] **Phase 4: Advanced Search** - PostgreSQL FTS with GIN indices, Cmd+K interface, faceted filters
-- [ ] **Phase 5: Bulk Operations** - CSV import/export, transactional batch delete, formula injection protection
-- [ ] **Phase 6: Mobile & Accessibility** - Responsive breakpoints, bottom nav, WCAG 2.1 AA compliance, high contrast mode
-- [ ] **Phase 7: SEO Tools** - Readability scores, keyword density, Google preview, content templates
+- [x] **Phase 5: Bulk Operations** - CSV import/export, transactional batch delete, formula injection protection
+- [x] **Phase 6: Mobile & Accessibility** - Responsive breakpoints, bottom nav, WCAG 2.1 AA compliance, high contrast mode
+- [x] **Phase 7: SEO Tools** - Readability scores, keyword density, Google preview, content templates
 
 ## Phase Details
 
@@ -208,9 +208,9 @@ Phases execute in numeric order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 2. Advanced Editor | 2/2 | Complete | 2026-01-29 |
 | 3. Media Library | 3/3 | Complete | 2026-01-29 |
 | 4. Advanced Search | 2/2 | Complete | 2026-01-29 |
-| 5. Bulk Operations | 0/2 | Planned | - |
-| 6. Mobile & Accessibility | 0/2 | Planned | - |
-| 7. SEO Tools | 0/2 | Planned | - |
+| 5. Bulk Operations | 2/2 | Complete | 2026-01-29 |
+| 6. Mobile & Accessibility | 2/2 | Complete | 2026-01-29 |
+| 7. SEO Tools | 2/2 | Complete | 2026-01-29 |
 
 ---
 *Last updated: 2026-01-29 after Phases 5, 6, 7 planning*

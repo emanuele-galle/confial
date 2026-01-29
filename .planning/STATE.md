@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 Phase: 5 of 7 (Bulk Operations)
 Plan: 2 of 2 in phase — PHASE COMPLETE
 Status: Phase 5 complete
-Last activity: 2026-01-29 — Completed 05-02-PLAN.md (Bulk Operations UI)
+Last activity: 2026-01-29 - Completed quick task 001: Redesign completo admin sections
 
 Progress: [████████████] 100%
 
@@ -121,6 +121,12 @@ Recent decisions affecting current work:
 ### Pending Todos
 
 None yet.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 001 | Redesign completo admin sections (news, events, documents, users, settings) applicando design system consistente | 2026-01-29 | 9afbd01 | [001-redesign-completo-admin-sections-news-ev](./ quick/001-redesign-completo-admin-sections-news-ev/) |
 
 ### Blockers/Concerns
 

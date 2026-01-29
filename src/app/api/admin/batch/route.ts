@@ -64,6 +64,23 @@ export async function POST(request: NextRequest) {
             errors.push(`${id}: ${error instanceof Error ? error.message : "Errore sconosciuto"}`);
           }
         }
+
+        // Create audit log entry inside transaction (BULK-10)
+        if (session.user?.id) {
+          await tx.auditLog.create({
+            data: {
+              userId: session.user.id,
+              action: `BATCH_${action.toUpperCase()}`,
+              entityType: entityType.toUpperCase(),
+              newValues: JSON.stringify({
+                ids: ids,
+                count: success,
+                failed: failed,
+                errors: errors.length > 0 ? errors : undefined,
+              }),
+            },
+          });
+        }
       });
     } catch (error) {
       console.error("Batch operation error:", error);

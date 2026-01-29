@@ -22,10 +22,39 @@ export default async function AdminDashboardPage() {
   const session = await auth();
 
   // Fetch stats from API with caching
-  const statsResponse = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3017'}/api/admin/stats`, {
-    next: { revalidate: 300 },
-  });
-  const stats = await statsResponse.json();
+  let stats = {
+    newsCount: 0,
+    publishedNewsCount: 0,
+    documentsCount: 0,
+    downloadsCount: 0,
+    newsSparkline: [] as number[],
+    publishedNewsSparkline: [] as number[],
+    documentsSparkline: [] as number[],
+    downloadsSparkline: [] as number[],
+    newsChange: { value: 0, isPositive: true },
+    publishedNewsChange: { value: 0, isPositive: true },
+    documentsChange: { value: 0, isPositive: true },
+    downloadsChange: { value: 0, isPositive: true },
+  };
+
+  try {
+    const baseUrl = process.env.NEXTAUTH_URL || `http://localhost:3020`;
+    const statsResponse = await fetch(`${baseUrl}/api/admin/stats`, {
+      next: { revalidate: 300 },
+      headers: {
+        'Cookie': `next-auth.session-token=${session?.user?.id || ''}`,
+      },
+    });
+
+    // Check if response is JSON before parsing
+    const contentType = statsResponse.headers.get("content-type");
+    if (statsResponse.ok && contentType && contentType.includes("application/json")) {
+      stats = await statsResponse.json();
+    }
+  } catch (error) {
+    console.error("Failed to fetch stats:", error);
+    // Use default empty stats
+  }
 
   // Get recent news
   const recentNews = await prisma.news.findMany({

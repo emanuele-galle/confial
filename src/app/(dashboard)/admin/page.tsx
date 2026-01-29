@@ -2,7 +2,21 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Newspaper, Calendar, FileText, Users, TrendingUp, Eye, ArrowUpRight } from "lucide-react";
 import { StatCardEnhanced } from "@/components/admin/stat-card-enhanced";
+import { ActivityFeed } from "@/components/admin/activity-feed";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+
+// Code-split TrendChart (Tremor bundle ~140KB)
+const TrendChart = dynamic(
+  () => import("@/components/admin/trend-chart"),
+  {
+    loading: () => (
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
+        <div className="h-80 bg-gray-100 animate-pulse rounded-2xl" />
+      </div>
+    ),
+  }
+);
 
 export default async function AdminDashboardPage() {
   const session = await auth();
@@ -87,6 +101,16 @@ export default async function AdminDashboardPage() {
           sparkline={stats.downloadsSparkline}
           change={stats.downloadsChange}
         />
+      </div>
+
+      {/* Trend Chart & Activity Feed Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <TrendChart />
+        </div>
+        <div className="lg:col-span-1">
+          <ActivityFeed />
+        </div>
       </div>
 
       {/* Two Column Layout */}

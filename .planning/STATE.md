@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 3 of 7 (Media Library)
-Plan: 1 of 3 in phase (Schema + API Layer - Complete)
+Plan: 2 of 3 in phase (Media Library UI - Complete)
 Status: In progress
-Last activity: 2026-01-29 — Completed 03-01-PLAN.md (Schema + API Layer)
+Last activity: 2026-01-29 — Completed 03-02-PLAN.md (Media Library UI)
 
-Progress: [██████░░░░] 58%
+Progress: [██████░░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 4.6 minutes
-- Total execution time: 0.54 hours
+- Total plans completed: 8
+- Average duration: 5.1 minutes
+- Total execution time: 0.68 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [██████░░░░] 58%
 | Phase 0 | 2 | 5.4min | 2.7min |
 | Phase 1 | 2 | 8.5min | 4.25min |
 | Phase 2 | 2 | 12.3min | 6.15min |
-| Phase 3 | 1 | 4.6min | 4.6min |
+| Phase 3 | 2 | 11.6min | 5.8min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (4.5min), 02-01 (7.6min), 02-02 (4.7min), 03-01 (4.6min)
-- Trend: Consistent ~4-5min for standard plans, complex editor work ~7-8min
+- Last 5 plans: 02-01 (7.6min), 02-02 (4.7min), 03-01 (4.6min), 03-02 (7min)
+- Trend: Consistent 4-5min for API/backend, 7-8min for UI/complex work
 
 *Updated after each plan completion*
 
@@ -72,6 +72,10 @@ Recent decisions affecting current work:
 - Plan 03-01: Presigned URLs with 7-day expiry (balance between caching and security, refresh on API access)
 - Plan 03-01: Percentage-based crop coordinates (client-agnostic, no need to know exact dimensions)
 - Plan 03-01: Focal point as percentages (responsive cropping, works with Sharp position option)
+- Plan 03-02: Virtual scrolling for media grid (@tanstack/react-virtual, handles 10k+ items smoothly)
+- Plan 03-02: Dual-mode MediaLibrary component (dialog for picker, page for admin, DRY principle)
+- Plan 03-02: Client-side filtering with debounced search (instant feedback, reduces API load)
+- Plan 03-02: Native HTML5 drag-drop (zero dependencies, sufficient for file upload)
 
 ### Pending Todos
 
@@ -107,8 +111,15 @@ None yet.
 - ✅ Slash command integration — RESOLVED with TipTap suggestion plugin
 - ✅ Media picker placeholder needed — RESOLVED with stub showing Phase 3 message
 
-**Phase 3 (Current):**
-- Media picker stub needs replacement with real media library (Plan 03-02)
+**Phase 3 (Resolved in 03-02):**
+- ✅ Media picker stub replacement — RESOLVED with MediaLibrary component
+- ✅ Virtual scrolling for large datasets — RESOLVED with @tanstack/react-virtual
+- ✅ Drag-drop upload — RESOLVED with native HTML5 events
+- ✅ @heroicons/react dependency — ADDED for UI icons
+
+**Phase 3 (Current - Plan 03-03 Next):**
+- MediaLibrary needs integration with AdvancedEditor (replace Phase 3 placeholder)
+- Pagination (24 items) might feel limiting in picker mode — consider infinite scroll
 - Thumbnail generation is on-demand (consider CDN caching for production)
 
 **Future Phases:**
@@ -117,9 +128,9 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29T13:31:35Z
-Stopped at: Completed 03-01-PLAN.md (Schema + API Layer)
+Last session: 2026-01-29T13:38:07Z
+Stopped at: Completed 03-02-PLAN.md (Media Library UI) — Both 03-01 and 03-02 executed atomically
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 03-01 completion*
+*Last updated: 2026-01-29 after plan 03-02 completion*

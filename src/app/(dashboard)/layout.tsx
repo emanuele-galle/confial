@@ -71,6 +71,14 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  return (
+    <SessionProvider>
+      <DashboardLayoutInner>{children}</DashboardLayoutInner>
+    </SessionProvider>
+  );
+}
+
+function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
@@ -85,11 +93,5 @@ export default function DashboardLayout({
     redirect("/login");
   }
 
-  return (
-    <SessionProvider>
-      <DashboardLayoutClient user={session.user}>
-        {children}
-      </DashboardLayoutClient>
-    </SessionProvider>
-  );
+  return <DashboardLayoutClient user={session.user}>{children}</DashboardLayoutClient>;
 }

@@ -1,0 +1,1 @@
+-- Media table already exists, this migration brings it into migration history

@@ -10,16 +10,19 @@ import { Link } from "@tiptap/extension-link";
 import { Underline } from "@tiptap/extension-underline";
 import { Image } from "@tiptap/extension-image";
 import { Highlight } from "@tiptap/extension-highlight";
+import { SlashCommands } from "./slash-commands";
 import type { Extensions } from "@tiptap/react";
 
 interface EditorExtensionsConfig {
   placeholder?: string;
+  onMediaPicker?: () => void;
+  onYoutube?: () => void;
 }
 
 export function getEditorExtensions(
   config: EditorExtensionsConfig = {}
 ): Extensions {
-  const { placeholder = "Inizia a scrivere..." } = config;
+  const { placeholder = "Inizia a scrivere...", onMediaPicker, onYoutube } = config;
 
   return [
     StarterKit.configure({
@@ -81,6 +84,10 @@ export function getEditorExtensions(
       HTMLAttributes: {
         class: "bg-yellow-200 px-1 rounded",
       },
+    }),
+    SlashCommands({
+      onMediaPicker,
+      onYoutube,
     }),
   ];
 }

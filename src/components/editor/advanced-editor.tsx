@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { getEditorExtensions } from "./extensions";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { LinkDialog } from "./link-dialog";
+import { MediaPickerStub } from "./media-picker-stub";
 
 export interface AdvancedEditorProps {
   content: string;
@@ -46,9 +47,30 @@ export function AdvancedEditor({
   onImageInsert,
 }: AdvancedEditorProps) {
   const [linkDialogOpen, setLinkDialogOpen] = useState(false);
+  const [mediaPickerOpen, setMediaPickerOpen] = useState(false);
+
+  const handleMediaPicker = () => {
+    setMediaPickerOpen(true);
+  };
+
+  const handleYouTubeInsert = () => {
+    const url = prompt("Inserisci URL YouTube o Vimeo:");
+    if (url && editor) {
+      // Validate URL contains youtube.com or vimeo.com
+      if (url.includes("youtube.com") || url.includes("youtu.be") || url.includes("vimeo.com")) {
+        editor.commands.setYoutubeVideo({ src: url });
+      } else {
+        alert("URL non valido. Inserisci un URL YouTube o Vimeo.");
+      }
+    }
+  };
 
   const editor = useEditor({
-    extensions: getEditorExtensions({ placeholder }),
+    extensions: getEditorExtensions({
+      placeholder,
+      onMediaPicker: handleMediaPicker,
+      onYoutube: handleYouTubeInsert,
+    }),
     content,
     editorProps: {
       attributes: {
@@ -133,15 +155,10 @@ export function AdvancedEditor({
     </select>
   );
 
-  const handleYouTubeInsert = () => {
-    const url = prompt("Inserisci l'URL del video YouTube:");
-    if (url) {
-      editor.commands.setYoutubeVideo({ src: url });
-    }
-  };
-
   const handleTableInsert = () => {
-    editor.commands.insertTable({ rows: 3, cols: 3 });
+    if (editor) {
+      editor.commands.insertTable({ rows: 3, cols: 3 });
+    }
   };
 
   return (
@@ -244,9 +261,8 @@ export function AdvancedEditor({
 
         {/* Media */}
         <ToolbarButton
-          onClick={() => onImageInsert?.()}
-          disabled={!onImageInsert}
-          title="Inserisci immagine"
+          onClick={handleMediaPicker}
+          title="Inserisci immagine dalla libreria"
         >
           <ImageIcon className="h-4 w-4" />
         </ToolbarButton>
@@ -314,6 +330,9 @@ export function AdvancedEditor({
 
       {/* Link Dialog */}
       <LinkDialog editor={editor} open={linkDialogOpen} onOpenChange={setLinkDialogOpen} />
+
+      {/* Media Picker Stub */}
+      <MediaPickerStub open={mediaPickerOpen} onClose={() => setMediaPickerOpen(false)} />
     </div>
   );
 }

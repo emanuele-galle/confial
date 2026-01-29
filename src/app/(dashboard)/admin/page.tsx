@@ -101,7 +101,7 @@ export default async function AdminDashboardPage() {
         <StatCardEnhanced
           title="News Totali"
           value={stats.newsCount}
-          icon={Newspaper}
+          iconName="newspaper"
           color="emerald"
           sparkline={stats.newsSparkline}
           change={stats.newsChange}
@@ -109,7 +109,7 @@ export default async function AdminDashboardPage() {
         <StatCardEnhanced
           title="News Pubblicate"
           value={stats.publishedNewsCount}
-          icon={TrendingUp}
+          iconName="trendingUp"
           color="blue"
           sparkline={stats.publishedNewsSparkline}
           change={stats.publishedNewsChange}
@@ -117,7 +117,7 @@ export default async function AdminDashboardPage() {
         <StatCardEnhanced
           title="Documenti"
           value={stats.documentsCount}
-          icon={FileText}
+          iconName="fileText"
           color="purple"
           sparkline={stats.documentsSparkline}
           change={stats.documentsChange}
@@ -125,7 +125,7 @@ export default async function AdminDashboardPage() {
         <StatCardEnhanced
           title="Download Totali"
           value={stats.downloadsCount}
-          icon={Eye}
+          iconName="eye"
           color="orange"
           sparkline={stats.downloadsSparkline}
           change={stats.downloadsChange}

@@ -1,14 +1,21 @@
 "use client";
 
-import { LucideIcon, TrendingUp, TrendingDown } from "lucide-react";
+import { Newspaper, TrendingUp, TrendingDown, FileText, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useRef } from "react";
 import { useMotionValue, useTransform, animate } from "framer-motion";
 
+const iconMap = {
+  newspaper: Newspaper,
+  trendingUp: TrendingUp,
+  fileText: FileText,
+  eye: Eye,
+};
+
 interface StatCardEnhancedProps {
   title: string;
   value: number;
-  icon: LucideIcon;
+  iconName: keyof typeof iconMap;
   color: "emerald" | "blue" | "purple" | "orange";
   sparkline: number[];
   change: { value: number; isPositive: boolean };
@@ -56,11 +63,12 @@ const colorClasses = {
 export function StatCardEnhanced({
   title,
   value,
-  icon: Icon,
+  iconName,
   color,
   sparkline,
   change,
 }: StatCardEnhancedProps) {
+  const Icon = iconMap[iconName];
   const colors = colorClasses[color];
   const countRef = useRef<HTMLParagraphElement>(null);
   const motionValue = useMotionValue(0);

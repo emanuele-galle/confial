@@ -117,14 +117,21 @@ export default function DocumentUploadPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Carica Documento</h1>
-        <p className="text-gray-600">Carica un nuovo documento PDF</p>
+        <h1 className="text-3xl font-bold text-gray-800">Carica Documento</h1>
+        <p className="text-gray-600 mt-1">Carica un nuovo documento PDF</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        {/* File Upload Area */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <label className="block text-sm font-medium text-gray-700 mb-4">
+        {/* File Upload Card */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
+          <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
+            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <Upload className="h-4 w-4 text-emerald-700" />
+            </div>
+            File Upload
+          </h3>
+          <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-4">
             File PDF *
           </label>
 
@@ -192,77 +199,86 @@ export default function DocumentUploadPage() {
               </div>
             )}
           </div>
+          </div>
         </div>
 
         {/* Metadata Form */}
-        <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Titolo *
-            </label>
-            <input
-              id="title"
-              type="text"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData({ ...formData, title: e.target.value })
-              }
-              required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
-              placeholder="Titolo del documento"
-            />
-          </div>
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
+          <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
+            <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+              <FileText className="h-4 w-4 text-blue-700" />
+            </div>
+            Informazioni Documento
+          </h3>
+          <div className="space-y-6">
+            <div>
+              <label
+                htmlFor="title"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                Titolo *
+              </label>
+              <input
+                id="title"
+                type="text"
+                value={formData.title}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
+                required
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                placeholder="Titolo del documento"
+              />
+            </div>
 
-          <div>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Descrizione
-            </label>
-            <textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              rows={3}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
-              placeholder="Descrizione breve (opzionale)"
-            />
-          </div>
+            <div>
+              <label
+                htmlFor="description"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                Descrizione
+              </label>
+              <textarea
+                id="description"
+                value={formData.description}
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
+                }
+                rows={3}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                placeholder="Descrizione breve (opzionale)"
+              />
+            </div>
 
-          <div>
-            <label
-              htmlFor="category"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
-              Categoria
-            </label>
-            <select
-              id="category"
-              value={formData.category}
-              onChange={(e) =>
-                setFormData({ ...formData, category: e.target.value })
-              }
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
-            >
-              <option value="">Seleziona categoria</option>
-              <option value="Contratti">Contratti</option>
-              <option value="Modulistica">Modulistica</option>
-              <option value="Comunicati">Comunicati</option>
-              <option value="Regolamenti">Regolamenti</option>
-              <option value="Statuti">Statuti</option>
-              <option value="Altri">Altri</option>
-            </select>
+            <div>
+              <label
+                htmlFor="category"
+                className="block text-sm font-semibold text-gray-700 mb-2"
+              >
+                Categoria
+              </label>
+              <select
+                id="category"
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData({ ...formData, category: e.target.value })
+                }
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              >
+                <option value="">Seleziona categoria</option>
+                <option value="Contratti">Contratti</option>
+                <option value="Modulistica">Modulistica</option>
+                <option value="Comunicati">Comunicati</option>
+                <option value="Regolamenti">Regolamenti</option>
+                <option value="Statuti">Statuti</option>
+                <option value="Altri">Altri</option>
+              </select>
+            </div>
           </div>
         </div>
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={loading || !selectedFile}>
+          <Button type="submit" disabled={loading || !selectedFile} size="lg" className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
             {loading ? "Caricamento..." : "Carica Documento"}
           </Button>
 

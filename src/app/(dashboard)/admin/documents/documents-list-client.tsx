@@ -8,6 +8,7 @@ import { FilterDropdown } from "@/components/admin/filter-dropdown";
 import { BulkActionsBar, bulkActions } from "@/components/admin/bulk-actions-bar";
 import { Plus, FileText, Download, Calendar } from "lucide-react";
 import { toast } from "sonner";
+import { adminTheme } from "@/styles/admin-theme";
 
 interface Document {
   id: string;
@@ -109,12 +110,12 @@ export function DocumentsListClient() {
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Documenti</h1>
           <p className="text-gray-600 mt-1">
-            Gestisci i documenti FAILMS ({total} totali)
+            Gestisci i documenti CONFIAL ({total} totali)
           </p>
         </div>
 
         <Link href="/admin/documents/new">
-          <Button className="shadow-lg">
+          <Button className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
             <Plus className="h-4 w-4 mr-2" />
             Carica Documento
           </Button>
@@ -150,8 +151,8 @@ export function DocumentsListClient() {
           </div>
         ) : documents.length === 0 ? (
           <div className="text-center py-16">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <FileText className="h-10 w-10 text-gray-400" />
+            <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <FileText className="h-10 w-10 text-emerald-500" />
             </div>
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
               Nessun documento trovato
@@ -171,7 +172,7 @@ export function DocumentsListClient() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-[#018856]/5 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-4 text-left">
                     <input
@@ -203,7 +204,7 @@ export function DocumentsListClient() {
                   <tr
                     key={item.id}
                     className={`hover:bg-gray-50 transition-colors group ${
-                      selectedIds.includes(item.id) ? "bg-blue-50" : ""
+                      selectedIds.includes(item.id) ? "bg-emerald-50" : ""
                     }`}
                   >
                     <td className="px-6 py-4">
@@ -216,8 +217,8 @@ export function DocumentsListClient() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                          <FileText className="h-5 w-5 text-red-600" />
+                        <div className="w-10 h-10 bg-emerald-50 rounded-lg flex items-center justify-center">
+                          <FileText className="h-5 w-5 text-emerald-600" />
                         </div>
                         <div>
                           <p className="font-semibold text-gray-800 group-hover:text-[#018856] transition-colors">
@@ -229,7 +230,7 @@ export function DocumentsListClient() {
                     </td>
                     <td className="px-6 py-4">
                       {item.category ? (
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${adminTheme.badgeVariants.info}`}>
                           {item.category}
                         </span>
                       ) : (
@@ -267,6 +268,33 @@ export function DocumentsListClient() {
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      {!loading && documents.length > 0 && (
+        <div className="flex items-center justify-between px-6 py-4 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <p className="text-sm text-gray-600">
+            Pagina {page} di {Math.ceil(total / 20)} ({total} totali)
+          </p>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              size="sm"
+            >
+              Precedente
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setPage(page + 1)}
+              disabled={page >= Math.ceil(total / 20)}
+              size="sm"
+            >
+              Successivo
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Bulk Actions Bar */}
       <BulkActionsBar

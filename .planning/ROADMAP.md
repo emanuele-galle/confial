@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 0: Technical Debt Resolution** - Fix N+1 queries, add pagination, error boundaries before enhancement work
 - [x] **Phase 1: Dashboard Overview Enhancement** - Animated stats cards, Tremor charts, activity feed with caching
-- [ ] **Phase 2: Advanced Editor** - TipTap with slash commands, media picker, link dialog, concurrent edit safety
+- [x] **Phase 2: Advanced Editor** - TipTap with slash commands, media picker, link dialog, concurrent edit safety
 - [ ] **Phase 3: Media Library** - Centralized management with smart cropping, AI focal points, on-the-fly thumbnails
 - [ ] **Phase 4: Advanced Search** - PostgreSQL FTS with GIN indices, Cmd+K interface, faceted filters
 - [ ] **Phase 5: Bulk Operations** - CSV import/export, transactional batch delete, formula injection protection
@@ -83,8 +83,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — TipTap extensions + code-split editor (YouTube, tables, alignment, bubble menu, link dialog)
-- [ ] 02-02-PLAN.md — Slash commands + form integration (Notion-style commands, media picker stub, form updates)
+- [x] 02-01-PLAN.md — TipTap extensions + code-split editor (YouTube, tables, alignment, bubble menu, link dialog)
+- [x] 02-02-PLAN.md — Slash commands + form integration (Notion-style commands, media picker stub, form updates)
 
 ### Phase 3: Media Library
 
@@ -102,10 +102,12 @@ Plans:
   5. Thumbnails generate on-the-fly via API endpoint with Sharp optimization
   6. Media has folder organization and tag system for categorization
 
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 03-01-PLAN.md — Schema + API layer (Media model, 6 API endpoints, MinIO bucket)
+- [ ] 03-02-PLAN.md — Media Library UI (virtual scroll grid, upload zone, folder/tag sidebar, standalone page)
+- [ ] 03-03-PLAN.md — Cropping + AI focal point (react-easy-crop, Claude vision, editor integration)
 
 ### Phase 4: Advanced Search
 
@@ -199,12 +201,12 @@ Phases execute in numeric order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 |-------|----------------|--------|-----------|
 | 0. Technical Debt Resolution | 2/2 | Complete | 2026-01-29 |
 | 1. Dashboard Overview Enhancement | 2/2 | Complete | 2026-01-29 |
-| 2. Advanced Editor | 0/2 | Planned | - |
-| 3. Media Library | 0/TBD | Not started | - |
+| 2. Advanced Editor | 2/2 | Complete | 2026-01-29 |
+| 3. Media Library | 0/3 | Planned | - |
 | 4. Advanced Search | 0/TBD | Not started | - |
 | 5. Bulk Operations | 0/TBD | Not started | - |
 | 6. Mobile & Accessibility | 0/TBD | Not started | - |
 | 7. SEO Tools | 0/TBD | Not started | - |
 
 ---
-*Last updated: 2026-01-29 after Phase 2 planning*
+*Last updated: 2026-01-29 after Phase 3 planning*

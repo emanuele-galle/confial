@@ -72,8 +72,8 @@ export default function UsersListPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900">Utenti</h1>
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <h1 className="text-3xl font-bold text-gray-800">Utenti</h1>
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-12 text-center">
           <p className="text-gray-500">Caricamento...</p>
         </div>
       </div>
@@ -83,8 +83,8 @@ export default function UsersListPage() {
   if (error) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold text-gray-900">Utenti</h1>
-        <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <h1 className="text-3xl font-bold text-gray-800">Utenti</h1>
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-12 text-center">
           <p className="text-red-600">{error}</p>
         </div>
       </div>
@@ -95,45 +95,46 @@ export default function UsersListPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Utenti</h1>
-          <p className="text-gray-600">Gestisci gli utenti amministratori</p>
+          <h1 className="text-3xl font-bold text-gray-800">Utenti</h1>
+          <p className="text-gray-600 mt-1">Gestisci gli utenti amministratori ({users.length} totali)</p>
         </div>
 
         <Link href="/admin/users/new">
-          <Button>
+          <Button className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
             <Plus className="h-4 w-4 mr-2" />
             Crea Utente
           </Button>
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl border border-gray-200">
-        <table className="w-full">
-          <thead className="border-b border-gray-200 bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                Utente
-              </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                Ruolo
-              </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                Attività
-              </th>
-              <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                Ultimo Accesso
-              </th>
-              <th className="px-6 py-3 text-right text-sm font-semibold text-gray-900">
-                Azioni
-              </th>
-            </tr>
-          </thead>
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="border-b border-gray-200 bg-[#018856]/5">
+              <tr>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Utente
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Ruolo
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Attività
+                </th>
+                <th className="px-6 py-4 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Ultimo Accesso
+                </th>
+                <th className="px-6 py-4 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">
+                  Azioni
+                </th>
+              </tr>
+            </thead>
           <tbody className="divide-y divide-gray-200">
             {users.map((user) => (
               <tr key={user.id} className="hover:bg-gray-50">
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-[#018856] rounded-full flex items-center justify-center text-white font-semibold">
+                    <div className="w-10 h-10 bg-[#018856] rounded-lg flex items-center justify-center text-white font-semibold">
                       {user.name.charAt(0)}
                     </div>
                     <div>
@@ -144,10 +145,10 @@ export default function UsersListPage() {
                 </td>
                 <td className="px-6 py-4">
                   <span
-                    className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${
+                    className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full border ${
                       user.role === "SUPER_ADMIN"
-                        ? "bg-purple-100 text-purple-800"
-                        : "bg-blue-100 text-blue-800"
+                        ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                        : "bg-gray-100 text-gray-700 border-gray-200"
                     }`}
                   >
                     {user.role === "SUPER_ADMIN" ? (
@@ -186,8 +187,9 @@ export default function UsersListPage() {
                 </td>
               </tr>
             ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -78,20 +78,47 @@ export default function TrendChart() {
       {loading ? (
         <div className="h-80 bg-gray-100 animate-pulse rounded-xl" />
       ) : (
-        <AreaChart
-          className="h-80"
-          data={data}
-          index="date"
-          categories={["News", "Events", "Documents"]}
-          colors={["emerald", "blue", "purple"]}
-          valueFormatter={(value) => `${value}`}
-          showLegend={true}
-          showGridLines={true}
-          showXAxis={true}
-          showYAxis={true}
-          autoMinValue={true}
-          curveType="natural"
-        />
+        <div
+          role="img"
+          aria-label={`Grafico andamento: contenuti creati negli ultimi ${selectedRange === "7d" ? "7 giorni" : selectedRange === "30d" ? "30 giorni" : "90 giorni"}`}
+        >
+          <AreaChart
+            className="h-80"
+            data={data}
+            index="date"
+            categories={["News", "Events", "Documents"]}
+            colors={["emerald", "blue", "purple"]}
+            valueFormatter={(value) => `${value}`}
+            showLegend={true}
+            showGridLines={true}
+            showXAxis={true}
+            showYAxis={true}
+            autoMinValue={true}
+            curveType="natural"
+          />
+          {/* Fallback table for screen readers (A11Y-04) */}
+          <table className="sr-only">
+            <caption>Dati grafico andamento contenuti</caption>
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>News</th>
+                <th>Eventi</th>
+                <th>Documenti</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((d, i) => (
+                <tr key={i}>
+                  <td>{d.date}</td>
+                  <td>{d.News}</td>
+                  <td>{d.Events}</td>
+                  <td>{d.Documents}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </Card>
   );

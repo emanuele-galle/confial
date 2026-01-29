@@ -135,7 +135,12 @@ export function ActivityFeed() {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full">
+    <div
+      className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow h-full"
+      role="feed"
+      aria-label="Feed attività recenti"
+      aria-live="polite"
+    >
       <div className="p-6 border-b border-gray-100">
         <div className="flex items-center justify-between">
           <div>
@@ -188,7 +193,12 @@ export function ActivityFeed() {
                 const actionColor = getActionColor(item.action);
 
                 return (
-                  <div key={item.id} className="relative flex items-start gap-4 pb-6 last:pb-0">
+                  <div
+                    key={item.id}
+                    className="relative flex items-start gap-4 pb-6 last:pb-0"
+                    role="article"
+                    aria-label={`${item.user.name} ${item.action.toLowerCase()} ${getEntityLabel(item.entityType)}`}
+                  >
                     {/* Icon badge */}
                     <div className={`relative z-10 w-10 h-10 ${actionColor} rounded-xl flex items-center justify-center shadow-sm`}>
                       <ActionIcon className="h-5 w-5" />

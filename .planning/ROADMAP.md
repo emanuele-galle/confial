@@ -62,8 +62,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Stats cards enhancement (animated counters, sparklines, trend indicators, caching)
-- [ ] 01-02-PLAN.md — Tremor trend chart + activity feed (code-split charts, cursor pagination, SWR polling)
+- [x] 01-01-PLAN.md — Stats cards enhancement (animated counters, sparklines, trend indicators, caching)
+- [x] 01-02-PLAN.md — Tremor trend chart + activity feed (code-split charts, cursor pagination, SWR polling)
 
 ### Phase 2: Advanced Editor
 
@@ -80,10 +80,11 @@ Plans:
   4. Editor integrates media library picker for image insertion with preview
   5. Concurrent edits are prevented via optimistic locking with "currently editing" indicators
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 02-01-PLAN.md — TipTap extensions + code-split editor (YouTube, tables, alignment, bubble menu, link dialog)
+- [ ] 02-02-PLAN.md — Slash commands + form integration (Notion-style commands, media picker stub, form updates)
 
 ### Phase 3: Media Library
 
@@ -198,7 +199,7 @@ Phases execute in numeric order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 |-------|----------------|--------|-----------|
 | 0. Technical Debt Resolution | 2/2 | Complete | 2026-01-29 |
 | 1. Dashboard Overview Enhancement | 2/2 | Complete | 2026-01-29 |
-| 2. Advanced Editor | 0/TBD | Not started | - |
+| 2. Advanced Editor | 0/2 | Planned | - |
 | 3. Media Library | 0/TBD | Not started | - |
 | 4. Advanced Search | 0/TBD | Not started | - |
 | 5. Bulk Operations | 0/TBD | Not started | - |
@@ -206,4 +207,4 @@ Phases execute in numeric order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 7. SEO Tools | 0/TBD | Not started | - |
 
 ---
-*Last updated: 2026-01-29 after Phase 1 planning*
+*Last updated: 2026-01-29 after Phase 2 planning*

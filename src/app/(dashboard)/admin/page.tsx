@@ -1,21 +1,17 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Newspaper, Calendar, FileText, Users, TrendingUp, Eye, ArrowUpRight } from "lucide-react";
-import { StatCard } from "@/components/admin/stat-card";
+import { StatCardEnhanced } from "@/components/admin/stat-card-enhanced";
 import Link from "next/link";
 
 export default async function AdminDashboardPage() {
   const session = await auth();
 
-  // Get counts
-  const [newsCount, documentsCount, usersCount, publishedNewsCount, eventsCount] =
-    await Promise.all([
-      prisma.news.count(),
-      prisma.document.count(),
-      prisma.user.count(),
-      prisma.news.count({ where: { status: "PUBLISHED" } }),
-      prisma.event.count(),
-    ]);
+  // Fetch stats from API with caching
+  const statsResponse = await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3017'}/api/admin/stats`, {
+    next: { revalidate: 300 },
+  });
+  const stats = await statsResponse.json();
 
   // Get recent news
   const recentNews = await prisma.news.findMany({
@@ -38,12 +34,6 @@ export default async function AdminDashboardPage() {
     },
   });
 
-  // Get total downloads
-  const totalDownloads = await prisma.document.aggregate({
-    _sum: {
-      downloadCount: true,
-    },
-  });
 
   return (
     <div className="space-y-8">
@@ -65,29 +55,37 @@ export default async function AdminDashboardPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
+        <StatCardEnhanced
           title="News Totali"
-          value={newsCount}
+          value={stats.newsCount}
           icon={Newspaper}
           color="emerald"
+          sparkline={stats.newsSparkline}
+          change={stats.newsChange}
         />
-        <StatCard
+        <StatCardEnhanced
           title="News Pubblicate"
-          value={publishedNewsCount}
+          value={stats.publishedNewsCount}
           icon={TrendingUp}
           color="blue"
+          sparkline={stats.publishedNewsSparkline}
+          change={stats.publishedNewsChange}
         />
-        <StatCard
+        <StatCardEnhanced
           title="Documenti"
-          value={documentsCount}
+          value={stats.documentsCount}
           icon={FileText}
           color="purple"
+          sparkline={stats.documentsSparkline}
+          change={stats.documentsChange}
         />
-        <StatCard
+        <StatCardEnhanced
           title="Download Totali"
-          value={totalDownloads._sum.downloadCount || 0}
+          value={stats.downloadsCount}
           icon={Eye}
           color="orange"
+          sparkline={stats.downloadsSparkline}
+          change={stats.downloadsChange}
         />
       </div>
 

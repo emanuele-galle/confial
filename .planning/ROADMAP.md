@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Dashboard Overview Enhancement** - Animated stats cards, Tremor charts, activity feed with caching
 - [x] **Phase 2: Advanced Editor** - TipTap with slash commands, media picker, link dialog, concurrent edit safety
 - [x] **Phase 3: Media Library** - Centralized management with smart cropping, AI focal points, on-the-fly thumbnails
-- [ ] **Phase 4: Advanced Search** - PostgreSQL FTS with GIN indices, Cmd+K interface, faceted filters
+- [x] **Phase 4: Advanced Search** - PostgreSQL FTS with GIN indices, Cmd+K interface, faceted filters
 - [ ] **Phase 5: Bulk Operations** - CSV import/export, transactional batch delete, formula injection protection
 - [ ] **Phase 6: Mobile & Accessibility** - Responsive breakpoints, bottom nav, WCAG 2.1 AA compliance, high contrast mode
 - [ ] **Phase 7: SEO Tools** - Readability scores, keyword density, Google preview, content templates
@@ -128,8 +128,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Database migration + Search API (tsvector columns, GIN indices, Italian stemming, cross-entity search)
-- [ ] 04-02-PLAN.md — Search UI (Cmd+K command palette, faceted filters, keyboard navigation, header integration)
+- [x] 04-01-PLAN.md — Database migration + Search API (tsvector columns, GIN indices, Italian stemming, cross-entity search)
+- [x] 04-02-PLAN.md — Search UI (Cmd+K command palette, faceted filters, keyboard navigation, header integration)
 
 ### Phase 5: Bulk Operations
 
@@ -146,10 +146,11 @@ Plans:
   4. Batch delete and batch status change operations use transactions with MinIO cleanup
   5. All bulk operations create comprehensive audit log entries for forensics
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 05-01-PLAN.md — CSV utilities + import/export API (Zod validation, SSE progress, formula sanitization)
+- [ ] 05-02-PLAN.md — Bulk operations UI (import dialog, export button, page integration, audit logging)
 
 ### Phase 6: Mobile & Accessibility
 
@@ -168,10 +169,11 @@ Plans:
   6. High contrast mode toggle available with focus-visible styling on all interactive elements
   7. Lighthouse accessibility score >90 and axe-core audit passes with 0 critical issues
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 06-01-PLAN.md — Mobile responsive layout (bottom nav, swipeable sidebar, touch targets, breakpoints)
+- [ ] 06-02-PLAN.md — WCAG 2.1 AA accessibility (color contrast, skip links, ARIA labels, high contrast mode)
 
 ### Phase 7: SEO Tools
 
@@ -184,14 +186,15 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. Content forms display SEO panel with Flesch Reading Ease score and keyword density visualization
   2. SEO panel shows Google Search preview for both desktop and mobile with meta title/description
-  3. Top phrases extraction displays using NLP (compromise.js) to identify keyword opportunities
+  3. Top phrases extraction displays using n-gram analysis to identify keyword opportunities
   4. Content templates system allows users to save and load templates with category organization
   5. Standalone templates page at /dashboard/templates manages all saved templates
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 07-01-PLAN.md — SEO analysis + panel (Flesch score, keyword density, SERP preview, phrase extraction)
+- [ ] 07-02-PLAN.md — Content templates system (schema, API, picker dialog, templates page)
 
 ## Progress
 
@@ -204,10 +207,10 @@ Phases execute in numeric order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 1. Dashboard Overview Enhancement | 2/2 | Complete | 2026-01-29 |
 | 2. Advanced Editor | 2/2 | Complete | 2026-01-29 |
 | 3. Media Library | 3/3 | Complete | 2026-01-29 |
-| 4. Advanced Search | 0/2 | Not started | - |
-| 5. Bulk Operations | 0/TBD | Not started | - |
-| 6. Mobile & Accessibility | 0/TBD | Not started | - |
-| 7. SEO Tools | 0/TBD | Not started | - |
+| 4. Advanced Search | 2/2 | Complete | 2026-01-29 |
+| 5. Bulk Operations | 0/2 | Planned | - |
+| 6. Mobile & Accessibility | 0/2 | Planned | - |
+| 7. SEO Tools | 0/2 | Planned | - |
 
 ---
-*Last updated: 2026-01-29 after Phase 4 planning*
+*Last updated: 2026-01-29 after Phases 5, 6, 7 planning*

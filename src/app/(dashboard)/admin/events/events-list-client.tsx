@@ -10,6 +10,7 @@ import { CSVImportDialog } from "@/components/admin/csv-import-dialog";
 import { CSVExportButton } from "@/components/admin/csv-export-button";
 import { Plus, Edit, Calendar, MapPin, Upload } from "lucide-react";
 import { toast } from "sonner";
+import { adminTheme } from "@/styles/admin-theme";
 
 interface Event {
   id: string;
@@ -106,7 +107,7 @@ export function EventsListClient() {
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Eventi</h1>
           <p className="text-gray-600 mt-1">
-            Gestisci gli eventi FAILMS ({total} totali)
+            Gestisci gli eventi CONFIAL ({total} totali)
           </p>
         </div>
 
@@ -126,7 +127,7 @@ export function EventsListClient() {
             }}
           />
           <Link href="/admin/events/new">
-            <Button className="shadow-lg">
+            <Button className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
               <Plus className="h-4 w-4 mr-2" />
               Crea Evento
             </Button>
@@ -162,8 +163,8 @@ export function EventsListClient() {
           </div>
         ) : events.length === 0 ? (
           <div className="text-center py-16">
-            <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Plus className="h-10 w-10 text-gray-400" />
+            <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Plus className="h-10 w-10 text-emerald-500" />
             </div>
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
               Nessun evento trovato
@@ -183,7 +184,7 @@ export function EventsListClient() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-[#018856]/5 border-b border-gray-200">
                 <tr>
                   <th className="px-6 py-4 text-left">
                     <input
@@ -215,7 +216,7 @@ export function EventsListClient() {
                   <tr
                     key={item.id}
                     className={`hover:bg-gray-50 transition-colors group ${
-                      selectedIds.includes(item.id) ? "bg-blue-50" : ""
+                      selectedIds.includes(item.id) ? "bg-emerald-50" : ""
                     }`}
                   >
                     <td className="px-6 py-4">
@@ -242,12 +243,12 @@ export function EventsListClient() {
                     </td>
                     <td className="px-6 py-4">
                       <span
-                        className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold ${
+                        className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold border ${
                           item.status === "PUBLISHED"
-                            ? "bg-emerald-100 text-emerald-700 border border-emerald-200"
+                            ? adminTheme.badgeVariants.success
                             : item.status === "DRAFT"
-                            ? "bg-amber-100 text-amber-700 border border-amber-200"
-                            : "bg-gray-100 text-gray-700 border border-gray-200"
+                            ? adminTheme.badgeVariants.warning
+                            : adminTheme.badgeVariants.default
                         }`}
                       >
                         {item.status === "PUBLISHED"
@@ -283,6 +284,33 @@ export function EventsListClient() {
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      {!loading && events.length > 0 && (
+        <div className="flex items-center justify-between px-6 py-4 bg-white rounded-2xl border border-gray-200 shadow-sm">
+          <p className="text-sm text-gray-600">
+            Pagina {page} di {Math.ceil(total / 20)} ({total} totali)
+          </p>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setPage(page - 1)}
+              disabled={page === 1}
+              size="sm"
+            >
+              Precedente
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setPage(page + 1)}
+              disabled={page >= Math.ceil(total / 20)}
+              size="sm"
+            >
+              Successivo
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Bulk Actions Bar */}
       <BulkActionsBar

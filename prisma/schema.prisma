@@ -103,6 +103,9 @@ model News {
   metaTitle       String?       @map("meta_title")
   metaDescription String?       @map("meta_description")
 
+  // Full-text search (managed by PostgreSQL generated column)
+  searchVector    Unsupported("tsvector")? @map("search_vector")
+
   @@index([slug])
   @@index([status, publishedAt(sort: Desc)])
   @@index([authorId])
@@ -128,6 +131,9 @@ model Event {
   createdAt   DateTime      @default(now()) @map("created_at")
   updatedAt   DateTime      @updatedAt @map("updated_at")
 
+  // Full-text search (managed by PostgreSQL generated column)
+  searchVector    Unsupported("tsvector")? @map("search_vector")
+
   @@index([slug])
   @@index([eventDate(sort: Desc)])
   @@index([status])
@@ -150,6 +156,9 @@ model Document {
 
   downloadCount Int         @default(0) @map("download_count")
   lastDownloadAt DateTime?  @map("last_download_at")
+
+  // Full-text search (managed by PostgreSQL generated column)
+  searchVector    Unsupported("tsvector")? @map("search_vector")
 
   @@index([uploadedById])
   @@index([category])

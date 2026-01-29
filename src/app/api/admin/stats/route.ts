@@ -13,37 +13,56 @@ export async function GET(request: NextRequest) {
     // Get date range for trends (30 days ago)
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-    // News stats
-    const [newsTotal, newsPublished, newsDrafts, newsLast30Days] = await Promise.all([
-      prisma.news.count(),
-      prisma.news.count({ where: { status: "PUBLISHED" } }),
-      prisma.news.count({ where: { status: "DRAFT" } }),
-      prisma.news.count({ where: { createdAt: { gte: thirtyDaysAgo } } }),
-    ]);
-
-    // Events stats
     const now = new Date();
-    const [eventsTotal, eventsPublished, eventsUpcoming, eventsPast] = await Promise.all([
-      prisma.event.count(),
-      prisma.event.count({ where: { status: "PUBLISHED" } }),
-      prisma.event.count({ where: { eventDate: { gte: now }, status: "PUBLISHED" } }),
-      prisma.event.count({ where: { eventDate: { lt: now } } }),
-    ]);
 
-    // Documents stats
-    const [documentsTotal, documentsLast30Days] = await Promise.all([
-      prisma.document.count(),
-      prisma.document.count({ where: { uploadedAt: { gte: thirtyDaysAgo } } }),
-    ]);
+    // Single aggregation query for all counts (replaces 13 separate queries)
+    interface AllStats {
+      news_total: bigint;
+      news_published: bigint;
+      news_drafts: bigint;
+      news_last_30_days: bigint;
+      events_total: bigint;
+      events_published: bigint;
+      events_upcoming: bigint;
+      events_past: bigint;
+      documents_total: bigint;
+      documents_last_30_days: bigint;
+      users_total: bigint;
+      users_admins: bigint;
+    }
 
-    // Documents by category
+    const [stats] = await prisma.$queryRaw<AllStats[]>`
+      SELECT
+        -- News stats
+        (SELECT COUNT(*) FROM news) as news_total,
+        (SELECT COUNT(*) FROM news WHERE status = 'PUBLISHED') as news_published,
+        (SELECT COUNT(*) FROM news WHERE status = 'DRAFT') as news_drafts,
+        (SELECT COUNT(*) FROM news WHERE created_at >= ${thirtyDaysAgo}) as news_last_30_days,
+
+        -- Events stats
+        (SELECT COUNT(*) FROM event) as events_total,
+        (SELECT COUNT(*) FROM event WHERE status = 'PUBLISHED') as events_published,
+        (SELECT COUNT(*) FROM event WHERE event_date >= ${now} AND status = 'PUBLISHED') as events_upcoming,
+        (SELECT COUNT(*) FROM event WHERE event_date < ${now}) as events_past,
+
+        -- Documents stats
+        (SELECT COUNT(*) FROM document) as documents_total,
+        (SELECT COUNT(*) FROM document WHERE uploaded_at >= ${thirtyDaysAgo}) as documents_last_30_days,
+
+        -- Users stats
+        (SELECT COUNT(*) FROM "User") as users_total,
+        (SELECT COUNT(*) FROM "User" WHERE role = 'SUPER_ADMIN') as users_admins
+    `;
+
+    // Documents by category (with pagination limit)
     const documentsByCategory = await prisma.document.groupBy({
       by: ['category'],
       _count: { id: true },
+      orderBy: { _count: { id: 'desc' } },
+      take: 20,
     });
 
-    // News by month (last 6 months)
+    // News by month (last 6 months with limit)
     const sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
@@ -55,42 +74,37 @@ export async function GET(request: NextRequest) {
       WHERE created_at >= ${sixMonthsAgo}
       GROUP BY TO_CHAR(created_at, 'YYYY-MM')
       ORDER BY month DESC
+      LIMIT 12
     `;
-
-    // Users stats
-    const [usersTotal, usersAdmins] = await Promise.all([
-      prisma.user.count(),
-      prisma.user.count({ where: { role: "SUPER_ADMIN" } }),
-    ]);
 
     return NextResponse.json({
       news: {
-        total: newsTotal,
-        published: newsPublished,
-        drafts: newsDrafts,
-        trendVsPrevMonth: newsLast30Days > 0 ? `+${newsLast30Days}` : "0",
+        total: Number(stats.news_total),
+        published: Number(stats.news_published),
+        drafts: Number(stats.news_drafts),
+        trendVsPrevMonth: stats.news_last_30_days > 0 ? `+${Number(stats.news_last_30_days)}` : "0",
         byMonth: newsByMonth.map(item => ({
           month: item.month,
           count: Number(item.count),
         })),
       },
       events: {
-        total: eventsTotal,
-        published: eventsPublished,
-        upcoming: eventsUpcoming,
-        past: eventsPast,
+        total: Number(stats.events_total),
+        published: Number(stats.events_published),
+        upcoming: Number(stats.events_upcoming),
+        past: Number(stats.events_past),
       },
       documents: {
-        total: documentsTotal,
-        trendVsPrevMonth: documentsLast30Days > 0 ? `+${documentsLast30Days}` : "0",
+        total: Number(stats.documents_total),
+        trendVsPrevMonth: stats.documents_last_30_days > 0 ? `+${Number(stats.documents_last_30_days)}` : "0",
         byCategory: documentsByCategory.map(item => ({
           category: item.category || "Senza categoria",
           count: item._count.id,
         })),
       },
       users: {
-        total: usersTotal,
-        admins: usersAdmins,
+        total: Number(stats.users_total),
+        admins: Number(stats.users_admins),
       },
     });
   } catch (error) {

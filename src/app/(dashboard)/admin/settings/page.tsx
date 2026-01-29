@@ -47,12 +47,12 @@ export default function SettingsPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">Impostazioni</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Impostazioni</h1>
         <p className="text-gray-600">Gestisci le impostazioni del tuo account</p>
       </div>
 
       {/* Account Info Card */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
         <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-200">
           <User className="h-5 w-5 text-[#018856]" />
           <h2 className="text-lg font-semibold text-gray-900">
@@ -65,7 +65,7 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Nome
             </label>
-            <div className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900">
+            <div className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900">
               {session?.user?.name}
             </div>
           </div>
@@ -74,7 +74,7 @@ export default function SettingsPage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
             </label>
-            <div className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg text-gray-900">
+            <div className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900">
               {session?.user?.email}
             </div>
           </div>
@@ -85,10 +85,10 @@ export default function SettingsPage() {
             </label>
             <div className="flex items-center gap-2">
               <span
-                className={`inline-flex items-center gap-1 px-3 py-2 rounded-full text-sm font-medium ${
+                className={`inline-flex items-center gap-1 px-3 py-2 rounded-full text-sm font-medium border ${
                   (session?.user as any)?.role === "SUPER_ADMIN"
-                    ? "bg-purple-100 text-purple-800"
-                    : "bg-blue-100 text-blue-800"
+                    ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                    : "bg-gray-100 text-gray-700 border-gray-200"
                 }`}
               >
                 {(session?.user as any)?.role === "SUPER_ADMIN" ? (
@@ -106,7 +106,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Change Password Card */}
-      <div className="bg-white rounded-xl border border-gray-200 p-6">
+      <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
         <div className="flex items-center gap-2 mb-6 pb-4 border-b border-gray-200">
           <Lock className="h-5 w-5 text-[#018856]" />
           <h2 className="text-lg font-semibold text-gray-900">
@@ -129,7 +129,7 @@ export default function SettingsPage() {
                 })
               }
               required
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl transition-all focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
               placeholder="Inserisci la password attuale"
             />
           </div>
@@ -149,7 +149,7 @@ export default function SettingsPage() {
               }
               required
               minLength={8}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl transition-all focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
               placeholder="Minimo 8 caratteri"
             />
           </div>
@@ -169,13 +169,13 @@ export default function SettingsPage() {
               }
               required
               minLength={8}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl transition-all focus:ring-2 focus:ring-[#018856] focus:border-[#018856]"
               placeholder="Ripeti la nuova password"
             />
           </div>
 
           <div className="pt-4">
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" disabled={loading} size="lg" className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
               {loading ? "Aggiornamento..." : "Aggiorna Password"}
             </Button>
           </div>
@@ -183,25 +183,25 @@ export default function SettingsPage() {
       </div>
 
       {/* Security Tips */}
-      <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-        <h3 className="font-semibold text-blue-900 mb-3">
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-6">
+        <h3 className="font-semibold text-emerald-900 mb-3">
           Suggerimenti per la Sicurezza
         </h3>
-        <ul className="space-y-2 text-sm text-blue-800">
+        <ul className="space-y-2 text-sm text-emerald-800">
           <li className="flex items-start gap-2">
-            <span className="text-blue-600 mt-0.5">•</span>
+            <span className="text-emerald-600 mt-0.5">•</span>
             <span>Usa una password forte con lettere, numeri e simboli</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-600 mt-0.5">•</span>
+            <span className="text-emerald-600 mt-0.5">•</span>
             <span>Non condividere mai la tua password con altri</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-600 mt-0.5">•</span>
+            <span className="text-emerald-600 mt-0.5">•</span>
             <span>Cambia la password periodicamente (ogni 3-6 mesi)</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-blue-600 mt-0.5">•</span>
+            <span className="text-emerald-600 mt-0.5">•</span>
             <span>Esci sempre dopo aver terminato il lavoro</span>
           </li>
         </ul>

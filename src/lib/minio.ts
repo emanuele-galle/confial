@@ -12,6 +12,7 @@ export const BUCKETS = {
   NEWS_IMAGES: "confial-news-images",
   DOCUMENTS: "confial-documents",
   EVENTS_IMAGES: "confial-events-images",
+  MEDIA: "confial-media",
 } as const;
 
 export async function ensureBucketsExist() {

@@ -32,6 +32,7 @@ model User {
   documents     Document[] @relation("DocumentUploader")
   auditLogs     AuditLog[]
   notifications Notification[]
+  media         Media[]    @relation("MediaUploader")
 
   @@map("users")
 }
@@ -208,4 +209,42 @@ model Notification {
   @@index([userId, read])
   @@index([createdAt(sort: Desc)])
   @@map("notifications")
+}
+
+// ==================== MEDIA LIBRARY ====================
+
+model Media {
+  id          String   @id @default(cuid())
+  filename    String   // original filename
+  filepath    String   @unique // MinIO path
+  url         String   @db.Text // presigned URL (refreshed on access)
+  mimeType    String   @map("mime_type")
+  size        Int      // bytes
+
+  // Image metadata
+  width       Int?
+  height      Int?
+
+  // Organization
+  folder      String?
+  tags        String[]
+
+  // Focal point (for smart cropping)
+  focalPointX Float?   @map("focal_point_x") // 0-100 percentage
+  focalPointY Float?   @map("focal_point_y") // 0-100 percentage
+
+  // Accessibility
+  alt         String?  @db.Text
+
+  // Relations
+  uploadedById String  @map("uploaded_by_id")
+  uploadedBy   User    @relation("MediaUploader", fields: [uploadedById], references: [id])
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([folder])
+  @@index([uploadedById])
+  @@index([createdAt(sort: Desc)])
+  @@map("media")
 }

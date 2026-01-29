@@ -15,6 +15,7 @@ import {
   DocumentDuplicateIcon,
   BookmarkIcon,
 } from "@heroicons/react/24/outline";
+import { Newspaper, Settings } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -127,88 +128,108 @@ export default function NewsCreatePage() {
         <p className="text-gray-600 mt-1">Compila i campi per creare una nuova news</p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
-        <FormField label="Titolo" required error={errors.title}>
-          <input
-            {...register("title")}
-            type="text"
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            placeholder="Titolo della news"
-          />
-        </FormField>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        {/* Sezione Informazioni Principali */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
+          <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
+            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <Newspaper className="h-4 w-4 text-emerald-700" />
+            </div>
+            Informazioni Principali
+          </h3>
 
-        <FormField label="Estratto" error={errors.excerpt} helperText="Breve descrizione (opzionale)">
-          <textarea
-            {...register("excerpt")}
-            rows={3}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            placeholder="Breve estratto (opzionale)"
-          />
-        </FormField>
-
-        <FormField label="Immagine di copertina" error={errors.coverImage}>
-          <ImageUpload
-            value={coverImage || ""}
-            onChange={(url) => setValue("coverImage", url)}
-            aspectRatio="video"
-            folder="news-covers"
-          />
-        </FormField>
-
-        <FormField label="Contenuto" required error={errors.content}>
-          <AdvancedEditor
-            content={content}
-            onChange={(content) => setValue("content", content)}
-            placeholder="Scrivi il contenuto della news..."
-          />
-        </FormField>
-
-        <div className="flex items-center gap-2">
-          <input
-            {...register("featured")}
-            id="featured"
-            type="checkbox"
-            className="w-4 h-4 text-[#018856] border-gray-300 rounded focus:ring-[#018856]"
-          />
-          <label htmlFor="featured" className="text-sm font-semibold text-gray-700">
-            News in evidenza
-          </label>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <FormField label="Stato" error={errors.status}>
-            <select
-              {...register("status")}
+          <FormField label="Titolo" required error={errors.title}>
+            <input
+              {...register("title")}
+              type="text"
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            >
-              <option value="DRAFT">Bozza</option>
-              <option value="PUBLISHED">Pubblicato</option>
-            </select>
+              placeholder="Titolo della news"
+            />
           </FormField>
 
-          <FormField label="Meta Title (SEO)" error={errors.metaTitle} helperText="Max 60 caratteri">
-            <input
-              {...register("metaTitle")}
-              type="text"
-              maxLength={60}
+          <FormField label="Estratto" error={errors.excerpt} helperText="Breve descrizione (opzionale)">
+            <textarea
+              {...register("excerpt")}
+              rows={3}
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-              placeholder="Titolo SEO"
+              placeholder="Breve estratto (opzionale)"
+            />
+          </FormField>
+
+          <FormField label="Immagine di copertina" error={errors.coverImage}>
+            <ImageUpload
+              value={coverImage || ""}
+              onChange={(url) => setValue("coverImage", url)}
+              aspectRatio="video"
+              folder="news-covers"
+            />
+          </FormField>
+
+          <FormField label="Contenuto" required error={errors.content}>
+            <AdvancedEditor
+              content={content}
+              onChange={(content) => setValue("content", content)}
+              placeholder="Scrivi il contenuto della news..."
             />
           </FormField>
         </div>
 
-        <FormField label="Meta Description (SEO)" error={errors.metaDescription} helperText="Max 160 caratteri">
-          <textarea
-            {...register("metaDescription")}
-            maxLength={160}
-            rows={2}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            placeholder="Descrizione SEO"
-          />
-        </FormField>
+        {/* Sezione Impostazioni */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
+          <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
+            <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+              <Settings className="h-4 w-4 text-gray-700" />
+            </div>
+            Impostazioni
+          </h3>
+
+          <div className="flex items-center gap-2">
+            <input
+              {...register("featured")}
+              id="featured"
+              type="checkbox"
+              className="w-4 h-4 text-[#018856] border-gray-300 rounded focus:ring-[#018856]"
+            />
+            <label htmlFor="featured" className="text-sm font-semibold text-gray-700">
+              News in evidenza
+            </label>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <FormField label="Stato" error={errors.status}>
+              <select
+                {...register("status")}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              >
+                <option value="DRAFT">Bozza</option>
+                <option value="PUBLISHED">Pubblicato</option>
+              </select>
+            </FormField>
+
+            <FormField label="Meta Title (SEO)" error={errors.metaTitle} helperText="Max 60 caratteri">
+              <input
+                {...register("metaTitle")}
+                type="text"
+                maxLength={60}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                placeholder="Titolo SEO"
+              />
+            </FormField>
+          </div>
+
+          <FormField label="Meta Description (SEO)" error={errors.metaDescription} helperText="Max 160 caratteri">
+            <textarea
+              {...register("metaDescription")}
+              maxLength={160}
+              rows={2}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              placeholder="Descrizione SEO"
+            />
+          </FormField>
+        </div>
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={isSubmitting} size="lg" className="shadow-lg">
+          <Button type="submit" disabled={isSubmitting} size="lg" className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
             {isSubmitting ? "Salvataggio..." : "Crea News"}
           </Button>
 
@@ -266,7 +287,7 @@ export default function NewsCreatePage() {
                 type="text"
                 value={templateName}
                 onChange={(e) => setTemplateName(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                className="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-[#018856]"
                 placeholder="Es. Comunicato stampa standard"
               />
             </div>
@@ -278,7 +299,7 @@ export default function NewsCreatePage() {
                 value={templateDescription}
                 onChange={(e) => setTemplateDescription(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                className="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-[#018856]"
                 placeholder="Breve descrizione del template"
               />
             </div>
@@ -290,7 +311,7 @@ export default function NewsCreatePage() {
                 type="text"
                 value={templateCategory}
                 onChange={(e) => setTemplateCategory(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                className="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-[#018856]"
                 placeholder="Es. Comunicati stampa"
               />
             </div>

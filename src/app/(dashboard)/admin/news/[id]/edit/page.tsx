@@ -5,7 +5,9 @@ import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { AdvancedEditor } from "@/components/editor";
 import { ImageUpload } from "@/components/admin/image-upload";
+import { FormField } from "@/components/admin/form-field";
 import { toast } from "sonner";
+import { Newspaper, Settings } from "lucide-react";
 
 interface News {
   id: string;
@@ -136,151 +138,139 @@ export default function NewsEditPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6"
+        className="space-y-6"
       >
-        <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
-            Titolo *
-          </label>
-          <input
-            id="title"
-            type="text"
-            value={formData.title}
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-            required
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            placeholder="Titolo della news"
-          />
-        </div>
+        {/* Sezione Informazioni Principali */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
+          <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
+            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
+              <Newspaper className="h-4 w-4 text-emerald-700" />
+            </div>
+            Informazioni Principali
+          </h3>
 
-        <div>
-          <label
-            htmlFor="excerpt"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
-            Estratto
-          </label>
-          <textarea
-            id="excerpt"
-            value={formData.excerpt}
-            onChange={(e) =>
-              setFormData({ ...formData, excerpt: e.target.value })
-            }
-            rows={3}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            placeholder="Breve estratto (opzionale)"
-          />
-        </div>
-
-        <ImageUpload
-          value={formData.coverImage}
-          onChange={(url) => setFormData({ ...formData, coverImage: url })}
-          aspectRatio="video"
-          folder="news-covers"
-          label="Immagine di copertina"
-        />
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Contenuto *
-          </label>
-          <AdvancedEditor
-            content={formData.content}
-            onChange={(content) => setFormData({ ...formData, content })}
-            placeholder="Scrivi il contenuto della news..."
-          />
-        </div>
-
-        <div className="flex items-center gap-2">
-          <input
-            id="featured"
-            type="checkbox"
-            checked={formData.featured}
-            onChange={(e) =>
-              setFormData({ ...formData, featured: e.target.checked })
-            }
-            className="w-4 h-4 text-[#018856] border-gray-300 rounded focus:ring-[#018856]"
-          />
-          <label
-            htmlFor="featured"
-            className="text-sm font-semibold text-gray-700"
-          >
-            News in evidenza
-          </label>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label
-              htmlFor="status"
-              className="block text-sm font-semibold text-gray-700 mb-2"
-            >
-              Stato
-            </label>
-            <select
-              id="status"
-              value={formData.status}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  status: e.target.value as "DRAFT" | "PUBLISHED",
-                })
-              }
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            >
-              <option value="DRAFT">Bozza</option>
-              <option value="PUBLISHED">Pubblicato</option>
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="metaTitle"
-              className="block text-sm font-semibold text-gray-700 mb-2"
-            >
-              Meta Title (SEO)
-            </label>
+          <FormField label="Titolo" required>
             <input
-              id="metaTitle"
+              id="title"
               type="text"
-              value={formData.metaTitle}
+              value={formData.title}
               onChange={(e) =>
-                setFormData({ ...formData, metaTitle: e.target.value })
+                setFormData({ ...formData, title: e.target.value })
               }
-              maxLength={60}
+              required
               className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-              placeholder="Titolo SEO (max 60 caratteri)"
+              placeholder="Titolo della news"
             />
-          </div>
+          </FormField>
+
+          <FormField label="Estratto">
+            <textarea
+              id="excerpt"
+              value={formData.excerpt}
+              onChange={(e) =>
+                setFormData({ ...formData, excerpt: e.target.value })
+              }
+              rows={3}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              placeholder="Breve estratto (opzionale)"
+            />
+          </FormField>
+
+          <FormField label="Immagine di copertina">
+            <ImageUpload
+              value={formData.coverImage}
+              onChange={(url) => setFormData({ ...formData, coverImage: url })}
+              aspectRatio="video"
+              folder="news-covers"
+            />
+          </FormField>
+
+          <FormField label="Contenuto" required>
+            <AdvancedEditor
+              content={formData.content}
+              onChange={(content) => setFormData({ ...formData, content })}
+              placeholder="Scrivi il contenuto della news..."
+            />
+          </FormField>
         </div>
 
-        <div>
-          <label
-            htmlFor="metaDescription"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
-            Meta Description (SEO)
-          </label>
-          <textarea
-            id="metaDescription"
-            value={formData.metaDescription}
-            onChange={(e) =>
-              setFormData({ ...formData, metaDescription: e.target.value })
-            }
-            maxLength={160}
-            rows={2}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-            placeholder="Descrizione SEO (max 160 caratteri)"
-          />
+        {/* Sezione Impostazioni */}
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
+          <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
+            <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+              <Settings className="h-4 w-4 text-gray-700" />
+            </div>
+            Impostazioni
+          </h3>
+
+          <div className="flex items-center gap-2">
+            <input
+              id="featured"
+              type="checkbox"
+              checked={formData.featured}
+              onChange={(e) =>
+                setFormData({ ...formData, featured: e.target.checked })
+              }
+              className="w-4 h-4 text-[#018856] border-gray-300 rounded focus:ring-[#018856]"
+            />
+            <label
+              htmlFor="featured"
+              className="text-sm font-semibold text-gray-700"
+            >
+              News in evidenza
+            </label>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <FormField label="Stato">
+              <select
+                id="status"
+                value={formData.status}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    status: e.target.value as "DRAFT" | "PUBLISHED",
+                  })
+                }
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              >
+                <option value="DRAFT">Bozza</option>
+                <option value="PUBLISHED">Pubblicato</option>
+              </select>
+            </FormField>
+
+            <FormField label="Meta Title (SEO)" helperText="Max 60 caratteri">
+              <input
+                id="metaTitle"
+                type="text"
+                value={formData.metaTitle}
+                onChange={(e) =>
+                  setFormData({ ...formData, metaTitle: e.target.value })
+                }
+                maxLength={60}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+                placeholder="Titolo SEO"
+              />
+            </FormField>
+          </div>
+
+          <FormField label="Meta Description (SEO)" helperText="Max 160 caratteri">
+            <textarea
+              id="metaDescription"
+              value={formData.metaDescription}
+              onChange={(e) =>
+                setFormData({ ...formData, metaDescription: e.target.value })
+              }
+              maxLength={160}
+              rows={2}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              placeholder="Descrizione SEO"
+            />
+          </FormField>
         </div>
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={saving} size="lg" className="shadow-lg">
+          <Button type="submit" disabled={saving} size="lg" className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
             {saving ? "Salvataggio..." : "Salva Modifiche"}
           </Button>
 

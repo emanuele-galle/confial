@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 4 of 7 (Advanced Search)
-Plan: 1 of 3 in phase (Database Migration + Search API - Complete)
+Plan: 2 of 3 in phase (Search UI - Complete)
 Status: In progress
-Last activity: 2026-01-29 — Completed 04-01-PLAN.md (Database Migration + Search API)
+Last activity: 2026-01-29 — Completed 04-02-PLAN.md (Search UI with Cmd+K)
 
-Progress: [████████░░] 80%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 5.2 minutes
-- Total execution time: 0.87 hours
+- Total plans completed: 11
+- Average duration: 4.8 minutes
+- Total execution time: 0.88 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [████████░░] 80%
 | Phase 1 | 2 | 8.5min | 4.25min |
 | Phase 2 | 2 | 12.3min | 6.15min |
 | Phase 3 | 3 | 16.6min | 5.5min |
-| Phase 4 | 1 | 6min | 6min |
+| Phase 4 | 2 | 9min | 4.5min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (4.6min), 03-02 (7min), 03-03 (5min), 04-01 (6min)
-- Trend: Consistent 4-6min for API/backend, 5-7min for UI/complex work
+- Last 5 plans: 03-02 (7min), 03-03 (5min), 04-01 (6min), 04-02 (3min)
+- Trend: UI components getting faster (03-02: 7min → 04-02: 3min)
 
 *Updated after each plan completion*
 
@@ -87,6 +87,10 @@ Recent decisions affecting current work:
 - Plan 04-01: Weighted search A/B/C (titles more relevant than body matches)
 - Plan 04-01: Prefix matching with :* (autocomplete-style search, forgiving)
 - Plan 04-01: 120s cache with stale-while-revalidate (balances freshness with performance)
+- Plan 04-02: 300ms debounce on search input (balances responsiveness with reducing API calls)
+- Plan 04-02: Arrow keys + Enter for navigation over Tab (standard command palette UX pattern)
+- Plan 04-02: dangerouslySetInnerHTML for ts_headline (controlled PostgreSQL output, no XSS risk)
+- Plan 04-02: Filter state in component not URL (ephemeral dialog, no persistence needed)
 
 ### Pending Todos
 
@@ -138,12 +142,18 @@ None yet.
 - ✅ Prisma migration drift (media table) — RESOLVED with baseline migration
 - ✅ Shadow database conflicts — RESOLVED with direct SQL + prisma migrate resolve
 
+**Phase 4 (Resolved in 04-02):**
+- ✅ Missing Badge UI component — RESOLVED by creating badge.tsx component
+- ✅ Button variant mismatch — RESOLVED by using "primary" instead of "default"
+
 **Architecture:**
 - Performance targets: dashboard <500ms, search <100ms — monitoring to be established in Phase 4
 - PostgreSQL FTS validated at 0.144ms with small dataset; load testing needed with 200k+ rows (Phase 5)
 - Pagination (24 items) might feel limiting in picker mode — consider infinite scroll in future
 - Thumbnail generation is on-demand (consider CDN caching for production)
 - Cropped images create new Media records — consider cleanup job for unused versions
+- Search filters reset on dialog close (ephemeral by design, no URL persistence)
+- Mobile keyboard shortcuts less discoverable (no Cmd key on touch devices)
 
 **Future Phases:**
 - No table manipulation controls yet (add row/col, delete, merge cells)
@@ -151,12 +161,14 @@ None yet.
 - ANTHROPIC_API_KEY required for focal point detection (graceful fallback to center)
 - Search result boosting by recency/featured status (out of current scope)
 - Synonym support for search (e.g., "CCL" → "contratto collettivo lavoro")
+- Search history and autocomplete suggestions (out of scope)
+- ARIA attributes for screen reader accessibility (future work)
 
 ## Session Continuity
 
-Last session: 2026-01-29T13:56:16Z
-Stopped at: Completed 04-01-PLAN.md (Database Migration + Search API)
+Last session: 2026-01-29T14:03:04Z
+Stopped at: Completed 04-02-PLAN.md (Search UI with Cmd+K)
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 04-01 completion*
+*Last updated: 2026-01-29 after plan 04-02 completion*

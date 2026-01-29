@@ -105,9 +105,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Schema + API layer (Media model, 6 API endpoints, MinIO bucket)
-- [ ] 03-02-PLAN.md — Media Library UI (virtual scroll grid, upload zone, folder/tag sidebar, standalone page)
-- [ ] 03-03-PLAN.md — Cropping + AI focal point (react-easy-crop, Claude vision, editor integration)
+- [x] 03-01-PLAN.md — Schema + API layer (Media model, 6 API endpoints, MinIO bucket)
+- [x] 03-02-PLAN.md — Media Library UI (virtual scroll grid, upload zone, folder/tag sidebar, standalone page)
+- [x] 03-03-PLAN.md — Cropping + AI focal point (react-easy-crop, Claude vision, editor integration)
 
 ### Phase 4: Advanced Search
 
@@ -125,10 +125,11 @@ Plans:
   5. Search queries respond in <100ms with Next.js fetch caching
   6. Search supports keyboard navigation (arrows, Enter) and debounced input (300ms)
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 04-01-PLAN.md — Database migration + Search API (tsvector columns, GIN indices, Italian stemming, cross-entity search)
+- [ ] 04-02-PLAN.md — Search UI (Cmd+K command palette, faceted filters, keyboard navigation, header integration)
 
 ### Phase 5: Bulk Operations
 
@@ -203,10 +204,10 @@ Phases execute in numeric order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 1. Dashboard Overview Enhancement | 2/2 | Complete | 2026-01-29 |
 | 2. Advanced Editor | 2/2 | Complete | 2026-01-29 |
 | 3. Media Library | 3/3 | Complete | 2026-01-29 |
-| 4. Advanced Search | 0/TBD | Not started | - |
+| 4. Advanced Search | 0/2 | Not started | - |
 | 5. Bulk Operations | 0/TBD | Not started | - |
 | 6. Mobile & Accessibility | 0/TBD | Not started | - |
 | 7. SEO Tools | 0/TBD | Not started | - |
 
 ---
-*Last updated: 2026-01-29 after Phase 3 planning*
+*Last updated: 2026-01-29 after Phase 4 planning*

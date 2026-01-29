@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { auth } from "@/lib/auth";
 import { minioClient, BUCKETS } from "@/lib/minio";
 import { randomUUID } from "crypto";
@@ -45,59 +45,70 @@ export async function POST(request: NextRequest) {
     // Convert to buffer
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    // Optimize image with sharp
-    let processedBuffer: Buffer = buffer;
-    let finalMimeType = file.type;
-
-    // If larger than 1MB, compress
-    if (file.size > 1024 * 1024) {
-      const image = sharp(buffer);
-      const metadata = await image.metadata();
-
-      // Resize if too large (max 1920px width)
-      if (metadata.width && metadata.width > 1920) {
-        const optimized = await image
-          .resize(1920, null, { withoutEnlargement: true })
-          .jpeg({ quality: 85 })
-          .toBuffer();
-        processedBuffer = Buffer.from(optimized.buffer, optimized.byteOffset, optimized.byteLength);
-        finalMimeType = "image/jpeg";
-      } else {
-        const optimized = await image.jpeg({ quality: 85 }).toBuffer();
-        processedBuffer = Buffer.from(optimized.buffer, optimized.byteOffset, optimized.byteLength);
-        finalMimeType = "image/jpeg";
-      }
-    }
-
-    // Generate unique filename
-    const fileExtension = finalMimeType.split("/")[1];
+    // Upload original immediately (no processing)
+    const fileExtension = file.type.split("/")[1];
     const uniqueFilename = `${randomUUID()}.${fileExtension}`;
     const filepath = `${folder}/${uniqueFilename}`;
 
-    // Upload to MinIO
     await minioClient.putObject(
       BUCKETS.NEWS_IMAGES,
       filepath,
-      processedBuffer,
-      processedBuffer.length,
+      buffer,
+      buffer.length,
       {
-        "Content-Type": finalMimeType,
+        "Content-Type": file.type,
         "Original-Filename": file.name,
       }
     );
 
-    // Generate presigned URL (7 days)
     const url = await minioClient.presignedGetObject(
       BUCKETS.NEWS_IMAGES,
       filepath,
       7 * 24 * 60 * 60
     );
 
+    // Schedule optimization in background (non-blocking)
+    after(async () => {
+      try {
+        // Only optimize large images (>1MB)
+        if (file.size > 1024 * 1024) {
+          const image = sharp(buffer);
+          const metadata = await image.metadata();
+
+          let optimizedBuffer: Buffer;
+          if (metadata.width && metadata.width > 1920) {
+            optimizedBuffer = await image
+              .resize(1920, null, { withoutEnlargement: true })
+              .jpeg({ quality: 85 })
+              .toBuffer();
+          } else {
+            optimizedBuffer = await image
+              .jpeg({ quality: 85 })
+              .toBuffer();
+          }
+
+          // Replace original with optimized version
+          await minioClient.putObject(
+            BUCKETS.NEWS_IMAGES,
+            filepath,
+            optimizedBuffer,
+            optimizedBuffer.length,
+            { "Content-Type": "image/jpeg" }
+          );
+
+          console.log(`Optimized ${filepath}: ${buffer.length} -> ${optimizedBuffer.length} bytes`);
+        }
+      } catch (error) {
+        console.error("Background optimization failed:", error);
+        // Don't throw - response already sent
+      }
+    });
+
     return NextResponse.json({
       url,
       filepath,
-      size: processedBuffer.length,
-      mimeType: finalMimeType,
+      size: buffer.length,
+      mimeType: file.type,
     });
   } catch (error) {
     console.error("Image upload error:", error);

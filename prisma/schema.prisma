@@ -33,6 +33,7 @@ model User {
   auditLogs     AuditLog[]
   notifications Notification[]
   media         Media[]    @relation("MediaUploader")
+  contentTemplates ContentTemplate[] @relation("TemplateCreator")
 
   @@map("users")
 }
@@ -256,4 +257,26 @@ model Media {
   @@index([uploadedById])
   @@index([createdAt(sort: Desc)])
   @@map("media")
+}
+
+// ==================== CONTENT TEMPLATES ====================
+
+model ContentTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  description String?  @db.Text
+  category    String   @default("generale")
+  entityType  String   @map("entity_type") // "news" | "events"
+  content     Json     // Stores title, excerpt, body structure
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  createdBy   String?  @map("created_by")
+  creator     User?    @relation("TemplateCreator", fields: [createdBy], references: [id])
+
+  @@index([category])
+  @@index([entityType])
+  @@index([createdAt(sort: Desc)])
+  @@map("content_templates")
 }

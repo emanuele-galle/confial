@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { AdvancedEditor } from "@/components/editor";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { FormField } from "@/components/admin/form-field";
 import { createNewsSchema, CreateNewsInput } from "@/lib/schemas/news";
@@ -91,7 +91,7 @@ export default function NewsCreatePage() {
         </FormField>
 
         <FormField label="Contenuto" required error={errors.content}>
-          <RichTextEditor
+          <AdvancedEditor
             content={content}
             onChange={(content) => setValue("content", content)}
             placeholder="Scrivi il contenuto della news..."

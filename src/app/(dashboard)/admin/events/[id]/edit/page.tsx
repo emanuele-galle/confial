@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { AdvancedEditor } from "@/components/editor";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { toast } from "sonner";
 
@@ -184,7 +184,7 @@ export default function EventEditPage() {
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Descrizione *
             </label>
-            <RichTextEditor
+            <AdvancedEditor
               content={formData.description}
               onChange={(content) =>
                 setFormData({ ...formData, description: content })

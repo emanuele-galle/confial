@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { AdvancedEditor } from "@/components/editor";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { toast } from "sonner";
 
@@ -189,7 +189,7 @@ export default function NewsEditPage() {
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Contenuto *
           </label>
-          <RichTextEditor
+          <AdvancedEditor
             content={formData.content}
             onChange={(content) => setFormData({ ...formData, content })}
             placeholder="Scrivi il contenuto della news..."

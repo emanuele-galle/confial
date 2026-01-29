@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Admins can manage content efficiently with professional-grade tools, reducing creation time by 50%
-**Current focus:** Phase 3 - Media Library
+**Current focus:** Phase 4 - Advanced Search
 
 ## Current Position
 
-Phase: 3 of 7 (Media Library)
-Plan: 3 of 3 in phase (Cropping + AI Focal Point - Complete)
-Status: Phase complete
-Last activity: 2026-01-29 — Completed 03-03-PLAN.md (Cropping + AI Focal Point)
+Phase: 4 of 7 (Advanced Search)
+Plan: 1 of 3 in phase (Database Migration + Search API - Complete)
+Status: In progress
+Last activity: 2026-01-29 — Completed 04-01-PLAN.md (Database Migration + Search API)
 
-Progress: [███████░░░] 75%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 5.1 minutes
-- Total execution time: 0.75 hours
+- Total plans completed: 10
+- Average duration: 5.2 minutes
+- Total execution time: 0.87 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [███████░░░] 75%
 | Phase 1 | 2 | 8.5min | 4.25min |
 | Phase 2 | 2 | 12.3min | 6.15min |
 | Phase 3 | 3 | 16.6min | 5.5min |
+| Phase 4 | 1 | 6min | 6min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (4.7min), 03-01 (4.6min), 03-02 (7min), 03-03 (5min)
-- Trend: Consistent 4-5min for API/backend, 5-7min for UI/complex work
+- Last 5 plans: 03-01 (4.6min), 03-02 (7min), 03-03 (5min), 04-01 (6min)
+- Trend: Consistent 4-6min for API/backend, 5-7min for UI/complex work
 
 *Updated after each plan completion*
 
@@ -81,6 +82,11 @@ Recent decisions affecting current work:
 - Plan 03-03: Claude vision for focal point detection (zero external API cost, accurate)
 - Plan 03-03: Buffer magic bytes for MIME type detection (reliable, no temp files)
 - Plan 03-03: Dual-dialog pattern for pick→crop→insert workflow (optional cropping, clear UX)
+- Plan 04-01: Italian text search config over custom dictionary (excellent built-in stemming, zero maintenance)
+- Plan 04-01: GENERATED ALWAYS AS for search_vector (auto-updates, no triggers needed)
+- Plan 04-01: Weighted search A/B/C (titles more relevant than body matches)
+- Plan 04-01: Prefix matching with :* (autocomplete-style search, forgiving)
+- Plan 04-01: 120s cache with stale-while-revalidate (balances freshness with performance)
 
 ### Pending Todos
 
@@ -128,7 +134,13 @@ None yet.
 - ✅ AI focal point detection — RESOLVED with Claude vision API
 - ✅ Crop-then-insert workflow — RESOLVED with dual-dialog pattern
 
+**Phase 4 (Resolved in 04-01):**
+- ✅ Prisma migration drift (media table) — RESOLVED with baseline migration
+- ✅ Shadow database conflicts — RESOLVED with direct SQL + prisma migrate resolve
+
 **Architecture:**
+- Performance targets: dashboard <500ms, search <100ms — monitoring to be established in Phase 4
+- PostgreSQL FTS validated at 0.144ms with small dataset; load testing needed with 200k+ rows (Phase 5)
 - Pagination (24 items) might feel limiting in picker mode — consider infinite scroll in future
 - Thumbnail generation is on-demand (consider CDN caching for production)
 - Cropped images create new Media records — consider cleanup job for unused versions
@@ -137,12 +149,14 @@ None yet.
 - No table manipulation controls yet (add row/col, delete, merge cells)
 - Slash menu positioning may need refinement for edge cases
 - ANTHROPIC_API_KEY required for focal point detection (graceful fallback to center)
+- Search result boosting by recency/featured status (out of current scope)
+- Synonym support for search (e.g., "CCL" → "contratto collettivo lavoro")
 
 ## Session Continuity
 
-Last session: 2026-01-29T13:42:04Z
-Stopped at: Completed 03-03-PLAN.md (Cropping + AI Focal Point) — Phase 3 complete
+Last session: 2026-01-29T13:56:16Z
+Stopped at: Completed 04-01-PLAN.md (Database Migration + Search API)
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 03-03 completion*
+*Last updated: 2026-01-29 after plan 04-01 completion*

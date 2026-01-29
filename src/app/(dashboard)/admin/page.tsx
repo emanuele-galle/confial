@@ -102,7 +102,7 @@ export default async function AdminDashboardPage() {
           title="News Totali"
           value={stats.newsCount}
           iconName="newspaper"
-          color="emerald"
+          variant="primary"
           sparkline={stats.newsSparkline}
           change={stats.newsChange}
         />
@@ -110,7 +110,7 @@ export default async function AdminDashboardPage() {
           title="News Pubblicate"
           value={stats.publishedNewsCount}
           iconName="trendingUp"
-          color="blue"
+          variant="secondary"
           sparkline={stats.publishedNewsSparkline}
           change={stats.publishedNewsChange}
         />
@@ -118,7 +118,7 @@ export default async function AdminDashboardPage() {
           title="Documenti"
           value={stats.documentsCount}
           iconName="fileText"
-          color="purple"
+          variant="tertiary"
           sparkline={stats.documentsSparkline}
           change={stats.documentsChange}
         />
@@ -126,7 +126,7 @@ export default async function AdminDashboardPage() {
           title="Download Totali"
           value={stats.downloadsCount}
           iconName="eye"
-          color="orange"
+          variant="accent"
           sparkline={stats.downloadsSparkline}
           change={stats.downloadsChange}
         />

@@ -16,13 +16,14 @@ interface StatCardEnhancedProps {
   title: string;
   value: number;
   iconName: keyof typeof iconMap;
-  color: "emerald" | "blue" | "purple" | "orange";
+  variant: "primary" | "secondary" | "tertiary" | "accent";
   sparkline: number[];
   change: { value: number; isPositive: boolean };
 }
 
+// Design system consistente - sfumature di verde CONFIAL
 const colorClasses = {
-  emerald: {
+  primary: {
     bg: "from-emerald-500/90 to-teal-600/90",
     iconBg: "bg-white/20",
     iconText: "text-white",
@@ -31,32 +32,32 @@ const colorClasses = {
     sparkline: "#10b981",
     sparklineGradient: "rgba(16, 185, 129, 0.2)",
   },
-  blue: {
-    bg: "from-blue-500/90 to-indigo-600/90",
+  secondary: {
+    bg: "from-emerald-600/90 to-emerald-700/90",
     iconBg: "bg-white/20",
     iconText: "text-white",
-    border: "border-blue-400/20",
-    glow: "shadow-blue-500/20",
-    sparkline: "#3b82f6",
-    sparklineGradient: "rgba(59, 130, 246, 0.2)",
+    border: "border-emerald-500/20",
+    glow: "shadow-emerald-600/20",
+    sparkline: "#059669",
+    sparklineGradient: "rgba(5, 150, 105, 0.2)",
   },
-  purple: {
-    bg: "from-purple-500/90 to-pink-600/90",
+  tertiary: {
+    bg: "from-teal-500/90 to-cyan-600/90",
     iconBg: "bg-white/20",
     iconText: "text-white",
-    border: "border-purple-400/20",
-    glow: "shadow-purple-500/20",
-    sparkline: "#a855f7",
-    sparklineGradient: "rgba(168, 85, 247, 0.2)",
+    border: "border-teal-400/20",
+    glow: "shadow-teal-500/20",
+    sparkline: "#14b8a6",
+    sparklineGradient: "rgba(20, 184, 166, 0.2)",
   },
-  orange: {
-    bg: "from-orange-500/90 to-red-600/90",
+  accent: {
+    bg: "from-green-500/90 to-emerald-600/90",
     iconBg: "bg-white/20",
     iconText: "text-white",
-    border: "border-orange-400/20",
-    glow: "shadow-orange-500/20",
-    sparkline: "#f97316",
-    sparklineGradient: "rgba(249, 115, 22, 0.2)",
+    border: "border-green-400/20",
+    glow: "shadow-green-500/20",
+    sparkline: "#22c55e",
+    sparklineGradient: "rgba(34, 197, 94, 0.2)",
   },
 };
 
@@ -64,12 +65,12 @@ export function StatCardEnhanced({
   title,
   value,
   iconName,
-  color,
+  variant,
   sparkline,
   change,
 }: StatCardEnhancedProps) {
   const Icon = iconMap[iconName];
-  const colors = colorClasses[color];
+  const colors = colorClasses[variant];
   const countRef = useRef<HTMLParagraphElement>(null);
   const motionValue = useMotionValue(0);
   const rounded = useTransform(motionValue, (latest) => Math.round(latest));
@@ -187,7 +188,7 @@ export function StatCardEnhanced({
             style={{ marginBottom: "4px" }}
           >
             <defs>
-              <linearGradient id={`gradient-${color}`} x1="0" x2="0" y1="0" y2="1">
+              <linearGradient id={`gradient-${variant}`} x1="0" x2="0" y1="0" y2="1">
                 <stop offset="0%" stopColor={colors.sparkline} stopOpacity="0.3" />
                 <stop offset="100%" stopColor={colors.sparkline} stopOpacity="0" />
               </linearGradient>
@@ -196,7 +197,7 @@ export function StatCardEnhanced({
             {sparklinePath && (
               <path
                 d={`${sparklinePath} L 70,24 L 0,24 Z`}
-                fill={`url(#gradient-${color})`}
+                fill={`url(#gradient-${variant})`}
               />
             )}
             {/* Line */}

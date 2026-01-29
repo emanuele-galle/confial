@@ -33,9 +33,9 @@ export function DashboardSidebar({ user, onNavClick }: DashboardSidebarProps) {
   const pathname = usePathname();
 
   return (
-    <div className="w-64 bg-white border-r border-gray-200 flex flex-col shadow-sm">
+    <div className="h-full w-64 bg-white border-r border-gray-200 flex flex-col shadow-sm">
       {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-gray-200 bg-gradient-to-r from-[#018856] to-[#016b43]">
+      <div className="h-16 flex items-center px-6 border-b border-gray-200 bg-gradient-to-r from-[#018856] to-[#016b43] flex-shrink-0">
         <div className="flex items-center gap-2">
           <Sparkles className="h-6 w-6 text-white" />
           <h1 className="text-xl font-bold text-white">CONFIAL</h1>
@@ -43,7 +43,7 @@ export function DashboardSidebar({ user, onNavClick }: DashboardSidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto min-h-0">
         {navigation.map((item) => {
           const isActive =
             pathname === item.href || pathname.startsWith(item.href + "/");
@@ -78,7 +78,7 @@ export function DashboardSidebar({ user, onNavClick }: DashboardSidebarProps) {
       </nav>
 
       {/* User Profile Section */}
-      <div className="p-4 border-t border-gray-200 bg-gray-50">
+      <div className="p-4 border-t border-gray-200 bg-gray-50 flex-shrink-0">
         <div className="flex items-center gap-3 mb-3 px-2 py-2">
           <div className="relative">
             <div className="w-10 h-10 bg-gradient-to-br from-[#018856] to-[#016b43] rounded-full flex items-center justify-center text-white font-semibold shadow-md">

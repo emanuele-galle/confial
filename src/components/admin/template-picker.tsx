@@ -42,7 +42,21 @@ interface TemplatePickerProps {
   onSelect: (template: TemplateContent) => void;
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+const fetcher = async (url: string) => {
+  const res = await fetch(url);
+
+  // Check if response is JSON before parsing
+  const contentType = res.headers.get("content-type");
+  if (!contentType || !contentType.includes("application/json")) {
+    throw new Error("Invalid response format");
+  }
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch");
+  }
+
+  return res.json();
+};
 
 export function TemplatePicker({
   entityType,

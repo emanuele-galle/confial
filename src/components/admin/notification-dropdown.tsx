@@ -28,9 +28,13 @@ export function NotificationDropdown() {
     try {
       const res = await fetch("/api/notifications?limit=10");
       if (res.ok) {
-        const data = await res.json();
-        setNotifications(data.notifications);
-        setUnreadCount(data.unreadCount);
+        // Check if response is JSON before parsing
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = await res.json();
+          setNotifications(data.notifications);
+          setUnreadCount(data.unreadCount);
+        }
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);

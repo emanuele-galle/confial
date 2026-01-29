@@ -58,6 +58,13 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
         if (filters.dateTo) params.set("dateTo", filters.dateTo);
 
         const res = await fetch(`/api/search?${params}`);
+
+        // Check if response is JSON before parsing
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          throw new Error("Invalid response format");
+        }
+
         const data = await res.json();
 
         setResults(data.results || []);

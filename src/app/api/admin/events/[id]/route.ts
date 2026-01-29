@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { updateEventSchema } from "@/lib/schemas/event";
+import { logAction } from "@/lib/audit-log";
 
 export async function GET(
   request: NextRequest,
@@ -47,7 +48,24 @@ export async function PATCH(
     (data as any).eventDate = new Date(data.eventDate);
   }
 
+  // Fetch old values for audit log
+  const oldEvent = await prisma.event.findUnique({ where: { id } });
+
   const event = await prisma.event.update({ where: { id }, data });
+
+  // Log action
+  if (oldEvent) {
+    await logAction({
+      userId: (session.user as any).id,
+      action: "UPDATE",
+      entityType: "events",
+      entityId: id,
+      oldValues: oldEvent,
+      newValues: event,
+      req: request,
+    });
+  }
+
   return NextResponse.json(event);
 }
 
@@ -61,6 +79,23 @@ export async function DELETE(
   }
 
   const { id } = await params;
+
+  // Fetch for audit log
+  const event = await prisma.event.findUnique({ where: { id } });
+
   await prisma.event.delete({ where: { id } });
+
+  // Log action
+  if (event) {
+    await logAction({
+      userId: (session.user as any).id,
+      action: "DELETE",
+      entityType: "events",
+      entityId: id,
+      oldValues: event,
+      req: request,
+    });
+  }
+
   return NextResponse.json({ success: true });
 }

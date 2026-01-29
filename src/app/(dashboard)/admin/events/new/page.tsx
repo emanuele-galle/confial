@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { ImageUpload } from "@/components/admin/image-upload";
 import { toast } from "sonner";
 
 export default function EventCreatePage() {
@@ -16,6 +17,7 @@ export default function EventCreatePage() {
     eventTime: "",
     location: "",
     address: "",
+    coverImage: "",
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
     featured: false,
     registrationOpen: false,
@@ -104,6 +106,14 @@ export default function EventCreatePage() {
               placeholder="Descrivi l'evento in dettaglio..."
             />
           </div>
+
+          <ImageUpload
+            value={formData.coverImage}
+            onChange={(url) => setFormData({ ...formData, coverImage: url })}
+            aspectRatio="video"
+            folder="events-covers"
+            label="Immagine di copertina evento"
+          />
         </div>
 
         {/* Date & Location Card */}

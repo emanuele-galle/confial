@@ -15,9 +15,25 @@ export async function GET(request: NextRequest) {
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "20");
   const category = searchParams.get("category");
+  const search = searchParams.get("search") || "";
   const skip = (page - 1) * limit;
 
-  const where = category ? { category } : {};
+  // Build where clause with filters
+  const where: any = {};
+
+  // Category filter
+  if (category) {
+    where.category = category;
+  }
+
+  // Search filter (title, description, filename)
+  if (search) {
+    where.OR = [
+      { title: { contains: search, mode: "insensitive" } },
+      { description: { contains: search, mode: "insensitive" } },
+      { filename: { contains: search, mode: "insensitive" } },
+    ];
+  }
 
   const [documents, total] = await Promise.all([
     prisma.document.findMany({

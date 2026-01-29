@@ -10,11 +10,55 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 401 });
   }
 
-  const events = await prisma.event.findMany({
-    orderBy: { eventDate: "desc" },
-  });
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get("page") || "1");
+  const limit = parseInt(searchParams.get("limit") || "20");
+  const skip = (page - 1) * limit;
+  const search = searchParams.get("search") || "";
+  const status = searchParams.get("status") || "";
+  const featured = searchParams.get("featured");
 
-  return NextResponse.json({ data: events });
+  // Build where clause with filters
+  const where: any = {};
+
+  // Search filter (title, description, location)
+  if (search) {
+    where.OR = [
+      { title: { contains: search, mode: "insensitive" } },
+      { description: { contains: search, mode: "insensitive" } },
+      { location: { contains: search, mode: "insensitive" } },
+    ];
+  }
+
+  // Status filter
+  if (status) {
+    where.status = status;
+  }
+
+  // Featured filter
+  if (featured !== null && featured !== "") {
+    where.featured = featured === "true";
+  }
+
+  const [events, total] = await Promise.all([
+    prisma.event.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy: { eventDate: "desc" },
+    }),
+    prisma.event.count({ where }),
+  ]);
+
+  return NextResponse.json({
+    data: events,
+    pagination: {
+      page,
+      limit,
+      total,
+      totalPages: Math.ceil(total / limit),
+    },
+  });
 }
 
 export async function POST(request: NextRequest) {

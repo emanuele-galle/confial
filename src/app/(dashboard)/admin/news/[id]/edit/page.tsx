@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { ImageUpload } from "@/components/admin/image-upload";
 import { toast } from "sonner";
 
 interface News {
@@ -11,7 +12,11 @@ interface News {
   title: string;
   content: string;
   excerpt: string;
+  coverImage: string | null;
+  featured: boolean;
   status: "DRAFT" | "PUBLISHED";
+  metaTitle: string | null;
+  metaDescription: string | null;
 }
 
 export default function NewsEditPage() {
@@ -23,7 +28,11 @@ export default function NewsEditPage() {
     title: "",
     content: "",
     excerpt: "",
+    coverImage: "",
+    featured: false,
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
+    metaTitle: "",
+    metaDescription: "",
   });
 
   useEffect(() => {
@@ -34,12 +43,16 @@ export default function NewsEditPage() {
     try {
       const response = await fetch(`/api/admin/news/${params.id}`);
       if (response.ok) {
-        const news: News = await response.json();
+        const { data: news } = await response.json();
         setFormData({
           title: news.title,
           content: news.content,
           excerpt: news.excerpt || "",
+          coverImage: news.coverImage || "",
+          featured: news.featured || false,
           status: news.status,
+          metaTitle: news.metaTitle || "",
+          metaDescription: news.metaDescription || "",
         });
       } else {
         toast.error("News non trovata");
@@ -164,6 +177,14 @@ export default function NewsEditPage() {
           />
         </div>
 
+        <ImageUpload
+          value={formData.coverImage}
+          onChange={(url) => setFormData({ ...formData, coverImage: url })}
+          aspectRatio="video"
+          folder="news-covers"
+          label="Immagine di copertina"
+        />
+
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Contenuto *
@@ -175,27 +196,87 @@ export default function NewsEditPage() {
           />
         </div>
 
+        <div className="flex items-center gap-2">
+          <input
+            id="featured"
+            type="checkbox"
+            checked={formData.featured}
+            onChange={(e) =>
+              setFormData({ ...formData, featured: e.target.checked })
+            }
+            className="w-4 h-4 text-[#018856] border-gray-300 rounded focus:ring-[#018856]"
+          />
+          <label
+            htmlFor="featured"
+            className="text-sm font-semibold text-gray-700"
+          >
+            News in evidenza
+          </label>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label
+              htmlFor="status"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Stato
+            </label>
+            <select
+              id="status"
+              value={formData.status}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  status: e.target.value as "DRAFT" | "PUBLISHED",
+                })
+              }
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+            >
+              <option value="DRAFT">Bozza</option>
+              <option value="PUBLISHED">Pubblicato</option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              htmlFor="metaTitle"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Meta Title (SEO)
+            </label>
+            <input
+              id="metaTitle"
+              type="text"
+              value={formData.metaTitle}
+              onChange={(e) =>
+                setFormData({ ...formData, metaTitle: e.target.value })
+              }
+              maxLength={60}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              placeholder="Titolo SEO (max 60 caratteri)"
+            />
+          </div>
+        </div>
+
         <div>
           <label
-            htmlFor="status"
+            htmlFor="metaDescription"
             className="block text-sm font-semibold text-gray-700 mb-2"
           >
-            Stato
+            Meta Description (SEO)
           </label>
-          <select
-            id="status"
-            value={formData.status}
+          <textarea
+            id="metaDescription"
+            value={formData.metaDescription}
             onChange={(e) =>
-              setFormData({
-                ...formData,
-                status: e.target.value as "DRAFT" | "PUBLISHED",
-              })
+              setFormData({ ...formData, metaDescription: e.target.value })
             }
+            maxLength={160}
+            rows={2}
             className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-          >
-            <option value="DRAFT">Bozza</option>
-            <option value="PUBLISHED">Pubblicato</option>
-          </select>
+            placeholder="Descrizione SEO (max 160 caratteri)"
+          />
         </div>
 
         <div className="flex gap-4">

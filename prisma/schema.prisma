@@ -28,8 +28,10 @@ model User {
   // Relations
   accounts      Account[]
   sessions      Session[]
-  newsArticles  News[]    @relation("NewsAuthor")
+  newsArticles  News[]     @relation("NewsAuthor")
   documents     Document[] @relation("DocumentUploader")
+  auditLogs     AuditLog[]
+  notifications Notification[]
 
   @@map("users")
 }
@@ -152,4 +154,58 @@ model Document {
   @@index([category])
   @@index([uploadedAt(sort: Desc)])
   @@map("documents")
+}
+
+// ==================== AUDIT LOG ====================
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  action      String   // CREATE, UPDATE, DELETE, LOGIN, LOGOUT
+  entityType  String   @map("entity_type") // news, events, documents, users
+  entityId    String?  @map("entity_id")
+
+  oldValues   String?  @db.Text @map("old_values") // JSON string
+  newValues   String?  @db.Text @map("new_values") // JSON string
+
+  ipAddress   String?  @map("ip_address")
+  userAgent   String?  @map("user_agent")
+
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@index([entityType, entityId])
+  @@index([createdAt(sort: Desc)])
+  @@map("audit_logs")
+}
+
+// ==================== NOTIFICATIONS ====================
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String           @map("user_id")
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      NotificationType @default(INFO)
+  title     String
+  message   String           @db.Text
+  link      String?          // Optional link to related content
+
+  read      Boolean          @default(false)
+  readAt    DateTime?        @map("read_at")
+
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  @@index([userId, read])
+  @@index([createdAt(sort: Desc)])
+  @@map("notifications")
 }

@@ -11,6 +11,7 @@ export const minioClient = new Client({
 export const BUCKETS = {
   NEWS_IMAGES: "confial-news-images",
   DOCUMENTS: "confial-documents",
+  EVENTS_IMAGES: "confial-events-images",
 } as const;
 
 export async function ensureBucketsExist() {

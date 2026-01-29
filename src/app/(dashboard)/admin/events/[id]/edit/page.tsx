@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { ImageUpload } from "@/components/admin/image-upload";
 import { toast } from "sonner";
 
 interface Event {
@@ -14,6 +15,7 @@ interface Event {
   eventTime: string | null;
   location: string | null;
   address: string | null;
+  coverImage: string | null;
   status: "DRAFT" | "PUBLISHED";
   featured: boolean;
   registrationOpen: boolean;
@@ -32,6 +34,7 @@ export default function EventEditPage() {
     eventTime: "",
     location: "",
     address: "",
+    coverImage: "",
     status: "DRAFT" as "DRAFT" | "PUBLISHED",
     featured: false,
     registrationOpen: false,
@@ -54,6 +57,7 @@ export default function EventEditPage() {
           eventTime: event.eventTime || "",
           location: event.location || "",
           address: event.address || "",
+          coverImage: event.coverImage || "",
           status: event.status,
           featured: event.featured,
           registrationOpen: event.registrationOpen,
@@ -188,6 +192,14 @@ export default function EventEditPage() {
               placeholder="Descrivi l'evento in dettaglio..."
             />
           </div>
+
+          <ImageUpload
+            value={formData.coverImage}
+            onChange={(url) => setFormData({ ...formData, coverImage: url })}
+            aspectRatio="video"
+            folder="events-covers"
+            label="Immagine di copertina evento"
+          />
         </div>
 
         {/* Date & Location Card */}

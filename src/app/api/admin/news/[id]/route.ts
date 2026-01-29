@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { updateNewsSchema } from "@/lib/schemas/news";
+import { logAction } from "@/lib/audit-log";
 
 export async function GET(
   request: NextRequest,
@@ -49,10 +50,26 @@ export async function PATCH(
     );
   }
 
+  // Fetch old values for audit log
+  const oldNews = await prisma.news.findUnique({ where: { id } });
+
   const news = await prisma.news.update({
     where: { id },
     data: validationResult.data,
   });
+
+  // Log action
+  if (oldNews) {
+    await logAction({
+      userId: (session.user as any).id,
+      action: "UPDATE",
+      entityType: "news",
+      entityId: id,
+      oldValues: oldNews,
+      newValues: news,
+      req: request,
+    });
+  }
 
   return NextResponse.json(news);
 }
@@ -69,9 +86,24 @@ export async function DELETE(
 
   const { id } = await params;
 
+  // Fetch for audit log
+  const news = await prisma.news.findUnique({ where: { id } });
+
   await prisma.news.delete({
     where: { id },
   });
+
+  // Log action
+  if (news) {
+    await logAction({
+      userId: (session.user as any).id,
+      action: "DELETE",
+      entityType: "news",
+      entityId: id,
+      oldValues: news,
+      req: request,
+    });
+  }
 
   return NextResponse.json({ success: true });
 }

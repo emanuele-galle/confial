@@ -14,9 +14,35 @@ export async function GET(request: NextRequest) {
   const page = parseInt(searchParams.get("page") || "1");
   const limit = parseInt(searchParams.get("limit") || "20");
   const skip = (page - 1) * limit;
+  const search = searchParams.get("search") || "";
+  const status = searchParams.get("status") || "";
+  const featured = searchParams.get("featured");
+
+  // Build where clause with filters
+  const where: any = {};
+
+  // Search filter (title, excerpt, content)
+  if (search) {
+    where.OR = [
+      { title: { contains: search, mode: "insensitive" } },
+      { excerpt: { contains: search, mode: "insensitive" } },
+      { content: { contains: search, mode: "insensitive" } },
+    ];
+  }
+
+  // Status filter
+  if (status) {
+    where.status = status;
+  }
+
+  // Featured filter
+  if (featured !== null && featured !== "") {
+    where.featured = featured === "true";
+  }
 
   const [news, total] = await Promise.all([
     prisma.news.findMany({
+      where,
       skip,
       take: limit,
       orderBy: { createdAt: "desc" },
@@ -26,7 +52,7 @@ export async function GET(request: NextRequest) {
         },
       },
     }),
-    prisma.news.count(),
+    prisma.news.count({ where }),
   ]);
 
   return NextResponse.json({

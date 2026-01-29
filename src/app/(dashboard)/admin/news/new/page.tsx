@@ -1,44 +1,59 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { RichTextEditor } from "@/components/editor/rich-text-editor";
+import { ImageUpload } from "@/components/admin/image-upload";
+import { FormField } from "@/components/admin/form-field";
+import { createNewsSchema, CreateNewsInput } from "@/lib/schemas/news";
 import { toast } from "sonner";
 
 export default function NewsCreatePage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    title: "",
-    content: "",
-    excerpt: "",
-    status: "DRAFT" as "DRAFT" | "PUBLISHED",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm<any>({
+    resolver: zodResolver(createNewsSchema),
+    defaultValues: {
+      title: "",
+      content: "",
+      excerpt: "",
+      coverImage: "",
+      featured: false,
+      status: "DRAFT",
+      metaTitle: "",
+      metaDescription: "",
+    },
   });
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
+  const content = watch("content");
+  const coverImage = watch("coverImage");
 
+  const onSubmit = async (data: CreateNewsInput) => {
     try {
       const response = await fetch("/api/admin/news", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
         toast.success("News creata con successo!");
         router.push("/admin/news");
       } else {
-        toast.error("Errore nella creazione della news");
+        const error = await response.json();
+        toast.error(error.error || "Errore nella creazione della news");
       }
     } catch (error) {
       toast.error("Errore di rete");
-    } finally {
-      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -47,65 +62,89 @@ export default function NewsCreatePage() {
         <p className="text-gray-600 mt-1">Compila i campi per creare una nuova news</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
-        <div>
-          <label htmlFor="title" className="block text-sm font-semibold text-gray-700 mb-2">
-            Titolo *
-          </label>
+      <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
+        <FormField label="Titolo" required error={errors.title}>
           <input
-            id="title"
+            {...register("title")}
             type="text"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            required
             className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
             placeholder="Titolo della news"
           />
-        </div>
+        </FormField>
 
-        <div>
-          <label htmlFor="excerpt" className="block text-sm font-semibold text-gray-700 mb-2">
-            Estratto
-          </label>
+        <FormField label="Estratto" error={errors.excerpt} helperText="Breve descrizione (opzionale)">
           <textarea
-            id="excerpt"
-            value={formData.excerpt}
-            onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+            {...register("excerpt")}
             rows={3}
             className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
             placeholder="Breve estratto (opzionale)"
           />
-        </div>
+        </FormField>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Contenuto *
-          </label>
+        <FormField label="Immagine di copertina" error={errors.coverImage}>
+          <ImageUpload
+            value={coverImage || ""}
+            onChange={(url) => setValue("coverImage", url)}
+            aspectRatio="video"
+            folder="news-covers"
+          />
+        </FormField>
+
+        <FormField label="Contenuto" required error={errors.content}>
           <RichTextEditor
-            content={formData.content}
-            onChange={(content) => setFormData({ ...formData, content })}
+            content={content}
+            onChange={(content) => setValue("content", content)}
             placeholder="Scrivi il contenuto della news..."
           />
+        </FormField>
+
+        <div className="flex items-center gap-2">
+          <input
+            {...register("featured")}
+            id="featured"
+            type="checkbox"
+            className="w-4 h-4 text-[#018856] border-gray-300 rounded focus:ring-[#018856]"
+          />
+          <label htmlFor="featured" className="text-sm font-semibold text-gray-700">
+            News in evidenza
+          </label>
         </div>
 
-        <div>
-          <label htmlFor="status" className="block text-sm font-semibold text-gray-700 mb-2">
-            Stato
-          </label>
-          <select
-            id="status"
-            value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
-            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
-          >
-            <option value="DRAFT">Bozza</option>
-            <option value="PUBLISHED">Pubblicato</option>
-          </select>
+        <div className="grid grid-cols-2 gap-4">
+          <FormField label="Stato" error={errors.status}>
+            <select
+              {...register("status")}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+            >
+              <option value="DRAFT">Bozza</option>
+              <option value="PUBLISHED">Pubblicato</option>
+            </select>
+          </FormField>
+
+          <FormField label="Meta Title (SEO)" error={errors.metaTitle} helperText="Max 60 caratteri">
+            <input
+              {...register("metaTitle")}
+              type="text"
+              maxLength={60}
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+              placeholder="Titolo SEO"
+            />
+          </FormField>
         </div>
+
+        <FormField label="Meta Description (SEO)" error={errors.metaDescription} helperText="Max 160 caratteri">
+          <textarea
+            {...register("metaDescription")}
+            maxLength={160}
+            rows={2}
+            className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#018856] focus:border-[#018856] transition-all"
+            placeholder="Descrizione SEO"
+          />
+        </FormField>
 
         <div className="flex gap-4">
-          <Button type="submit" disabled={loading} size="lg" className="shadow-lg">
-            {loading ? "Salvataggio..." : "Crea News"}
+          <Button type="submit" disabled={isSubmitting} size="lg" className="shadow-lg">
+            {isSubmitting ? "Salvataggio..." : "Crea News"}
           </Button>
 
           <Button

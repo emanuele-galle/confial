@@ -48,13 +48,19 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-br from-[#018856] via-[#016b43] to-[#015a3d] rounded-2xl p-8 text-white shadow-xl">
-        <h1 className="text-3xl font-bold mb-2">
-          Benvenuto, {session?.user?.name}! 👋
-        </h1>
-        <p className="text-emerald-100 text-lg">
-          Gestisci i contenuti della piattaforma FAILMS
-        </p>
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#018856] via-[#016b43] to-[#015a3d] rounded-2xl p-8 shadow-xl">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
+        <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-white/5 rounded-full blur-2xl" />
+
+        <div className="relative z-10">
+          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
+            Benvenuto, {session?.user?.name}! 👋
+          </h1>
+          <p className="text-emerald-100 text-lg font-medium">
+            Gestisci i contenuti della piattaforma FAILMS
+          </p>
+        </div>
       </div>
 
       {/* Stats Grid */}

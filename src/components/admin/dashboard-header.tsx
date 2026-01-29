@@ -1,7 +1,8 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Bell, Search } from "lucide-react";
+import { Search } from "lucide-react";
+import { NotificationDropdown } from "./notification-dropdown";
 
 const pathNameMap: Record<string, string> = {
   "/admin": "Dashboard",
@@ -46,11 +47,8 @@ export function DashboardHeader({ user }: { user: any }) {
           <Search className="h-5 w-5 text-gray-600" />
         </button>
 
-        {/* Notifications (placeholder for future) */}
-        <button className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors" title="Notifiche (Coming soon)">
-          <Bell className="h-5 w-5 text-gray-600" />
-          <div className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
-        </button>
+        {/* Notifications */}
+        <NotificationDropdown />
 
         {/* Date */}
         <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg">

@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 import { getEditorExtensions } from "./extensions";
 import { EditorBubbleMenu } from "./bubble-menu";
 import { LinkDialog } from "./link-dialog";
-import { MediaPickerStub } from "./media-picker-stub";
+import { MediaPicker } from "./media-picker";
 
 export interface AdvancedEditorProps {
   content: string;
@@ -51,6 +51,11 @@ export function AdvancedEditor({
 
   const handleMediaPicker = () => {
     setMediaPickerOpen(true);
+  };
+
+  const handleMediaSelect = (url: string, alt?: string) => {
+    editor?.chain().focus().setImage({ src: url, alt: alt || "" }).run();
+    setMediaPickerOpen(false);
   };
 
   const handleYouTubeInsert = () => {
@@ -331,8 +336,12 @@ export function AdvancedEditor({
       {/* Link Dialog */}
       <LinkDialog editor={editor} open={linkDialogOpen} onOpenChange={setLinkDialogOpen} />
 
-      {/* Media Picker Stub */}
-      <MediaPickerStub open={mediaPickerOpen} onClose={() => setMediaPickerOpen(false)} />
+      {/* Media Picker */}
+      <MediaPicker
+        open={mediaPickerOpen}
+        onClose={() => setMediaPickerOpen(false)}
+        onSelect={handleMediaSelect}
+      />
     </div>
   );
 }

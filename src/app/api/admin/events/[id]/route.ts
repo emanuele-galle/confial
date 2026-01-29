@@ -48,25 +48,47 @@ export async function PATCH(
     (data as any).eventDate = new Date(data.eventDate);
   }
 
-  // Fetch old values for audit log
-  const oldEvent = await prisma.event.findUnique({ where: { id } });
+  try {
+    // Single transaction: fetch, update, log (atomic operation)
+    const event = await prisma.$transaction(async (tx) => {
+      // Fetch current values
+      const oldEvent = await tx.event.findUnique({ where: { id } });
 
-  const event = await prisma.event.update({ where: { id }, data });
+      if (!oldEvent) {
+        throw new Error("Evento non trovato");
+      }
 
-  // Log action
-  if (oldEvent) {
-    await logAction({
-      userId: (session.user as any).id,
-      action: "UPDATE",
-      entityType: "events",
-      entityId: id,
-      oldValues: oldEvent,
-      newValues: event,
-      req: request,
+      // Perform update
+      const updatedEvent = await tx.event.update({ where: { id }, data });
+
+      // Log within same transaction
+      await tx.auditLog.create({
+        data: {
+          userId: (session.user as any).id,
+          action: "UPDATE",
+          entityType: "events",
+          entityId: id,
+          oldValues: oldEvent as any,
+          newValues: updatedEvent as any,
+          ipAddress: request.headers.get("x-forwarded-for") || "unknown",
+          userAgent: request.headers.get("user-agent") || "unknown",
+        },
+      });
+
+      return updatedEvent;
+    }, {
+      maxWait: 5000,
+      timeout: 10000,
     });
-  }
 
-  return NextResponse.json(event);
+    return NextResponse.json(event);
+  } catch (error) {
+    console.error("Update error:", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Errore durante l'aggiornamento" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function DELETE(
@@ -80,22 +102,43 @@ export async function DELETE(
 
   const { id } = await params;
 
-  // Fetch for audit log
-  const event = await prisma.event.findUnique({ where: { id } });
+  try {
+    // Single transaction: fetch, delete, log (atomic operation)
+    await prisma.$transaction(async (tx) => {
+      // Fetch current values
+      const event = await tx.event.findUnique({ where: { id } });
 
-  await prisma.event.delete({ where: { id } });
+      if (!event) {
+        throw new Error("Evento non trovato");
+      }
 
-  // Log action
-  if (event) {
-    await logAction({
-      userId: (session.user as any).id,
-      action: "DELETE",
-      entityType: "events",
-      entityId: id,
-      oldValues: event,
-      req: request,
+      // Perform delete
+      await tx.event.delete({ where: { id } });
+
+      // Log within same transaction
+      await tx.auditLog.create({
+        data: {
+          userId: (session.user as any).id,
+          action: "DELETE",
+          entityType: "events",
+          entityId: id,
+          oldValues: event as any,
+          newValues: null,
+          ipAddress: request.headers.get("x-forwarded-for") || "unknown",
+          userAgent: request.headers.get("user-agent") || "unknown",
+        },
+      });
+    }, {
+      maxWait: 5000,
+      timeout: 10000,
     });
-  }
 
-  return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error("Delete error:", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Errore durante l'eliminazione" },
+      { status: 500 }
+    );
+  }
 }

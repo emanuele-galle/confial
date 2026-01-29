@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,11 +8,28 @@ import { Button } from "@/components/ui/button";
 import { AdvancedEditor } from "@/components/editor";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { FormField } from "@/components/admin/form-field";
+import { TemplatePicker } from "@/components/admin/template-picker";
 import { createNewsSchema, CreateNewsInput } from "@/lib/schemas/news";
 import { toast } from "sonner";
+import {
+  DocumentDuplicateIcon,
+  BookmarkIcon,
+} from "@heroicons/react/24/outline";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 export default function NewsCreatePage() {
   const router = useRouter();
+  const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
+  const [saveTemplateOpen, setSaveTemplateOpen] = useState(false);
+  const [templateName, setTemplateName] = useState("");
+  const [templateDescription, setTemplateDescription] = useState("");
+  const [templateCategory, setTemplateCategory] = useState("generale");
+
   const {
     register,
     handleSubmit,
@@ -34,6 +52,8 @@ export default function NewsCreatePage() {
 
   const content = watch("content");
   const coverImage = watch("coverImage");
+  const title = watch("title");
+  const excerpt = watch("excerpt");
 
   const onSubmit = async (data: CreateNewsInput) => {
     try {
@@ -49,6 +69,51 @@ export default function NewsCreatePage() {
       } else {
         const error = await response.json();
         toast.error(error.error || "Errore nella creazione della news");
+      }
+    } catch (error) {
+      toast.error("Errore di rete");
+    }
+  };
+
+  const handleLoadTemplate = (templateContent: any) => {
+    if (templateContent.title) setValue("title", templateContent.title);
+    if (templateContent.excerpt) setValue("excerpt", templateContent.excerpt);
+    if (templateContent.body) setValue("content", templateContent.body);
+    toast.success("Template caricato con successo!");
+  };
+
+  const handleSaveTemplate = async () => {
+    if (!templateName.trim()) {
+      toast.error("Inserisci un nome per il template");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/admin/templates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: templateName,
+          description: templateDescription || null,
+          category: templateCategory,
+          entityType: "news",
+          content: {
+            title: title || "",
+            excerpt: excerpt || "",
+            body: content || "",
+          },
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Template salvato con successo!");
+        setSaveTemplateOpen(false);
+        setTemplateName("");
+        setTemplateDescription("");
+        setTemplateCategory("generale");
+      } else {
+        const error = await response.json();
+        toast.error(error.error || "Errore nel salvataggio del template");
       }
     } catch (error) {
       toast.error("Errore di rete");
@@ -151,12 +216,96 @@ export default function NewsCreatePage() {
             type="button"
             variant="outline"
             size="lg"
+            onClick={() => setTemplatePickerOpen(true)}
+          >
+            <DocumentDuplicateIcon className="w-4 h-4 mr-2" />
+            Carica da template
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
+            onClick={() => setSaveTemplateOpen(true)}
+          >
+            <BookmarkIcon className="w-4 h-4 mr-2" />
+            Salva come template
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            size="lg"
             onClick={() => router.back()}
           >
             Annulla
           </Button>
         </div>
       </form>
+
+      {/* Template Picker Dialog */}
+      <TemplatePicker
+        entityType="news"
+        open={templatePickerOpen}
+        onOpenChange={setTemplatePickerOpen}
+        onSelect={handleLoadTemplate}
+      />
+
+      {/* Save Template Dialog */}
+      <Dialog open={saveTemplateOpen} onOpenChange={setSaveTemplateOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Salva come template</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Nome template *
+              </label>
+              <input
+                type="text"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                placeholder="Es. Comunicato stampa standard"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Descrizione (opzionale)
+              </label>
+              <textarea
+                value={templateDescription}
+                onChange={(e) => setTemplateDescription(e.target.value)}
+                rows={3}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                placeholder="Breve descrizione del template"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Categoria
+              </label>
+              <input
+                type="text"
+                value={templateCategory}
+                onChange={(e) => setTemplateCategory(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                placeholder="Es. Comunicati stampa"
+              />
+            </div>
+            <div className="flex gap-3">
+              <Button onClick={handleSaveTemplate}>Salva template</Button>
+              <Button
+                variant="outline"
+                onClick={() => setSaveTemplateOpen(false)}
+              >
+                Annulla
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, Menu } from "lucide-react";
 import { NotificationDropdown } from "./notification-dropdown";
 import { GlobalSearch } from "./global-search";
+import { HighContrastToggle } from "./high-contrast-toggle";
 
 const pathNameMap: Record<string, string> = {
   "/admin": "Dashboard",
@@ -20,7 +21,12 @@ const pathNameMap: Record<string, string> = {
   "/admin/media": "Media Library",
 };
 
-export function DashboardHeader({ user }: { user: any }) {
+interface DashboardHeaderProps {
+  user: any;
+  onMenuClick?: () => void;
+}
+
+export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
   const pathname = usePathname();
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -54,9 +60,18 @@ export function DashboardHeader({ user }: { user: any }) {
 
   return (
     <>
-      <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shadow-sm">
-        <div className="flex items-center gap-4">
-          <h2 className="text-xl font-bold text-gray-900">{pageTitle}</h2>
+      <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 shadow-sm">
+        <div className="flex items-center gap-3">
+          {/* Hamburger menu button for mobile */}
+          <button
+            onClick={onMenuClick}
+            className="lg:hidden p-2 -ml-2 hover:bg-gray-100 rounded-lg transition-colors touch-target"
+            aria-label="Menu"
+          >
+            <Menu className="h-6 w-6 text-gray-700" />
+          </button>
+
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">{pageTitle}</h2>
         </div>
 
         <div className="flex items-center gap-4">
@@ -72,6 +87,9 @@ export function DashboardHeader({ user }: { user: any }) {
               ⌘K
             </kbd>
           </button>
+
+          {/* High Contrast Toggle */}
+          <HighContrastToggle />
 
           {/* Notifications */}
           <NotificationDropdown />

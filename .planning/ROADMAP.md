@@ -38,10 +38,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Admin pages have error boundaries that prevent full dashboard crash on component failures
   5. Batch delete operations clean up orphaned MinIO files automatically
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 00-01-PLAN.md — Database query optimization (N+1 consolidation, transactional audit logging)
+- [ ] 00-02-PLAN.md — Infrastructure hardening (background image processing, error boundaries, MinIO cleanup)
 
 ### Phase 1: Dashboard Overview Enhancement
 
@@ -194,7 +195,7 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 0. Technical Debt Resolution | 0/TBD | Not started | - |
+| 0. Technical Debt Resolution | 0/2 | Ready to execute | - |
 | 1. Dashboard Overview Enhancement | 0/TBD | Not started | - |
 | 2. Advanced Editor | 0/TBD | Not started | - |
 | 3. Media Library | 0/TBD | Not started | - |
@@ -204,4 +205,4 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 7. SEO Tools | 0/TBD | Not started | - |
 
 ---
-*Last updated: 2026-01-29 after roadmap creation*
+*Last updated: 2026-01-29 after Phase 0 planning*

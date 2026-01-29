@@ -32,6 +32,7 @@
     "@tiptap/extension-youtube": "^3.18.0",
     "@tiptap/react": "^3.17.1",
     "@tiptap/starter-kit": "^3.18.0",
+    "@tiptap/suggestion": "^3.18.0",
     "@tremor/react": "^4.0.0-beta-tremor-v4.4",
     "@types/bcrypt": "^6.0.0",
     "@types/minio": "^7.1.0",

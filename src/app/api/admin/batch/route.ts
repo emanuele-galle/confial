@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { minioClient, BUCKETS } from "@/lib/minio";
 import { z } from "zod";
 
 const MAX_BATCH_SIZE = 100;
@@ -34,12 +35,15 @@ export async function POST(request: NextRequest) {
     let success = 0;
     let failed = 0;
     const errors: string[] = [];
+    const filesToDelete: string[] = [];
 
     // Execute batch operation in transaction
     try {
       await prisma.$transaction(async (tx) => {
         for (const id of ids) {
           try {
+            let filePath: string | null = null;
+
             switch (entityType) {
               case "news":
                 await executeBatchNews(tx, action, id);
@@ -48,7 +52,10 @@ export async function POST(request: NextRequest) {
                 await executeBatchEvents(tx, action, id);
                 break;
               case "documents":
-                await executeBatchDocuments(tx, action, id);
+                filePath = await executeBatchDocuments(tx, action, id);
+                if (filePath) {
+                  filesToDelete.push(filePath);
+                }
                 break;
             }
             success++;
@@ -64,6 +71,19 @@ export async function POST(request: NextRequest) {
         { error: "Errore durante l'operazione batch" },
         { status: 500 }
       );
+    }
+
+    // Cleanup MinIO files in background (after transaction commits)
+    if (filesToDelete.length > 0) {
+      after(async () => {
+        try {
+          await minioClient.removeObjects(BUCKETS.DOCUMENTS, filesToDelete);
+          console.log(`MinIO cleanup: deleted ${filesToDelete.length} files`);
+        } catch (error) {
+          console.error("MinIO cleanup failed:", error);
+          // Log for manual cleanup but don't fail request
+        }
+      });
     }
 
     return NextResponse.json({
@@ -133,12 +153,25 @@ async function executeBatchEvents(tx: any, action: string, id: string) {
   }
 }
 
-async function executeBatchDocuments(tx: any, action: string, id: string) {
+async function executeBatchDocuments(tx: any, action: string, id: string): Promise<string | null> {
   switch (action) {
     case "delete":
-      // Note: MinIO deletion handled separately (not in transaction)
+      // Fetch document to get file path BEFORE deletion
+      const document = await tx.document.findUnique({
+        where: { id },
+        select: { id: true, filePath: true },
+      });
+
+      if (!document) {
+        throw new Error("Documento non trovato");
+      }
+
+      // Delete from database
       await tx.document.delete({ where: { id } });
-      break;
+
+      // Return file path for cleanup outside transaction
+      return document.filePath || null;
+
     default:
       throw new Error("Azione non supportata per documenti");
   }

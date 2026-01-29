@@ -59,10 +59,11 @@ Plans:
   4. Dashboard stats load in <500ms with Next.js fetch caching (300s revalidation)
   5. Page bundle size remains <300KB per page (charts code-split with dynamic imports)
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] TBD (determined during plan-phase)
+- [ ] 01-01-PLAN.md — Stats cards enhancement (animated counters, sparklines, trend indicators, caching)
+- [ ] 01-02-PLAN.md — Tremor trend chart + activity feed (code-split charts, cursor pagination, SWR polling)
 
 ### Phase 2: Advanced Editor
 
@@ -191,12 +192,12 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7
+Phases execute in numeric order: 0 -> 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 0. Technical Debt Resolution | 2/2 | Complete | 2026-01-29 |
-| 1. Dashboard Overview Enhancement | 0/TBD | Not started | - |
+| 1. Dashboard Overview Enhancement | 0/2 | Planned | - |
 | 2. Advanced Editor | 0/TBD | Not started | - |
 | 3. Media Library | 0/TBD | Not started | - |
 | 4. Advanced Search | 0/TBD | Not started | - |
@@ -205,4 +206,4 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 7. SEO Tools | 0/TBD | Not started | - |
 
 ---
-*Last updated: 2026-01-29 after Phase 0 planning*
+*Last updated: 2026-01-29 after Phase 1 planning*

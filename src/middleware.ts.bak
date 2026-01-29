@@ -1,7 +1,19 @@
+import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
-export function middleware(req: NextRequest) {
+export default auth((req) => {
+  const isLoggedIn = !!req.auth;
+  const isOnAdmin = req.nextUrl.pathname.startsWith("/admin");
+  const isOnLogin = req.nextUrl.pathname === "/login";
+
+  if (isOnAdmin && !isLoggedIn) {
+    return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  if (isOnLogin && isLoggedIn) {
+    return NextResponse.redirect(new URL("/admin", req.url));
+  }
+
   // Add security headers including CSP for Google Fonts
   const response = NextResponse.next();
 
@@ -23,27 +35,11 @@ export function middleware(req: NextRequest) {
     ].join("; ")
   );
 
-  response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set("X-Frame-Options", "SAMEORIGIN");
-  response.headers.set("X-XSS-Protection", "1; mode=block");
-  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set(
-    "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=(), payment=()"
-  );
-
   return response;
-}
+});
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * - public folder
-     */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
+
+export const runtime = "nodejs";

@@ -9,6 +9,7 @@ import { TextAlign } from "@tiptap/extension-text-align";
 import { Link } from "@tiptap/extension-link";
 import { Underline } from "@tiptap/extension-underline";
 import { Image } from "@tiptap/extension-image";
+import { Highlight } from "@tiptap/extension-highlight";
 import type { Extensions } from "@tiptap/react";
 
 interface EditorExtensionsConfig {
@@ -74,6 +75,11 @@ export function getEditorExtensions(
     Image.configure({
       HTMLAttributes: {
         class: "max-w-full h-auto rounded-lg",
+      },
+    }),
+    Highlight.configure({
+      HTMLAttributes: {
+        class: "bg-yellow-200 px-1 rounded",
       },
     }),
   ];

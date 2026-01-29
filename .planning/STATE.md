@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Admins can manage content efficiently with professional-grade tools, reducing creation time by 50%
-**Current focus:** Phase 2 - Advanced Editor
+**Current focus:** Phase 3 - Media Library
 
 ## Current Position
 
-Phase: 2 of 7 (Advanced Editor)
-Plan: 2 of 2 in phase (Slash Commands + Form Integration - Complete)
-Status: Phase complete
-Last activity: 2026-01-29 — Completed 02-02-PLAN.md (Slash Commands + Form Integration)
+Phase: 3 of 7 (Media Library)
+Plan: 1 of 3 in phase (Schema + API Layer - Complete)
+Status: In progress
+Last activity: 2026-01-29 — Completed 03-01-PLAN.md (Schema + API Layer)
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 58%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
+- Total plans completed: 7
 - Average duration: 4.6 minutes
-- Total execution time: 0.46 hours
+- Total execution time: 0.54 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [█████░░░░░] 50%
 | Phase 0 | 2 | 5.4min | 2.7min |
 | Phase 1 | 2 | 8.5min | 4.25min |
 | Phase 2 | 2 | 12.3min | 6.15min |
+| Phase 3 | 1 | 4.6min | 4.6min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (4min), 01-02 (4.5min), 02-01 (7.6min), 02-02 (4.7min)
-- Trend: Phase 2 slightly higher due to editor complexity
+- Last 5 plans: 01-02 (4.5min), 02-01 (7.6min), 02-02 (4.7min), 03-01 (4.6min)
+- Trend: Consistent ~4-5min for standard plans, complex editor work ~7-8min
 
 *Updated after each plan completion*
 
@@ -68,6 +69,9 @@ Recent decisions affecting current work:
 - Plan 02-02: React component in ProseMirror plugin via ReactDOM.createRoot (allows React state in TipTap)
 - Plan 02-02: Media picker stub with Phase 3 placeholder (prevents breaking changes when integrated)
 - Plan 02-02: Replace all RichTextEditor with AdvancedEditor (consistent editing experience across forms)
+- Plan 03-01: Presigned URLs with 7-day expiry (balance between caching and security, refresh on API access)
+- Plan 03-01: Percentage-based crop coordinates (client-agnostic, no need to know exact dimensions)
+- Plan 03-01: Focal point as percentages (responsive cropping, works with Sharp position option)
 
 ### Pending Todos
 
@@ -103,16 +107,19 @@ None yet.
 - ✅ Slash command integration — RESOLVED with TipTap suggestion plugin
 - ✅ Media picker placeholder needed — RESOLVED with stub showing Phase 3 message
 
-**Phase 3 (Next Phase):**
-- Media picker stub needs replacement with real media library
+**Phase 3 (Current):**
+- Media picker stub needs replacement with real media library (Plan 03-02)
+- Thumbnail generation is on-demand (consider CDN caching for production)
+
+**Future Phases:**
 - No table manipulation controls yet (add row/col, delete, merge cells)
 - Slash menu positioning may need refinement for edge cases
 
 ## Session Continuity
 
-Last session: 2026-01-29T13:20:30Z
-Stopped at: Completed 02-02-PLAN.md (Slash Commands + Form Integration) — Phase 2 Complete
+Last session: 2026-01-29T13:31:35Z
+Stopped at: Completed 03-01-PLAN.md (Schema + API Layer)
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 02-02 completion*
+*Last updated: 2026-01-29 after plan 03-01 completion*

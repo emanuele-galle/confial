@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 5 of 7 (Bulk Operations)
-Plan: 1 of 2 in phase (CSV Utilities + Import/Export API - Complete)
-Status: In progress
-Last activity: 2026-01-29 — Completed 05-01-PLAN.md (CSV Utilities + Import/Export API)
+Plan: 2 of 2 in phase — PHASE COMPLETE
+Status: Phase 5 complete
+Last activity: 2026-01-29 — Completed 05-02-PLAN.md (Bulk Operations UI)
 
-Progress: [███████████░] 92%
+Progress: [████████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
-- Average duration: 4.99 minutes
-- Total execution time: 1.25 hours
+- Total plans completed: 16
+- Average duration: 5.84 minutes
+- Total execution time: 1.56 hours
 
 **By Phase:**
 
@@ -32,13 +32,13 @@ Progress: [███████████░] 92%
 | Phase 2 | 2 | 12.3min | 6.15min |
 | Phase 3 | 3 | 16.6min | 5.5min |
 | Phase 4 | 2 | 9min | 4.5min |
-| Phase 5 | 1 | 11min | 11min |
+| Phase 5 | 2 | 27min | 13.5min |
 | Phase 6 | 2 | 12min | 6min |
 | Phase 7 | 1 | 7.5min | 7.5min |
 
 **Recent Trend:**
-- Last 5 plans: 06-01 (7min), 06-02 (5min), 07-02 (7.5min), 05-01 (11min)
-- Trend: Bulk operations phase in progress, CSV utilities complete
+- Last 5 plans: 06-02 (5min), 07-02 (7.5min), 05-01 (11min), 05-02 (16min)
+- Trend: Phase 5 complete with full bulk operations stack
 
 *Updated after each plan completion*
 
@@ -112,6 +112,11 @@ Recent decisions affecting current work:
 - Plan 05-01: Prisma transactions for CSV import (all-or-nothing ACID guarantees)
 - Plan 05-01: Validation-then-execute pattern with ?execute=true (preview errors before commit)
 - Plan 05-01: Slug generation from title + 6-char random (unique constraint compatibility)
+- Plan 05-02: Upload icon from lucide-react instead of @heroicons/react (consistency with codebase)
+- Plan 05-02: Two-phase import UX (validate preview → execute) over single-phase auto-execute (user confidence)
+- Plan 05-02: EventSource for SSE progress consumption (standard browser API, simpler than custom WebSocket)
+- Plan 05-02: newValues field for audit batch metadata instead of details (schema constraint)
+- Plan 05-02: Conditional audit log creation with userId check (TypeScript strict mode compliance)
 
 ### Pending Todos
 
@@ -204,24 +209,27 @@ None yet.
 - Template usage analytics (track which templates used most)
 - No pagination on templates list (expected low volume <100 templates)
 
-**Phase 5 (Complete in 05-01):**
-- ✅ CSV import/export API endpoints operational
-- ✅ Zod validation for News and Events imports
-- ✅ Formula injection sanitization in exports
-- ✅ SSE progress streaming for transactional imports
+**Phase 5 (COMPLETE - All plans done):**
+- ✅ CSV import/export API endpoints operational (05-01)
+- ✅ Zod validation for News and Events imports (05-01)
+- ✅ Formula injection sanitization in exports (05-01)
+- ✅ SSE progress streaming for transactional imports (05-01)
+- ✅ Import dialog with drag-drop and validation preview (05-02)
+- ✅ Export button with filter controls (05-02)
+- ✅ Real-time progress bar consuming SSE events (05-02)
+- ✅ Audit logging for all batch operations (05-02)
 
 **Future Enhancements (Phase 5):**
-- Import UI with drag-drop and validation preview
-- Export UI with filter controls
-- Batch delete/publish/archive endpoints
-- Progress bar component consuming SSE events
-- Import preview before executing
+- Documents page CSV import/export (currently only News/Events)
+- Bulk edit dialog (modify multiple items without delete/re-import)
+- Progress bar for export generation (currently instant for small datasets)
+- Import conflict resolution (skip vs overwrite existing slugs)
 
 ## Session Continuity
 
-Last session: 2026-01-29T14:11:10Z
-Stopped at: Completed 05-01-PLAN.md (CSV Utilities + Import/Export API)
+Last session: 2026-01-29T14:43:52Z
+Stopped at: Completed 05-02-PLAN.md (Bulk Operations UI) — Phase 5 COMPLETE
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 05-01 completion*
+*Last updated: 2026-01-29 after plan 05-02 completion*

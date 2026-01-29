@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 3 of 7 (Media Library)
-Plan: 2 of 3 in phase (Media Library UI - Complete)
-Status: In progress
-Last activity: 2026-01-29 — Completed 03-02-PLAN.md (Media Library UI)
+Plan: 3 of 3 in phase (Cropping + AI Focal Point - Complete)
+Status: Phase complete
+Last activity: 2026-01-29 — Completed 03-03-PLAN.md (Cropping + AI Focal Point)
 
-Progress: [██████░░░░] 67%
+Progress: [███████░░░] 75%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 5.1 minutes
-- Total execution time: 0.68 hours
+- Total execution time: 0.75 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [██████░░░░] 67%
 | Phase 0 | 2 | 5.4min | 2.7min |
 | Phase 1 | 2 | 8.5min | 4.25min |
 | Phase 2 | 2 | 12.3min | 6.15min |
-| Phase 3 | 2 | 11.6min | 5.8min |
+| Phase 3 | 3 | 16.6min | 5.5min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (7.6min), 02-02 (4.7min), 03-01 (4.6min), 03-02 (7min)
-- Trend: Consistent 4-5min for API/backend, 7-8min for UI/complex work
+- Last 5 plans: 02-02 (4.7min), 03-01 (4.6min), 03-02 (7min), 03-03 (5min)
+- Trend: Consistent 4-5min for API/backend, 5-7min for UI/complex work
 
 *Updated after each plan completion*
 
@@ -76,6 +76,11 @@ Recent decisions affecting current work:
 - Plan 03-02: Dual-mode MediaLibrary component (dialog for picker, page for admin, DRY principle)
 - Plan 03-02: Client-side filtering with debounced search (instant feedback, reduces API load)
 - Plan 03-02: Native HTML5 drag-drop (zero dependencies, sufficient for file upload)
+- Plan 03-03: react-easy-crop for image cropping (battle-tested, smooth UX with zoom)
+- Plan 03-03: Percentage-based crop coordinates (resolution-agnostic, server can apply to any size)
+- Plan 03-03: Claude vision for focal point detection (zero external API cost, accurate)
+- Plan 03-03: Buffer magic bytes for MIME type detection (reliable, no temp files)
+- Plan 03-03: Dual-dialog pattern for pick→crop→insert workflow (optional cropping, clear UX)
 
 ### Pending Todos
 
@@ -117,20 +122,27 @@ None yet.
 - ✅ Drag-drop upload — RESOLVED with native HTML5 events
 - ✅ @heroicons/react dependency — ADDED for UI icons
 
-**Phase 3 (Current - Plan 03-03 Next):**
-- MediaLibrary needs integration with AdvancedEditor (replace Phase 3 placeholder)
-- Pagination (24 items) might feel limiting in picker mode — consider infinite scroll
+**Phase 3 (Resolved in 03-03 - PHASE COMPLETE):**
+- ✅ MediaLibrary integration with AdvancedEditor — RESOLVED with MediaPicker component
+- ✅ Image cropping with aspect ratios — RESOLVED with react-easy-crop
+- ✅ AI focal point detection — RESOLVED with Claude vision API
+- ✅ Crop-then-insert workflow — RESOLVED with dual-dialog pattern
+
+**Architecture:**
+- Pagination (24 items) might feel limiting in picker mode — consider infinite scroll in future
 - Thumbnail generation is on-demand (consider CDN caching for production)
+- Cropped images create new Media records — consider cleanup job for unused versions
 
 **Future Phases:**
 - No table manipulation controls yet (add row/col, delete, merge cells)
 - Slash menu positioning may need refinement for edge cases
+- ANTHROPIC_API_KEY required for focal point detection (graceful fallback to center)
 
 ## Session Continuity
 
-Last session: 2026-01-29T13:38:07Z
-Stopped at: Completed 03-02-PLAN.md (Media Library UI) — Both 03-01 and 03-02 executed atomically
+Last session: 2026-01-29T13:42:04Z
+Stopped at: Completed 03-03-PLAN.md (Cropping + AI Focal Point) — Phase 3 complete
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 03-02 completion*
+*Last updated: 2026-01-29 after plan 03-03 completion*

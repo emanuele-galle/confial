@@ -46,7 +46,7 @@ export function SearchFilters({ filters, onChange }: SearchFiltersProps) {
         <span className="text-xs text-gray-500 mr-1">Tipo:</span>
         <Button
           size="sm"
-          variant={filters.types.includes("news") ? "default" : "outline"}
+          variant={filters.types.includes("news") ? "primary" : "outline"}
           onClick={() => toggleType("news")}
           className="h-7 text-xs gap-1"
         >
@@ -55,7 +55,7 @@ export function SearchFilters({ filters, onChange }: SearchFiltersProps) {
         </Button>
         <Button
           size="sm"
-          variant={filters.types.includes("events") ? "default" : "outline"}
+          variant={filters.types.includes("events") ? "primary" : "outline"}
           onClick={() => toggleType("events")}
           className="h-7 text-xs gap-1"
         >
@@ -64,7 +64,7 @@ export function SearchFilters({ filters, onChange }: SearchFiltersProps) {
         </Button>
         <Button
           size="sm"
-          variant={filters.types.includes("documents") ? "default" : "outline"}
+          variant={filters.types.includes("documents") ? "primary" : "outline"}
           onClick={() => toggleType("documents")}
           className="h-7 text-xs gap-1"
         >

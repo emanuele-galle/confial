@@ -12,7 +12,7 @@ This roadmap transforms the FAILMS admin dashboard from basic CRUD to profession
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 0: Technical Debt Resolution** - Fix N+1 queries, add pagination, error boundaries before enhancement work
+- [x] **Phase 0: Technical Debt Resolution** - Fix N+1 queries, add pagination, error boundaries before enhancement work
 - [ ] **Phase 1: Dashboard Overview Enhancement** - Animated stats cards, Tremor charts, activity feed with caching
 - [ ] **Phase 2: Advanced Editor** - TipTap with slash commands, media picker, link dialog, concurrent edit safety
 - [ ] **Phase 3: Media Library** - Centralized management with smart cropping, AI focal points, on-the-fly thumbnails
@@ -41,8 +41,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 2 plans
 
 Plans:
-- [ ] 00-01-PLAN.md — Database query optimization (N+1 consolidation, transactional audit logging)
-- [ ] 00-02-PLAN.md — Infrastructure hardening (background image processing, error boundaries, MinIO cleanup)
+- [x] 00-01-PLAN.md — Database query optimization (N+1 consolidation, transactional audit logging)
+- [x] 00-02-PLAN.md — Infrastructure hardening (background image processing, error boundaries, MinIO cleanup)
 
 ### Phase 1: Dashboard Overview Enhancement
 
@@ -195,7 +195,7 @@ Phases execute in numeric order: 0 → 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 0. Technical Debt Resolution | 0/2 | Ready to execute | - |
+| 0. Technical Debt Resolution | 2/2 | Complete | 2026-01-29 |
 | 1. Dashboard Overview Enhancement | 0/TBD | Not started | - |
 | 2. Advanced Editor | 0/TBD | Not started | - |
 | 3. Media Library | 0/TBD | Not started | - |

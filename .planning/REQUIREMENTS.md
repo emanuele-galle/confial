@@ -149,12 +149,12 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DEBT-01 | Phase 0 | Pending |
-| DEBT-02 | Phase 0 | Pending |
-| DEBT-03 | Phase 0 | Pending |
-| DEBT-04 | Phase 0 | Pending |
-| DEBT-05 | Phase 0 | Pending |
-| DEBT-06 | Phase 0 | Pending |
+| DEBT-01 | Phase 0 | Complete |
+| DEBT-02 | Phase 0 | Complete |
+| DEBT-03 | Phase 0 | Complete |
+| DEBT-04 | Phase 0 | Complete |
+| DEBT-05 | Phase 0 | Complete |
+| DEBT-06 | Phase 0 | Complete |
 | DASH-01 | Phase 1 | Pending |
 | DASH-02 | Phase 1 | Pending |
 | DASH-03 | Phase 1 | Pending |

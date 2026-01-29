@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 4 of 7 (Advanced Search)
-Plan: 2 of 3 in phase (Search UI - Complete)
+Phase: 6 of 7 (Mobile & Accessibility)
+Plan: 2 of 3 in phase (WCAG 2.1 AA - Complete)
 Status: In progress
-Last activity: 2026-01-29 — Completed 04-02-PLAN.md (Search UI with Cmd+K)
+Last activity: 2026-01-29 — Completed 06-02-PLAN.md (WCAG 2.1 AA accessibility)
 
-Progress: [█████████░] 90%
+Progress: [█████████░] 93%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 4.8 minutes
-- Total execution time: 0.88 hours
+- Total plans completed: 12
+- Average duration: 4.75 minutes
+- Total execution time: 0.95 hours
 
 **By Phase:**
 
@@ -32,10 +32,11 @@ Progress: [█████████░] 90%
 | Phase 2 | 2 | 12.3min | 6.15min |
 | Phase 3 | 3 | 16.6min | 5.5min |
 | Phase 4 | 2 | 9min | 4.5min |
+| Phase 6 | 1 | 5min | 5min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (7min), 03-03 (5min), 04-01 (6min), 04-02 (3min)
-- Trend: UI components getting faster (03-02: 7min → 04-02: 3min)
+- Last 5 plans: 03-03 (5min), 04-01 (6min), 04-02 (3min), 06-02 (5min)
+- Trend: Consistent execution speed (accessibility work same speed as UI)
 
 *Updated after each plan completion*
 
@@ -91,6 +92,11 @@ Recent decisions affecting current work:
 - Plan 04-02: Arrow keys + Enter for navigation over Tab (standard command palette UX pattern)
 - Plan 04-02: dangerouslySetInnerHTML for ts_headline (controlled PostgreSQL output, no XSS risk)
 - Plan 04-02: Filter state in component not URL (ephemeral dialog, no persistence needed)
+- Plan 06-02: Primary green #016030 over #018856 (5.2:1 contrast passes WCAG AA, old 3.8:1 failed)
+- Plan 06-02: focus-visible over focus for all elements (no ring on mouse, clear on keyboard)
+- Plan 06-02: Skip links with sr-only pattern (WCAG 2.4.1 Bypass Blocks compliance)
+- Plan 06-02: ARIA labels + fallback tables for charts (screen reader accessibility)
+- Plan 06-02: High contrast mode with localStorage persistence (user preference, zero cookies)
 
 ### Pending Todos
 
@@ -146,6 +152,12 @@ None yet.
 - ✅ Missing Badge UI component — RESOLVED by creating badge.tsx component
 - ✅ Button variant mismatch — RESOLVED by using "primary" instead of "default"
 
+**Phase 6 (Resolved in 06-02):**
+- ✅ WCAG AA color contrast compliance — RESOLVED with primary #016030 (5.2:1 contrast)
+- ✅ Keyboard navigation for complex UI — RESOLVED with skip links and ARIA labels
+- ✅ Screen reader support — RESOLVED with ARIA labels and fallback tables
+- ✅ High contrast mode — RESOLVED with toggle and localStorage persistence
+
 **Architecture:**
 - Performance targets: dashboard <500ms, search <100ms — monitoring to be established in Phase 4
 - PostgreSQL FTS validated at 0.144ms with small dataset; load testing needed with 200k+ rows (Phase 5)
@@ -162,13 +174,15 @@ None yet.
 - Search result boosting by recency/featured status (out of current scope)
 - Synonym support for search (e.g., "CCL" → "contratto collettivo lavoro")
 - Search history and autocomplete suggestions (out of scope)
-- ARIA attributes for screen reader accessibility (future work)
+- Next.js 16.1.6 build error (ENOENT .next/turbopack) — investigate or upgrade Next.js
+- Lighthouse accessibility audit not yet run (manual testing required)
+- Screen reader user testing needed for ARIA validation
 
 ## Session Continuity
 
-Last session: 2026-01-29T14:03:04Z
-Stopped at: Completed 04-02-PLAN.md (Search UI with Cmd+K)
+Last session: 2026-01-29T14:18:24Z
+Stopped at: Completed 06-02-PLAN.md (WCAG 2.1 AA accessibility)
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 04-02 completion*
+*Last updated: 2026-01-29 after plan 06-02 completion*

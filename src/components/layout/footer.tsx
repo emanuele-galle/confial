@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Facebook, Youtube, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 const footerLinks = {
   organizzazione: [
@@ -30,6 +31,9 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const mounted = useIsMounted();
+  const year = mounted ? new Date().getFullYear() : 2026;
+
   return (
     <footer className="bg-gradient-to-b from-gray-900 to-gray-950 relative overflow-hidden">
       {/* Decorative elements */}
@@ -164,7 +168,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} FAILMS - CONFIAL. Tutti i diritti riservati.
+            &copy; {year} FAILMS - CONFIAL. Tutti i diritti riservati.
           </p>
           <div className="flex items-center space-x-6 text-sm">
             <Link href="/privacy" className="text-gray-500 hover:text-emerald-400 transition-colors">

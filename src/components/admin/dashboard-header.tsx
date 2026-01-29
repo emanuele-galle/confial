@@ -6,6 +6,7 @@ import { Search, Menu } from "lucide-react";
 import { NotificationDropdown } from "./notification-dropdown";
 import { GlobalSearch } from "./global-search";
 import { HighContrastToggle } from "./high-contrast-toggle";
+import { useClientDate } from "@/hooks/use-client-date";
 
 const pathNameMap: Record<string, string> = {
   "/admin": "Dashboard",
@@ -29,6 +30,7 @@ interface DashboardHeaderProps {
 export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
   const pathname = usePathname();
   const [searchOpen, setSearchOpen] = useState(false);
+  const clientDate = useClientDate();
 
   // Get page title from pathname
   let pageTitle = "Dashboard";
@@ -95,15 +97,17 @@ export function DashboardHeader({ user, onMenuClick }: DashboardHeaderProps) {
           <NotificationDropdown />
 
           {/* Date */}
-          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg">
-            <span className="text-sm text-gray-600">
-              {new Date().toLocaleDateString("it-IT", {
-                weekday: "short",
-                day: "numeric",
-                month: "short",
-              })}
-            </span>
-          </div>
+          {clientDate && (
+            <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg">
+              <span className="text-sm text-gray-600">
+                {clientDate.toLocaleDateString("it-IT", {
+                  weekday: "short",
+                  day: "numeric",
+                  month: "short",
+                })}
+              </span>
+            </div>
+          )}
         </div>
       </header>
 

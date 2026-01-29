@@ -3,6 +3,7 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { Plus, Edit, Trash2, LogIn, LogOut, FileText, Newspaper, Calendar, Users } from "lucide-react";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 interface ActivityItem {
   id: string;
@@ -85,20 +86,28 @@ function getEntityLabel(entityType: string) {
   }
 }
 
-function getRelativeTime(dateString: string): string {
+function RelativeTime({ dateString }: { dateString: string }) {
+  const mounted = useIsMounted();
   const date = new Date(dateString);
+
+  if (!mounted) {
+    // Static fallback during SSR
+    return <>{date.toLocaleDateString("it-IT", { day: "numeric", month: "short" })}</>;
+  }
+
+  // Client-side: show relative time
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffMins = Math.floor(diffMs / 60000);
   const diffHours = Math.floor(diffMins / 60);
   const diffDays = Math.floor(diffHours / 24);
 
-  if (diffMins < 1) return "Ora";
-  if (diffMins < 60) return `${diffMins} minuti fa`;
-  if (diffHours < 24) return `${diffHours} ${diffHours === 1 ? "ora" : "ore"} fa`;
-  if (diffDays < 7) return `${diffDays} ${diffDays === 1 ? "giorno" : "giorni"} fa`;
+  if (diffMins < 1) return <>Ora</>;
+  if (diffMins < 60) return <>{diffMins} minuti fa</>;
+  if (diffHours < 24) return <>{diffHours} {diffHours === 1 ? "ora" : "ore"} fa</>;
+  if (diffDays < 7) return <>{diffDays} {diffDays === 1 ? "giorno" : "giorni"} fa</>;
 
-  return date.toLocaleDateString("it-IT", { day: "numeric", month: "short" });
+  return <>{date.toLocaleDateString("it-IT", { day: "numeric", month: "short" })}</>;
 }
 
 export function ActivityFeed() {
@@ -217,7 +226,7 @@ export function ActivityFeed() {
                           </p>
                         </div>
                         <span className="text-xs text-gray-500 whitespace-nowrap">
-                          {getRelativeTime(item.createdAt)}
+                          <RelativeTime dateString={item.createdAt} />
                         </span>
                       </div>
 

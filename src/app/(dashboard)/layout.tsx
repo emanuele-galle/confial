@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
 import { DashboardSidebar } from "@/components/admin/dashboard-sidebar";
 import { DashboardHeader } from "@/components/admin/dashboard-header";
 import { MobileBottomNav } from "@/components/admin/mobile-bottom-nav";
@@ -10,15 +9,25 @@ import { SwipeableSidebar } from "@/components/admin/swipeable-sidebar";
 import { ToasterProvider } from "@/components/providers/toaster-provider";
 import { SessionProvider } from "@/components/providers/session-provider";
 import { SkipLink } from "@/components/admin/skip-link";
+import { useIsMounted } from "@/hooks/use-is-mounted";
 
 function DashboardLayoutClient({
   children,
   user,
 }: {
   children: React.ReactNode;
-  user: any;
+  user: any | null;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Show loading during initial hydration if no user
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#016030]" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -80,18 +89,18 @@ export default function DashboardLayout({
 
 function DashboardLayoutInner({ children }: { children: React.ReactNode }) {
   const { data: session, status } = useSession();
+  const mounted = useIsMounted();
 
-  if (status === "loading") {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#016030]" />
-      </div>
-    );
-  }
+  useEffect(() => {
+    // Only redirect after mount (client-side only)
+    if (mounted && status !== "loading" && !session?.user) {
+      window.location.href = "/login";
+    }
+  }, [mounted, session, status]);
 
-  if (!session?.user) {
-    redirect("/login");
-  }
+  // CRITICAL: Always render same structure during initial hydration
+  // User can be null initially - components handle it gracefully
+  const user = mounted && session?.user ? session.user : null;
 
-  return <DashboardLayoutClient user={session.user}>{children}</DashboardLayoutClient>;
+  return <DashboardLayoutClient user={user}>{children}</DashboardLayoutClient>;
 }

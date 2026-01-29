@@ -6,53 +6,43 @@ datasource db {
   provider = "postgresql"
 }
 
-// ==================== USER MANAGEMENT ====================
-
-enum UserRole {
-  ADMIN
-  SUPER_ADMIN
-}
-
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
-  name          String
-  password      String    // bcrypt hashed
-  role          UserRole  @default(ADMIN)
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
-  lastLoginAt   DateTime? @map("last_login_at")
-
-  // Relations
-  accounts      Account[]
-  sessions      Session[]
-  newsArticles  News[]     @relation("NewsAuthor")
-  documents     Document[] @relation("DocumentUploader")
-  auditLogs     AuditLog[]
-  notifications Notification[]
-  media         Media[]    @relation("MediaUploader")
+  id               String            @id @default(cuid())
+  email            String            @unique
+  name             String
+  password         String
+  role             UserRole          @default(ADMIN)
+  emailVerified    DateTime?         @map("email_verified")
+  image            String?
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+  lastLoginAt      DateTime?         @map("last_login_at")
+  accounts         Account[]
+  auditLogs        AuditLog[]
   contentTemplates ContentTemplate[] @relation("TemplateCreator")
+  documents        Document[]        @relation("DocumentUploader")
+  media            Media[]           @relation("MediaUploader")
+  newsArticles     News[]            @relation("NewsAuthor")
+  notifications    Notification[]
+  sessions         Session[]
 
   @@map("users")
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String? @db.Text
-  access_token       String? @db.Text
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String? @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -77,35 +67,23 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-// ==================== CONTENT MANAGEMENT ====================
-
-enum ContentStatus {
-  DRAFT
-  PUBLISHED
-  ARCHIVED
-}
-
 model News {
-  id          String        @id @default(cuid())
-  title       String
-  slug        String        @unique
-  excerpt     String?       @db.Text
-  content     String        @db.Text
-  coverImage  String?
-  status      ContentStatus @default(DRAFT)
-  featured    Boolean       @default(false)
-  publishedAt DateTime?     @map("published_at")
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-
-  authorId    String        @map("author_id")
-  author      User          @relation("NewsAuthor", fields: [authorId], references: [id])
-
-  metaTitle       String?       @map("meta_title")
-  metaDescription String?       @map("meta_description")
-
-  // Full-text search (managed by PostgreSQL generated column)
-  searchVector    Unsupported("tsvector")? @map("search_vector")
+  id              String                   @id @default(cuid())
+  title           String
+  slug            String                   @unique
+  excerpt         String?
+  content         String
+  coverImage      String?
+  status          ContentStatus            @default(DRAFT)
+  featured        Boolean                  @default(false)
+  publishedAt     DateTime?                @map("published_at")
+  createdAt       DateTime                 @default(now()) @map("created_at")
+  updatedAt       DateTime                 @updatedAt @map("updated_at")
+  authorId        String                   @map("author_id")
+  metaTitle       String?                  @map("meta_title")
+  metaDescription String?                  @map("meta_description")
+  searchVector    Unsupported("tsvector")? @default(dbgenerated("((setweight(to_tsvector('italian'::regconfig, COALESCE(title, ''::text)), 'A'::\"char\") || setweight(to_tsvector('italian'::regconfig, COALESCE(excerpt, ''::text)), 'B'::\"char\")) || setweight(to_tsvector('italian'::regconfig, COALESCE(content, ''::text)), 'C'::\"char\"))")) @map("search_vector")
+  author          User                     @relation("NewsAuthor", fields: [authorId], references: [id])
 
   @@index([slug])
   @@index([status, publishedAt(sort: Desc)])
@@ -114,26 +92,22 @@ model News {
 }
 
 model Event {
-  id          String        @id @default(cuid())
-  title       String
-  slug        String        @unique
-  description String        @db.Text
-  eventDate   DateTime      @map("event_date")
-  eventTime   String?       @map("event_time")
-  location    String?
-  address     String?
-  coverImage  String?
-  status      ContentStatus @default(DRAFT)
-  featured    Boolean       @default(false)
-
-  registrationOpen Boolean   @default(false) @map("registration_open")
-  maxParticipants  Int?      @map("max_participants")
-
-  createdAt   DateTime      @default(now()) @map("created_at")
-  updatedAt   DateTime      @updatedAt @map("updated_at")
-
-  // Full-text search (managed by PostgreSQL generated column)
-  searchVector    Unsupported("tsvector")? @map("search_vector")
+  id               String                   @id @default(cuid())
+  title            String
+  slug             String                   @unique
+  description      String
+  eventDate        DateTime                 @map("event_date")
+  eventTime        String?                  @map("event_time")
+  location         String?
+  address          String?
+  coverImage       String?
+  status           ContentStatus            @default(DRAFT)
+  featured         Boolean                  @default(false)
+  registrationOpen Boolean                  @default(false) @map("registration_open")
+  maxParticipants  Int?                     @map("max_participants")
+  createdAt        DateTime                 @default(now()) @map("created_at")
+  updatedAt        DateTime                 @updatedAt @map("updated_at")
+  searchVector     Unsupported("tsvector")? @default(dbgenerated("((setweight(to_tsvector('italian'::regconfig, COALESCE(title, ''::text)), 'A'::\"char\") || setweight(to_tsvector('italian'::regconfig, COALESCE(description, ''::text)), 'B'::\"char\")) || setweight(to_tsvector('italian'::regconfig, COALESCE(location, ''::text)), 'C'::\"char\"))")) @map("search_vector")
 
   @@index([slug])
   @@index([eventDate(sort: Desc)])
@@ -142,24 +116,20 @@ model Event {
 }
 
 model Document {
-  id          String        @id @default(cuid())
-  title       String
-  description String?       @db.Text
-  filename    String
-  filepath    String        @unique
-  fileSize    Int
-  mimeType    String        @map("mime_type")
-  category    String?
-
-  uploadedById String       @map("uploaded_by_id")
-  uploadedBy   User         @relation("DocumentUploader", fields: [uploadedById], references: [id])
-  uploadedAt   DateTime     @default(now()) @map("uploaded_at")
-
-  downloadCount Int         @default(0) @map("download_count")
-  lastDownloadAt DateTime?  @map("last_download_at")
-
-  // Full-text search (managed by PostgreSQL generated column)
-  searchVector    Unsupported("tsvector")? @map("search_vector")
+  id             String                   @id @default(cuid())
+  title          String
+  description    String?
+  filename       String
+  filepath       String                   @unique
+  fileSize       Int
+  mimeType       String                   @map("mime_type")
+  category       String?
+  uploadedById   String                   @map("uploaded_by_id")
+  uploadedAt     DateTime                 @default(now()) @map("uploaded_at")
+  downloadCount  Int                      @default(0) @map("download_count")
+  lastDownloadAt DateTime?                @map("last_download_at")
+  searchVector   Unsupported("tsvector")? @default(dbgenerated("(setweight(to_tsvector('italian'::regconfig, COALESCE(title, ''::text)), 'A'::\"char\") || setweight(to_tsvector('italian'::regconfig, COALESCE(description, ''::text)), 'B'::\"char\"))")) @map("search_vector")
+  uploadedBy     User                     @relation("DocumentUploader", fields: [uploadedById], references: [id])
 
   @@index([uploadedById])
   @@index([category])
@@ -167,24 +137,18 @@ model Document {
   @@map("documents")
 }
 
-// ==================== AUDIT LOG ====================
-
 model AuditLog {
-  id          String   @id @default(cuid())
-  userId      String   @map("user_id")
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  action      String   // CREATE, UPDATE, DELETE, LOGIN, LOGOUT
-  entityType  String   @map("entity_type") // news, events, documents, users
-  entityId    String?  @map("entity_id")
-
-  oldValues   String?  @db.Text @map("old_values") // JSON string
-  newValues   String?  @db.Text @map("new_values") // JSON string
-
-  ipAddress   String?  @map("ip_address")
-  userAgent   String?  @map("user_agent")
-
-  createdAt   DateTime @default(now()) @map("created_at")
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String?  @map("entity_id")
+  oldValues  String?  @map("old_values")
+  newValues  String?  @map("new_values")
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
   @@index([entityType, entityId])
@@ -192,66 +156,41 @@ model AuditLog {
   @@map("audit_logs")
 }
 
-// ==================== NOTIFICATIONS ====================
-
-enum NotificationType {
-  INFO
-  SUCCESS
-  WARNING
-  ERROR
-}
-
 model Notification {
   id        String           @id @default(cuid())
   userId    String           @map("user_id")
-  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   type      NotificationType @default(INFO)
   title     String
-  message   String           @db.Text
-  link      String?          // Optional link to related content
-
+  message   String
+  link      String?
   read      Boolean          @default(false)
   readAt    DateTime?        @map("read_at")
-
   createdAt DateTime         @default(now()) @map("created_at")
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, read])
   @@index([createdAt(sort: Desc)])
   @@map("notifications")
 }
 
-// ==================== MEDIA LIBRARY ====================
-
 model Media {
-  id          String   @id @default(cuid())
-  filename    String   // original filename
-  filepath    String   @unique // MinIO path
-  url         String   @db.Text // presigned URL (refreshed on access)
-  mimeType    String   @map("mime_type")
-  size        Int      // bytes
-
-  // Image metadata
-  width       Int?
-  height      Int?
-
-  // Organization
-  folder      String?
-  tags        String[]
-
-  // Focal point (for smart cropping)
-  focalPointX Float?   @map("focal_point_x") // 0-100 percentage
-  focalPointY Float?   @map("focal_point_y") // 0-100 percentage
-
-  // Accessibility
-  alt         String?  @db.Text
-
-  // Relations
-  uploadedById String  @map("uploaded_by_id")
-  uploadedBy   User    @relation("MediaUploader", fields: [uploadedById], references: [id])
-
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  id           String   @id @default(cuid())
+  filename     String
+  filepath     String   @unique
+  url          String
+  mimeType     String   @map("mime_type")
+  size         Int
+  width        Int?
+  height       Int?
+  folder       String?
+  tags         String[]
+  focalPointX  Float?   @map("focal_point_x")
+  focalPointY  Float?   @map("focal_point_y")
+  alt          String?
+  uploadedById String   @map("uploaded_by_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  uploadedBy   User     @relation("MediaUploader", fields: [uploadedById], references: [id])
 
   @@index([folder])
   @@index([uploadedById])
@@ -259,19 +198,15 @@ model Media {
   @@map("media")
 }
 
-// ==================== CONTENT TEMPLATES ====================
-
 model ContentTemplate {
   id          String   @id @default(cuid())
   name        String
-  description String?  @db.Text
+  description String?
   category    String   @default("generale")
-  entityType  String   @map("entity_type") // "news" | "events"
-  content     Json     // Stores title, excerpt, body structure
-
+  entityType  String   @map("entity_type")
+  content     Json
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
-
   createdBy   String?  @map("created_by")
   creator     User?    @relation("TemplateCreator", fields: [createdBy], references: [id])
 
@@ -279,4 +214,22 @@ model ContentTemplate {
   @@index([entityType])
   @@index([createdAt(sort: Desc)])
   @@map("content_templates")
+}
+
+enum UserRole {
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
 }

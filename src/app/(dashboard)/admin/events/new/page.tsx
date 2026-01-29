@@ -17,6 +17,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { FileEdit, MapPin, Settings } from "lucide-react";
 
 export default function EventCreatePage() {
   const router = useRouter();
@@ -140,7 +141,7 @@ export default function EventCreatePage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
             <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-              <span className="text-emerald-700 text-sm">📝</span>
+              <FileEdit className="h-4 w-4 text-emerald-700" />
             </div>
             Informazioni Principali
           </h3>
@@ -187,7 +188,7 @@ export default function EventCreatePage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-              <span className="text-blue-700 text-sm">📍</span>
+              <MapPin className="h-4 w-4 text-blue-700" />
             </div>
             Data e Luogo
           </h3>
@@ -258,7 +259,7 @@ export default function EventCreatePage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
             <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-              <span className="text-purple-700 text-sm">⚙️</span>
+              <Settings className="h-4 w-4 text-purple-700" />
             </div>
             Impostazioni
           </h3>
@@ -346,7 +347,7 @@ export default function EventCreatePage() {
 
         {/* Actions */}
         <div className="flex gap-4">
-          <Button type="submit" disabled={loading} size="lg" className="shadow-lg">
+          <Button type="submit" disabled={loading} size="lg" className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
             {loading ? "Creazione..." : "Crea Evento"}
           </Button>
 
@@ -404,7 +405,7 @@ export default function EventCreatePage() {
                 type="text"
                 value={templateName}
                 onChange={(e) => setTemplateName(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                className="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-[#018856]"
                 placeholder="Es. Evento formativo standard"
               />
             </div>
@@ -416,7 +417,7 @@ export default function EventCreatePage() {
                 value={templateDescription}
                 onChange={(e) => setTemplateDescription(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                className="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-[#018856]"
                 placeholder="Breve descrizione del template"
               />
             </div>
@@ -428,7 +429,7 @@ export default function EventCreatePage() {
                 type="text"
                 value={templateCategory}
                 onChange={(e) => setTemplateCategory(e.target.value)}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
+                className="w-full px-3 py-2 border rounded-xl focus:ring-2 focus:ring-[#018856]"
                 placeholder="Es. Eventi formativi"
               />
             </div>

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { AdvancedEditor } from "@/components/editor";
 import { ImageUpload } from "@/components/admin/image-upload";
 import { toast } from "sonner";
+import { FileEdit, MapPin, Settings } from "lucide-react";
 
 interface Event {
   id: string;
@@ -159,7 +160,7 @@ export default function EventEditPage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
             <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-              <span className="text-emerald-700 text-sm">📝</span>
+              <FileEdit className="h-4 w-4 text-emerald-700" />
             </div>
             Informazioni Principali
           </h3>
@@ -206,7 +207,7 @@ export default function EventEditPage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
             <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-              <span className="text-blue-700 text-sm">📍</span>
+              <MapPin className="h-4 w-4 text-blue-700" />
             </div>
             Data e Luogo
           </h3>
@@ -277,7 +278,7 @@ export default function EventEditPage() {
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-6">
           <h3 className="font-bold text-gray-800 pb-3 border-b border-gray-200 flex items-center gap-2">
             <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-              <span className="text-purple-700 text-sm">⚙️</span>
+              <Settings className="h-4 w-4 text-purple-700" />
             </div>
             Impostazioni
           </h3>
@@ -365,7 +366,7 @@ export default function EventEditPage() {
 
         {/* Actions */}
         <div className="flex gap-4">
-          <Button type="submit" disabled={saving} size="lg" className="shadow-lg">
+          <Button type="submit" disabled={saving} size="lg" className="bg-[#018856] hover:bg-[#016b43] shadow-lg">
             {saving ? "Salvataggio..." : "Salva Modifiche"}
           </Button>
 

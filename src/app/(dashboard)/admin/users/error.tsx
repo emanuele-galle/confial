@@ -10,7 +10,7 @@ export default function Error({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error('News page error:', error)
+    console.error('Users page error:', error)
   }, [error])
 
   return (
@@ -32,7 +32,7 @@ export default function Error({
           </svg>
         </div>
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Errore nel caricamento delle news
+          Errore nel caricamento degli utenti
         </h2>
         <p className="text-gray-600 mb-6">
           Si e verificato un errore durante il caricamento della pagina.

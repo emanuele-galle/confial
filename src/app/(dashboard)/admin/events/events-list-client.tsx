@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { SearchBar } from "@/components/admin/search-bar";
 import { FilterDropdown } from "@/components/admin/filter-dropdown";
 import { BulkActionsBar, bulkActions } from "@/components/admin/bulk-actions-bar";
-import { Plus, Edit, Calendar, MapPin } from "lucide-react";
+import { CSVImportDialog } from "@/components/admin/csv-import-dialog";
+import { CSVExportButton } from "@/components/admin/csv-export-button";
+import { Plus, Edit, Calendar, MapPin, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 interface Event {
@@ -27,6 +29,7 @@ export function EventsListClient() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchEvents();
@@ -107,12 +110,28 @@ export function EventsListClient() {
           </p>
         </div>
 
-        <Link href="/admin/events/new">
-          <Button className="shadow-lg">
-            <Plus className="h-4 w-4 mr-2" />
-            Crea Evento
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setImportDialogOpen(true)}
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Importa CSV
           </Button>
-        </Link>
+          <CSVExportButton
+            entityType="events"
+            filters={{
+              status: statusFilter,
+            }}
+          />
+          <Link href="/admin/events/new">
+            <Button className="shadow-lg">
+              <Plus className="h-4 w-4 mr-2" />
+              Crea Evento
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}
@@ -275,6 +294,14 @@ export function EventsListClient() {
           bulkActions.archive((ids) => handleBulkAction("archive", ids)),
           bulkActions.delete((ids) => handleBulkAction("delete", ids)),
         ]}
+      />
+
+      {/* CSV Import Dialog */}
+      <CSVImportDialog
+        entityType="events"
+        open={importDialogOpen}
+        onOpenChange={setImportDialogOpen}
+        onSuccess={fetchEvents}
       />
     </div>
   );

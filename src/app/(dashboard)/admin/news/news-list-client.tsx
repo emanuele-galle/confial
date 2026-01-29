@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { SearchBar } from "@/components/admin/search-bar";
 import { FilterDropdown } from "@/components/admin/filter-dropdown";
 import { BulkActionsBar, bulkActions } from "@/components/admin/bulk-actions-bar";
-import { Plus, Edit, Calendar, Trash2 } from "lucide-react";
+import { CSVImportDialog } from "@/components/admin/csv-import-dialog";
+import { CSVExportButton } from "@/components/admin/csv-export-button";
+import { Plus, Edit, Calendar, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 interface News {
@@ -28,6 +30,7 @@ export function NewsListClient() {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchNews();
@@ -109,12 +112,29 @@ export function NewsListClient() {
           </p>
         </div>
 
-        <Link href="/admin/news/new">
-          <Button className="shadow-lg">
-            <Plus className="h-4 w-4 mr-2" />
-            Crea News
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setImportDialogOpen(true)}
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Importa CSV
           </Button>
-        </Link>
+          <CSVExportButton
+            entityType="news"
+            filters={{
+              status: statusFilter,
+              featured: featuredFilter,
+            }}
+          />
+          <Link href="/admin/news/new">
+            <Button className="shadow-lg">
+              <Plus className="h-4 w-4 mr-2" />
+              Crea News
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Filters */}
@@ -290,6 +310,14 @@ export function NewsListClient() {
           bulkActions.archive((ids) => handleBulkAction("archive", ids)),
           bulkActions.delete((ids) => handleBulkAction("delete", ids)),
         ]}
+      />
+
+      {/* CSV Import Dialog */}
+      <CSVImportDialog
+        entityType="news"
+        open={importDialogOpen}
+        onOpenChange={setImportDialogOpen}
+        onSuccess={fetchNews}
       />
     </div>
   );

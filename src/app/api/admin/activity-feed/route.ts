@@ -17,25 +17,20 @@ export async function GET(request: NextRequest) {
   const limit = parseInt(searchParams.get("limit") || "10", 10);
 
   try {
-    // Build query options
-    const queryOptions: any = {
+    // Fetch audit logs with cursor pagination
+    const auditLogs = await prisma.auditLog.findMany({
       take: limit + 1, // Take one extra to determine if there are more items
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "desc" as const },
       include: {
         user: {
           select: { name: true },
         },
       },
-    };
-
-    // Add cursor pagination if cursor provided
-    if (cursor) {
-      queryOptions.cursor = { id: cursor };
-      queryOptions.skip = 1; // Skip the cursor item itself
-    }
-
-    // Fetch audit logs
-    const auditLogs = await prisma.auditLog.findMany(queryOptions);
+      ...(cursor && {
+        cursor: { id: cursor },
+        skip: 1, // Skip the cursor item itself
+      }),
+    });
 
     // Determine if there are more items
     const hasMore = auditLogs.length > limit;

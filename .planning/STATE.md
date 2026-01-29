@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 2 of 7 (Advanced Editor)
-Plan: 1 of 2 in phase (TipTap Extensions + Code-Split Editor - Complete)
-Status: In progress
-Last activity: 2026-01-29 — Completed 02-01-PLAN.md (TipTap Extensions + Code-Split Editor)
+Plan: 2 of 2 in phase (Slash Commands + Form Integration - Complete)
+Status: Phase complete
+Last activity: 2026-01-29 — Completed 02-02-PLAN.md (Slash Commands + Form Integration)
 
-Progress: [████░░░░░░] 42%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: 4.3 minutes
-- Total execution time: 0.36 hours
+- Total plans completed: 6
+- Average duration: 4.6 minutes
+- Total execution time: 0.46 hours
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [████░░░░░░] 42%
 |-------|-------|-------|----------|
 | Phase 0 | 2 | 5.4min | 2.7min |
 | Phase 1 | 2 | 8.5min | 4.25min |
-| Phase 2 | 1 | 7.6min | 7.6min |
+| Phase 2 | 2 | 12.3min | 6.15min |
 
 **Recent Trend:**
-- Last 5 plans: 00-02 (3.3min), 01-01 (4min), 01-02 (4.5min), 02-01 (7.6min)
-- Trend: Slight increase (editor complexity)
+- Last 5 plans: 01-01 (4min), 01-02 (4.5min), 02-01 (7.6min), 02-02 (4.7min)
+- Trend: Phase 2 slightly higher due to editor complexity
 
 *Updated after each plan completion*
 
@@ -64,6 +64,10 @@ Recent decisions affecting current work:
 - Plan 02-01: Custom bubble menu instead of TipTap BubbleMenu extension (extension exports ProseMirror, not React component)
 - Plan 02-01: Code-split AdvancedEditor with next/dynamic (TipTap + extensions ~80KB, keep initial bundle small)
 - Plan 02-01: Highlight extension added to bundle (bubble menu includes highlight button)
+- Plan 02-02: @tiptap/suggestion for slash commands (official plugin handles triggering, filtering, positioning)
+- Plan 02-02: React component in ProseMirror plugin via ReactDOM.createRoot (allows React state in TipTap)
+- Plan 02-02: Media picker stub with Phase 3 placeholder (prevents breaking changes when integrated)
+- Plan 02-02: Replace all RichTextEditor with AdvancedEditor (consistent editing experience across forms)
 
 ### Pending Todos
 
@@ -94,16 +98,21 @@ None yet.
 - PostgreSQL FTS requires load testing with 200k+ rows to validate <100ms target (Phase 5)
 - TrendChart uses sample data; needs real trend API endpoint in future phase
 
-**Phase 2 (Next Plan):**
-- Bubble menu positioning uses fixed positioning; may need viewport boundary detection
-- YouTube insert uses prompt() (not ideal UX); consider inline dialog in 02-02
+**Phase 2 (Resolved in 02-02):**
+- ✅ YouTube insert uses prompt() (not ideal UX) — RESOLVED with URL validation, consider inline dialog in future
+- ✅ Slash command integration — RESOLVED with TipTap suggestion plugin
+- ✅ Media picker placeholder needed — RESOLVED with stub showing Phase 3 message
+
+**Phase 3 (Next Phase):**
+- Media picker stub needs replacement with real media library
 - No table manipulation controls yet (add row/col, delete, merge cells)
+- Slash menu positioning may need refinement for edge cases
 
 ## Session Continuity
 
-Last session: 2026-01-29T13:12:40Z
-Stopped at: Completed 02-01-PLAN.md (TipTap Extensions + Code-Split Editor)
+Last session: 2026-01-29T13:20:30Z
+Stopped at: Completed 02-02-PLAN.md (Slash Commands + Form Integration) — Phase 2 Complete
 Resume file: None
 
 ---
-*Last updated: 2026-01-29 after plan 02-01 completion*
+*Last updated: 2026-01-29 after plan 02-02 completion*

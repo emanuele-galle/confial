@@ -20,7 +20,7 @@ const updateTemplateSchema = z.object({
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
 
@@ -28,9 +28,11 @@ export async function GET(
     return NextResponse.json({ error: "Non autorizzato" }, { status: 401 });
   }
 
+  const { id } = await params;
+
   try {
     const template = await prisma.contentTemplate.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         creator: {
           select: {
@@ -61,7 +63,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
 
@@ -69,12 +71,14 @@ export async function PATCH(
     return NextResponse.json({ error: "Non autorizzato" }, { status: 401 });
   }
 
+  const { id } = await params;
+
   try {
     const body = await request.json();
     const validated = updateTemplateSchema.parse(body);
 
     const template = await prisma.contentTemplate.update({
-      where: { id: params.id },
+      where: { id },
       data: validated,
       include: {
         creator: {
@@ -91,7 +95,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Dati non validi", details: error.errors },
+        { error: "Dati non validi", details: error.issues },
         { status: 400 }
       );
     }
@@ -106,7 +110,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await auth();
 
@@ -114,9 +118,11 @@ export async function DELETE(
     return NextResponse.json({ error: "Non autorizzato" }, { status: 401 });
   }
 
+  const { id } = await params;
+
   try {
     await prisma.contentTemplate.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ success: true });

@@ -7,9 +7,7 @@ const createTemplateSchema = z.object({
   name: z.string().min(1, "Il nome è obbligatorio"),
   description: z.string().optional(),
   category: z.string().default("generale"),
-  entityType: z.enum(["news", "events"], {
-    errorMap: () => ({ message: "Tipo entità non valido" }),
-  }),
+  entityType: z.enum(["news", "events"] as const),
   content: z.object({
     title: z.string().optional(),
     excerpt: z.string().optional(),
@@ -92,7 +90,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Dati non validi", details: error.errors },
+        { error: "Dati non validi", details: error.issues },
         { status: 400 }
       );
     }

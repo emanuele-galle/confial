@@ -62,7 +62,10 @@ export default async function AdminDashboardPage() {
         }
       }
     }),
-    prisma.document.aggregate({ _sum: { downloadCount: true } }).then(r => r._sum.downloadCount || 0),
+    // Use AuditLog for accurate download tracking (not downloadCount field)
+    prisma.auditLog.count({
+      where: { action: "DOCUMENT_DOWNLOAD" }
+    }),
     prisma.auditLog.count({
       where: {
         action: "DOCUMENT_DOWNLOAD",

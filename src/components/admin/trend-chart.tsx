@@ -21,27 +21,34 @@ export default function TrendChart() {
     async function fetchTrendData() {
       setLoading(true);
       try {
-        // For now, generate sample data client-side
-        // In production, this would fetch from /api/admin/stats/trend?range={selectedRange}
-        const days = selectedRange === "7d" ? 7 : selectedRange === "30d" ? 30 : 90;
-        const trendData: TrendDataPoint[] = [];
+        const response = await fetch(`/api/admin/stats/trend?range=${selectedRange}`);
 
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setData(result.data || []);
+      } catch (error) {
+        console.error("Failed to fetch trend data:", error);
+
+        // Fallback: generate empty data structure to prevent chart crash
+        const days = selectedRange === "7d" ? 7 : selectedRange === "30d" ? 30 : 90;
+        const fallbackData: TrendDataPoint[] = [];
         const today = new Date();
+
         for (let i = days - 1; i >= 0; i--) {
           const date = new Date(today);
           date.setDate(date.getDate() - i);
-
-          trendData.push({
+          fallbackData.push({
             date: date.toLocaleDateString("it-IT", { day: "numeric", month: "short" }),
-            News: Math.floor(Math.random() * 5) + 1,
-            Events: Math.floor(Math.random() * 3) + 1,
-            Documents: Math.floor(Math.random() * 4) + 1,
+            News: 0,
+            Events: 0,
+            Documents: 0,
           });
         }
 
-        setData(trendData);
-      } catch (error) {
-        console.error("Failed to fetch trend data:", error);
+        setData(fallbackData);
       } finally {
         setLoading(false);
       }

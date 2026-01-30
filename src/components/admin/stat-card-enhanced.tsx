@@ -124,7 +124,11 @@ export function StatCardEnhanced({
   const sparklinePath = generateSparklinePath();
 
   return (
-    <div className="group relative overflow-hidden">
+    <article
+      className="group relative overflow-hidden"
+      role="article"
+      aria-label={`${title}: ${value}`}
+    >
       {/* Background Gradient */}
       <div
         className={cn(
@@ -146,27 +150,28 @@ export function StatCardEnhanced({
         <circle cx="270" cy="150" r="30" fill="#fff" fillOpacity="0.12" />
       </svg>
 
-      {/* Card Content */}
+      {/* Card Content - Responsive padding */}
       <div
         className={cn(
-          "relative rounded-2xl border backdrop-blur-sm p-6",
+          "relative rounded-2xl border backdrop-blur-sm p-4 sm:p-6",
           "transition-all duration-300",
           colors.border,
           "group-hover:shadow-2xl group-hover:-translate-y-1",
+          "active:scale-98 touch-manipulation", // Touch-friendly
           colors.glow
         )}
       >
-        <div className="flex items-start justify-between mb-4">
-          <p className="text-sm font-semibold text-white/90">{title}</p>
+        <div className="flex items-start justify-between mb-3 sm:mb-4">
+          <p className="text-xs sm:text-sm font-semibold text-white/90">{title}</p>
           <div
             className={cn(
-              "w-12 h-12 rounded-xl flex items-center justify-center",
+              "w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center",
               "backdrop-blur-md border border-white/20",
               "transition-all duration-300 group-hover:scale-110 group-hover:rotate-3",
               colors.iconBg
             )}
           >
-            <Icon className={cn("h-6 w-6", colors.iconText)} />
+            <Icon className={cn("h-5 w-5 sm:h-6 sm:w-6", colors.iconText)} />
           </div>
         </div>
 
@@ -174,7 +179,7 @@ export function StatCardEnhanced({
         <div className="flex items-end justify-between mb-3">
           <p
             ref={countRef}
-            className="text-4xl font-bold text-white tracking-tight"
+            className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight"
           >
             0
           </p>
@@ -239,6 +244,6 @@ export function StatCardEnhanced({
           <div className="absolute -top-full -left-full h-full w-full bg-gradient-to-r from-transparent via-white/10 to-transparent rotate-45 group-hover:translate-x-full group-hover:translate-y-full transition-transform duration-1000" />
         </div>
       </div>
-    </div>
+    </article>
   );
 }

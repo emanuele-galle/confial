@@ -81,7 +81,11 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#018856] via-[#016b43] to-[#015a3d] rounded-2xl p-8 shadow-xl">
+      <div
+        className="relative overflow-hidden bg-gradient-to-br from-[#018856] via-[#016b43] to-[#015a3d] rounded-2xl p-8 shadow-xl"
+        role="banner"
+        aria-label="Dashboard header"
+      >
         {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl" />
         <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-white/5 rounded-full blur-2xl" />
@@ -96,8 +100,8 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stats Grid - Responsive: 1 col mobile, 2 col tablet, 4 col desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
         <StatCardEnhanced
           title="News Totali"
           value={stats.newsCount}
@@ -132,8 +136,8 @@ export default async function AdminDashboardPage() {
         />
       </div>
 
-      {/* Trend Chart & Activity Feed Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Trend Chart & Activity Feed Row - Responsive: stack on mobile/tablet */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         <div className="lg:col-span-2">
           <TrendChart />
         </div>
@@ -142,8 +146,8 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Two Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Two Column Layout - Responsive: stack on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Recent News */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
           <div className="p-6 border-b border-gray-100">
@@ -284,15 +288,15 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl p-8 text-white shadow-xl border border-gray-700">
+      {/* Quick Actions - Responsive padding */}
+      <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl p-4 sm:p-6 lg:p-8 text-white shadow-xl border border-gray-700">
         <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
           <div className="w-8 h-8 bg-[#018856] rounded-lg flex items-center justify-center">
             <TrendingUp className="h-5 w-5" />
           </div>
           Azioni Rapide
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           <Link
             href="/admin/news/new"
             className="group bg-white/5 hover:bg-white/10 backdrop-blur border border-white/10 hover:border-[#018856]/50 rounded-xl p-6 transition-all hover:scale-105 hover:shadow-2xl"

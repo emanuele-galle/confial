@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
@@ -11,7 +12,6 @@ import {
   Users,
   Settings,
   LogOut,
-  Sparkles,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -35,11 +35,17 @@ export function DashboardSidebar({ user, onNavClick }: DashboardSidebarProps) {
   return (
     <div className="h-full w-64 bg-white border-r border-gray-200 flex flex-col shadow-sm">
       {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-gray-200 bg-gradient-to-r from-[#018856] to-[#016b43] flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-6 w-6 text-white" />
-          <h1 className="text-xl font-bold text-white">CONFIAL</h1>
-        </div>
+      <div className="h-16 flex items-center px-6 border-b border-gray-200 bg-white flex-shrink-0">
+        <Link href="/admin" className="flex items-center gap-2 w-full">
+          <Image
+            src="/images/logo/logo-confial-orizzontale.png"
+            alt="CONFIAL Logo"
+            width={160}
+            height={40}
+            className="h-10 w-auto object-contain"
+            priority
+          />
+        </Link>
       </div>
 
       {/* Navigation */}

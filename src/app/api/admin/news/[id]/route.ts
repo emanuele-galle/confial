@@ -25,7 +25,7 @@ export async function GET(
     return NextResponse.json({ error: "News non trovata" }, { status: 404 });
   }
 
-  return NextResponse.json(news);
+  return NextResponse.json({ data: news });
 }
 
 export async function PATCH(

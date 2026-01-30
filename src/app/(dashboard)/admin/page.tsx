@@ -288,50 +288,50 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Quick Actions - Responsive padding */}
-      <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-2xl p-4 sm:p-6 lg:p-8 text-white shadow-xl border border-gray-700">
-        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-          <div className="w-8 h-8 bg-[#018856] rounded-lg flex items-center justify-center">
-            <TrendingUp className="h-5 w-5" />
+      {/* Quick Actions - Tema chiaro con accent CONFIAL verde */}
+      <div className="bg-white rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg border border-gray-200">
+        <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-gray-800">
+          <div className="w-10 h-10 bg-gradient-to-br from-[#018856] to-[#016b43] rounded-xl flex items-center justify-center">
+            <TrendingUp className="h-5 w-5 text-white" />
           </div>
           Azioni Rapide
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           <Link
             href="/admin/news/new"
-            className="group bg-white/5 hover:bg-white/10 backdrop-blur border border-white/10 hover:border-[#018856]/50 rounded-xl p-6 transition-all hover:scale-105 hover:shadow-2xl"
+            className="group bg-gradient-to-br from-emerald-50 to-teal-50 hover:from-emerald-100 hover:to-teal-100 border-2 border-emerald-200 hover:border-emerald-400 rounded-xl p-6 transition-all hover:scale-105 hover:shadow-xl"
           >
-            <div className="w-12 h-12 bg-emerald-500/20 group-hover:bg-emerald-500/30 rounded-xl flex items-center justify-center mb-4 transition-colors">
-              <Newspaper className="h-6 w-6 text-emerald-400" />
+            <div className="w-12 h-12 bg-gradient-to-br from-[#018856] to-[#016b43] group-hover:shadow-lg rounded-xl flex items-center justify-center mb-4 transition-all group-hover:scale-110">
+              <Newspaper className="h-6 w-6 text-white" />
             </div>
-            <p className="font-bold text-lg mb-2 text-white">Crea News</p>
-            <p className="text-sm text-gray-400">
+            <p className="font-bold text-lg mb-2 text-gray-800">Crea News</p>
+            <p className="text-sm text-gray-600">
               Pubblica una nuova notizia
             </p>
           </Link>
 
           <Link
             href="/admin/documents/new"
-            className="group bg-white/5 hover:bg-white/10 backdrop-blur border border-white/10 hover:border-blue-500/50 rounded-xl p-6 transition-all hover:scale-105 hover:shadow-2xl"
+            className="group bg-gradient-to-br from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-2 border-blue-200 hover:border-blue-400 rounded-xl p-6 transition-all hover:scale-105 hover:shadow-xl"
           >
-            <div className="w-12 h-12 bg-blue-500/20 group-hover:bg-blue-500/30 rounded-xl flex items-center justify-center mb-4 transition-colors">
-              <FileText className="h-6 w-6 text-blue-400" />
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 group-hover:shadow-lg rounded-xl flex items-center justify-center mb-4 transition-all group-hover:scale-110">
+              <FileText className="h-6 w-6 text-white" />
             </div>
-            <p className="font-bold text-lg mb-2 text-white">Carica Documento</p>
-            <p className="text-sm text-gray-400">
+            <p className="font-bold text-lg mb-2 text-gray-800">Carica Documento</p>
+            <p className="text-sm text-gray-600">
               Aggiungi un nuovo PDF
             </p>
           </Link>
 
           <Link
             href="/admin/events/new"
-            className="group bg-white/5 hover:bg-white/10 backdrop-blur border border-white/10 hover:border-purple-500/50 rounded-xl p-6 transition-all hover:scale-105 hover:shadow-2xl"
+            className="group bg-gradient-to-br from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 border-2 border-purple-200 hover:border-purple-400 rounded-xl p-6 transition-all hover:scale-105 hover:shadow-xl"
           >
-            <div className="w-12 h-12 bg-purple-500/20 group-hover:bg-purple-500/30 rounded-xl flex items-center justify-center mb-4 transition-colors">
-              <Calendar className="h-6 w-6 text-purple-400" />
+            <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 group-hover:shadow-lg rounded-xl flex items-center justify-center mb-4 transition-all group-hover:scale-110">
+              <Calendar className="h-6 w-6 text-white" />
             </div>
-            <p className="font-bold text-lg mb-2 text-white">Crea Evento</p>
-            <p className="text-sm text-gray-400">
+            <p className="font-bold text-lg mb-2 text-gray-800">Crea Evento</p>
+            <p className="text-sm text-gray-600">
               Pianifica un nuovo evento
             </p>
           </Link>

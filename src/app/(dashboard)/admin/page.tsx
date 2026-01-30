@@ -21,40 +21,127 @@ const TrendChart = dynamic(
 export default async function AdminDashboardPage() {
   const session = await auth();
 
-  // Fetch stats from API with caching
-  let stats = {
-    newsCount: 0,
-    publishedNewsCount: 0,
-    documentsCount: 0,
-    downloadsCount: 0,
-    newsSparkline: [] as number[],
-    publishedNewsSparkline: [] as number[],
-    documentsSparkline: [] as number[],
-    downloadsSparkline: [] as number[],
-    newsChange: { value: 0, isPositive: true },
-    publishedNewsChange: { value: 0, isPositive: true },
-    documentsChange: { value: 0, isPositive: true },
-    downloadsChange: { value: 0, isPositive: true },
+  // Calculate stats directly with Prisma (avoid SSR fetch auth issues)
+  const now = new Date();
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  const fourteenDaysAgo = new Date();
+  fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
+  // Parallel queries for performance
+  const [
+    newsCount,
+    publishedNewsCount,
+    newsLast7Days,
+    newsPrevious7Days,
+    documentsCount,
+    documentsLast7Days,
+    documentsPrevious7Days,
+    downloadsCount,
+    downloadsLast7Days,
+    downloadsPrevious7Days,
+  ] = await Promise.all([
+    prisma.news.count(),
+    prisma.news.count({ where: { status: "PUBLISHED" } }),
+    prisma.news.count({ where: { createdAt: { gte: sevenDaysAgo } } }),
+    prisma.news.count({
+      where: {
+        createdAt: {
+          gte: fourteenDaysAgo,
+          lt: sevenDaysAgo
+        }
+      }
+    }),
+    prisma.document.count(),
+    prisma.document.count({ where: { uploadedAt: { gte: sevenDaysAgo } } }),
+    prisma.document.count({
+      where: {
+        uploadedAt: {
+          gte: fourteenDaysAgo,
+          lt: sevenDaysAgo
+        }
+      }
+    }),
+    prisma.document.aggregate({ _sum: { downloadCount: true } }).then(r => r._sum.downloadCount || 0),
+    prisma.auditLog.count({
+      where: {
+        action: "DOCUMENT_DOWNLOAD",
+        createdAt: { gte: sevenDaysAgo }
+      }
+    }),
+    prisma.auditLog.count({
+      where: {
+        action: "DOCUMENT_DOWNLOAD",
+        createdAt: {
+          gte: fourteenDaysAgo,
+          lt: sevenDaysAgo
+        }
+      }
+    }),
+  ]);
+
+  // Calculate percentage changes
+  const calculateChange = (current: number, previous: number) => {
+    if (previous === 0) {
+      return { value: current > 0 ? 100 : 0, isPositive: current > 0 };
+    }
+    const change = ((current - previous) / previous) * 100;
+    return { value: Math.abs(Math.round(change)), isPositive: change >= 0 };
   };
 
-  try {
-    const baseUrl = process.env.NEXTAUTH_URL || `http://localhost:3020`;
-    const statsResponse = await fetch(`${baseUrl}/api/admin/stats`, {
-      next: { revalidate: 300 },
-      headers: {
-        'Cookie': `next-auth.session-token=${session?.user?.id || ''}`,
-      },
-    });
+  // Generate sparkline data (last 7 days)
+  const sparklineData = await Promise.all(
+    Array.from({ length: 7 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - i));
+      date.setHours(0, 0, 0, 0);
+      const nextDate = new Date(date);
+      nextDate.setDate(nextDate.getDate() + 1);
 
-    // Check if response is JSON before parsing
-    const contentType = statsResponse.headers.get("content-type");
-    if (statsResponse.ok && contentType && contentType.includes("application/json")) {
-      stats = await statsResponse.json();
-    }
-  } catch (error) {
-    console.error("Failed to fetch stats:", error);
-    // Use default empty stats
-  }
+      return Promise.all([
+        prisma.news.count({
+          where: {
+            createdAt: {
+              gte: date,
+              lt: nextDate
+            }
+          }
+        }),
+        prisma.document.count({
+          where: {
+            uploadedAt: {
+              gte: date,
+              lt: nextDate
+            }
+          }
+        }),
+        prisma.auditLog.count({
+          where: {
+            action: "DOCUMENT_DOWNLOAD",
+            createdAt: {
+              gte: date,
+              lt: nextDate
+            }
+          }
+        }),
+      ]);
+    })
+  );
+
+  const stats = {
+    newsCount,
+    publishedNewsCount,
+    documentsCount,
+    downloadsCount,
+    newsSparkline: sparklineData.map(d => d[0]),
+    publishedNewsSparkline: sparklineData.map(d => d[0]), // Same as news for now
+    documentsSparkline: sparklineData.map(d => d[1]),
+    downloadsSparkline: sparklineData.map(d => d[2]),
+    newsChange: calculateChange(newsLast7Days, newsPrevious7Days),
+    publishedNewsChange: calculateChange(newsLast7Days, newsPrevious7Days),
+    documentsChange: calculateChange(documentsLast7Days, documentsPrevious7Days),
+    downloadsChange: calculateChange(downloadsLast7Days, downloadsPrevious7Days),
+  };
 
   // Get recent news
   const recentNews = await prisma.news.findMany({
@@ -92,7 +179,7 @@ export default async function AdminDashboardPage() {
 
         <div className="relative z-10">
           <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg">
-            Benvenuto, {session?.user?.name}! 👋
+            Benvenuto, {session?.user?.name || session?.user?.email?.split('@')[0] || 'Admin'}! 👋
           </h1>
           <p className="text-emerald-100 text-lg font-medium">
             Gestisci i contenuti della piattaforma FAILMS

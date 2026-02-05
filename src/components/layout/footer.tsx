@@ -144,11 +144,11 @@ export function Footer() {
         {/* Contact info */}
         <div className="mt-16 pt-8 border-t border-gray-800">
           <div className="flex flex-wrap gap-8 text-sm">
-            <a href="mailto:failm.nazionale@confial.it" className="flex items-center text-gray-400 hover:text-emerald-400 transition-colors group">
+            <a href="mailto:failms.nazionale@confial.it" className="flex items-center text-gray-400 hover:text-emerald-400 transition-colors group">
               <div className="w-10 h-10 bg-gray-800/50 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-900/30 transition-colors">
                 <Mail className="h-4 w-4" />
               </div>
-              failm.nazionale@confial.it
+              failms.nazionale@confial.it
             </a>
             <a href="tel:+390815538186" className="flex items-center text-gray-400 hover:text-emerald-400 transition-colors group">
               <div className="w-10 h-10 bg-gray-800/50 rounded-lg flex items-center justify-center mr-3 group-hover:bg-emerald-900/30 transition-colors">
@@ -167,15 +167,30 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">
-            &copy; {year} FAILMS - CONFIAL. Tutti i diritti riservati.
-          </p>
+          <div className="text-center md:text-left">
+            <p className="text-gray-500 text-sm">
+              &copy; {year} FAILMS - CONFIAL. Tutti i diritti riservati.
+            </p>
+            <p className="text-gray-600 text-xs mt-1">
+              Realizzato da{" "}
+              <a href="https://www.pieromuscari.it" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">
+                Piero Muscari Storytailor
+              </a>{" "}
+              in collaborazione con{" "}
+              <a href="https://www.fodisrl.it" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">
+                Fodi S.r.l.
+              </a>
+            </p>
+          </div>
           <div className="flex items-center space-x-6 text-sm">
             <Link href="/privacy" className="text-gray-500 hover:text-emerald-400 transition-colors">
               Privacy Policy
             </Link>
             <Link href="/cookie" className="text-gray-500 hover:text-emerald-400 transition-colors">
               Cookie Policy
+            </Link>
+            <Link href="/termini" className="text-gray-500 hover:text-emerald-400 transition-colors">
+              Termini e Condizioni
             </Link>
           </div>
         </div>

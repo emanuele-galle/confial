@@ -184,6 +184,25 @@ export default function CookiePage() {
                   </ul>
                 </div>
 
+                {/* Section 6 - Sviluppo */}
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
+                    <Shield className="h-6 w-6 text-gray-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900 mb-3">6. Sviluppo e Gestione Tecnica del Sito</h2>
+                    <p className="text-gray-600">Questo sito web è stato realizzato e viene gestito da:</p>
+                    <p className="text-gray-600 mt-2">
+                      <strong>FODI S.r.l. – Startup Innovativa</strong><br />
+                      Via Santicelli 18/A, 88068 Soverato (CZ)<br />
+                      P.IVA: 03856160793<br />
+                      Email: <a href="mailto:info@fodisrl.it" className="text-emerald-600 hover:underline">info@fodisrl.it</a><br />
+                      Tel: +39 0963 576433<br />
+                      Web: <a href="https://www.fodisrl.it" target="_blank" rel="noopener noreferrer" className="text-emerald-600 hover:underline">www.fodisrl.it</a>
+                    </p>
+                  </div>
+                </div>
+
               </div>
 
               {/* Contact */}

@@ -1,12 +1,62 @@
-version: '3.8'
-
 services:
-  postgres:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    container_name: confial-app
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - traefik-public
+      - panel-internal
+      - default
     labels:
-      - "traefik.http.routers.failms-org.rule=Host(`failms.org`)"
-      - "traefik.http.routers.failms-org.entrypoints=websecure"
-      - "traefik.http.routers.failms-org.tls=true"
-      - "traefik.http.routers.failms-org.tls.certresolver=letsencrypt"
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      # Router principale: failms.org
+      - "traefik.http.routers.confial.rule=Host(`failms.org`)"
+      - "traefik.http.routers.confial.entrypoints=websecure"
+      - "traefik.http.routers.confial.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.confial.middlewares=confial-www-redirect,security-headers@file,compress@file"
+      - "traefik.http.services.confial.loadbalancer.server.port=3000"
+      # Router www redirect
+      - "traefik.http.routers.confial-www.rule=Host(`www.failms.org`)"
+      - "traefik.http.routers.confial-www.entrypoints=websecure"
+      - "traefik.http.routers.confial-www.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.confial-www.middlewares=confial-www-redirect"
+      - "traefik.http.routers.confial-www.service=confial"
+      # Router HTTP redirect
+      - "traefik.http.routers.confial-http.rule=Host(`failms.org`) || Host(`www.failms.org`)"
+      - "traefik.http.routers.confial-http.entrypoints=web"
+      - "traefik.http.routers.confial-http.middlewares=redirect-to-https@file"
+      - "traefik.http.routers.confial-http.service=confial"
+      # Router legacy fodivps1
+      - "traefik.http.routers.confial-legacy.rule=Host(`confial.fodivps1.cloud`)"
+      - "traefik.http.routers.confial-legacy.entrypoints=websecure"
+      - "traefik.http.routers.confial-legacy.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.confial-legacy.middlewares=confial-legacy-redirect"
+      - "traefik.http.routers.confial-legacy.service=confial"
+      # Middleware: www -> non-www
+      - "traefik.http.middlewares.confial-www-redirect.redirectregex.regex=^https://www\\.failms\\.org/(.*)"
+      - "traefik.http.middlewares.confial-www-redirect.redirectregex.replacement=https://failms.org/$${1}"
+      - "traefik.http.middlewares.confial-www-redirect.redirectregex.permanent=true"
+      # Middleware: legacy -> production
+      - "traefik.http.middlewares.confial-legacy-redirect.redirectregex.regex=^https://confial\\.fodivps1\\.cloud/(.*)"
+      - "traefik.http.middlewares.confial-legacy-redirect.redirectregex.replacement=https://failms.org/$${1}"
+      - "traefik.http.middlewares.confial-legacy-redirect.redirectregex.permanent=true"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  postgres:
     image: postgres:18-alpine
     container_name: confial-postgres
     restart: unless-stopped
@@ -19,12 +69,12 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
-      - traefik-public
+      - default
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U confial_user -d confial_db"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      interval: 10s
+      timeout: 5s
+      retries: 5
       start_period: 30s
 
 volumes:
@@ -32,4 +82,6 @@ volumes:
 
 networks:
   traefik-public:
+    external: true
+  panel-internal:
     external: true

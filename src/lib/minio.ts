@@ -1,9 +1,11 @@
 import { Client } from "minio";
 
+const minioUrl = new URL(process.env.MINIO_ENDPOINT || "http://127.0.0.1:9000");
+
 export const minioClient = new Client({
-  endPoint: "127.0.0.1",
-  port: 9000,
-  useSSL: false,
+  endPoint: minioUrl.hostname,
+  port: Number(minioUrl.port) || 9000,
+  useSSL: minioUrl.protocol === "https:",
   accessKey: process.env.MINIO_ACCESS_KEY!,
   secretKey: process.env.MINIO_SECRET_KEY!,
 });

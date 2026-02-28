@@ -60,13 +60,16 @@ export const authConfig: NextAuthConfig = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- next-auth type extension
         token.role = (user as any).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- next-auth type extension
         (session.user as any).id = token.id as string;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- next-auth type extension
         (session.user as any).role = token.role as string;
       }
       return session;

@@ -144,5 +144,5 @@ export const adminTheme = {
   },
 } as const;
 
-export type StatCardVariant = keyof typeof adminTheme.statCardVariants;
-export type BadgeVariant = keyof typeof adminTheme.badgeVariants;
+type StatCardVariant = keyof typeof adminTheme.statCardVariants;
+type BadgeVariant = keyof typeof adminTheme.badgeVariants;

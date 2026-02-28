@@ -115,6 +115,7 @@ export async function POST(request: NextRequest) {
 }
 
 // Helper functions for batch operations
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma transaction client
 async function executeBatchNews(tx: any, action: string, id: string) {
   switch (action) {
     case "delete":
@@ -144,6 +145,7 @@ async function executeBatchNews(tx: any, action: string, id: string) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma transaction client
 async function executeBatchEvents(tx: any, action: string, id: string) {
   switch (action) {
     case "delete":
@@ -170,6 +172,7 @@ async function executeBatchEvents(tx: any, action: string, id: string) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma transaction client
 async function executeBatchDocuments(tx: any, action: string, id: string): Promise<string | null> {
   switch (action) {
     case "delete":

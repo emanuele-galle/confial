@@ -1,16 +1,16 @@
 import { NextRequest } from "next/server";
 import { prisma } from "./prisma";
 
-export type AuditAction = "CREATE" | "UPDATE" | "DELETE" | "LOGIN" | "LOGOUT";
-export type AuditEntityType = "news" | "events" | "documents" | "users";
+type AuditAction = "CREATE" | "UPDATE" | "DELETE" | "LOGIN" | "LOGOUT";
+type AuditEntityType = "news" | "events" | "documents" | "users";
 
 interface LogActionParams {
   userId: string;
   action: AuditAction;
   entityType: AuditEntityType;
   entityId: string;
-  oldValues?: Record<string, any>;
-  newValues?: Record<string, any>;
+  oldValues?: Record<string, unknown>;
+  newValues?: Record<string, unknown>;
   req: NextRequest;
 }
 
@@ -41,7 +41,7 @@ export async function logAction(params: LogActionParams) {
 }
 
 // Helper to sanitize sensitive data before logging
-export function sanitizeValues(data: Record<string, any>): Record<string, any> {
+function sanitizeValues(data: Record<string, unknown>): Record<string, unknown> {
   const sanitized = { ...data };
   const sensitiveKeys = ["password", "token", "secret", "apiKey"];
 

@@ -119,7 +119,7 @@ export default function ChiSiamoPage() {
 
               <RevealOnScroll delay={200}>
                 <p className="text-lg text-white/70 mb-8 leading-relaxed max-w-lg">
-                  Il sindacato dell'industria metalmeccanica e siderurgica che costruisce futuro nei luoghi di lavoro.
+                  Il sindacato dell&apos;industria metalmeccanica e siderurgica che costruisce futuro nei luoghi di lavoro.
                 </p>
               </RevealOnScroll>
 

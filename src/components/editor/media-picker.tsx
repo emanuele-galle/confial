@@ -58,7 +58,7 @@ export function MediaPicker({ open, onClose, onSelect }: MediaPickerProps) {
       <Dialog open={open} onOpenChange={onClose}>
         <DialogContent className="max-h-[90vh] max-w-[90vw]">
           <DialogHeader>
-            <DialogTitle>Seleziona un'immagine</DialogTitle>
+            <DialogTitle>Seleziona un&apos;immagine</DialogTitle>
           </DialogHeader>
 
           {/* Media Library in dialog mode */}

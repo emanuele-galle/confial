@@ -41,21 +41,42 @@
     src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuDyYAZ9hiJ-Ek-_EeA.woff2') format('woff2');
   }
 
+  /* IBM Plex Sans - Geometric, engineered aesthetic */
   @font-face {
-    font-family: 'Space Grotesk';
+    font-family: 'IBM Plex Sans';
     font-style: normal;
-    font-weight: 500;
+    font-weight: 400;
     font-display: swap;
-    src: url('https://fonts.gstatic.com/s/spacegrotesk/v16/V8mDoQDjQSkFtoMM3T6r8E7mPb54C_k3HqUtEw.woff2') format('woff2');
+    src: url('https://fonts.gstatic.com/s/ibmplexsans/v19/zYXgKVElMYYaJe8bpLHnCwDKhdzeFaxOedfTDw.woff2') format('woff2');
   }
 
   @font-face {
-    font-family: 'Space Grotesk';
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/ibmplexsans/v19/zYX9KVElMYYaJe8bpLHnCwDKjSL9AIFsdP3pBmtF8A.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('https://fonts.gstatic.com/s/ibmplexsans/v19/zYX9KVElMYYaJe8bpLHnCwDKjQ76AIFsdP3pBmtF8A.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'IBM Plex Sans';
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url('https://fonts.gstatic.com/s/spacegrotesk/v16/V8mDoQDjQSkFtoMM3T6r8E7mPb5iCvk3HqUtEw.woff2') format('woff2');
+    src: url('https://fonts.gstatic.com/s/ibmplexsans/v19/zYX9KVElMYYaJe8bpLHnCwDKjWr7AIFsdP3pBmtF8A.woff2') format('woff2');
   }
+
+  /* Fraunces removed - using IBM Plex Sans for all headings */
+
+  /* Space Grotesk removed - using IBM Plex Sans instead */
 
   :root {
     --background: #ffffff;
@@ -89,7 +110,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 700;
     color: var(--foreground);
     line-height: 1.1;
@@ -155,6 +176,33 @@
   /* Ensure links are underlined in high contrast */
   .high-contrast a:not(.no-underline) {
     text-decoration: underline;
+  }
+
+  /* Dashboard animations */
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 0.08;
+    }
+    50% {
+      opacity: 0.12;
+    }
+  }
+
+  @keyframes pulse-slower {
+    0%, 100% {
+      opacity: 0.06;
+    }
+    50% {
+      opacity: 0.10;
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+  .animate-pulse-slower {
+    animation: pulse-slower 6s ease-in-out infinite;
   }
 
   /* Premium scrollbar */

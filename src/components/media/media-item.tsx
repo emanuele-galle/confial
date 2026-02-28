@@ -11,6 +11,7 @@ interface MediaItemProps {
     width?: number | null;
     height?: number | null;
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic media callback
   onSelect: (media: any) => void;
   isSelected: boolean;
 }

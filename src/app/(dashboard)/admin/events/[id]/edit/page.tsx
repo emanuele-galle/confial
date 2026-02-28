@@ -144,7 +144,7 @@ export default function EventEditPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">Modifica Evento</h1>
-          <p className="text-gray-600 mt-1">Aggiorna i dettagli dell'evento</p>
+          <p className="text-gray-600 mt-1">Aggiorna i dettagli dell&apos;evento</p>
         </div>
         <Button
           variant="outline"
@@ -335,7 +335,7 @@ export default function EventEditPage() {
                   Evento in evidenza
                 </span>
                 <span className="text-xs text-gray-500">
-                  L'evento apparirà nella homepage
+                  L&apos;evento apparirà nella homepage
                 </span>
               </div>
             </label>
@@ -357,7 +357,7 @@ export default function EventEditPage() {
                   Registrazioni aperte
                 </span>
                 <span className="text-xs text-gray-500">
-                  Gli utenti possono registrarsi all'evento
+                  Gli utenti possono registrarsi all&apos;evento
                 </span>
               </div>
             </label>

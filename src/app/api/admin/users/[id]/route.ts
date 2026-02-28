@@ -46,7 +46,7 @@ export async function PATCH(
   }
 
   // Only SUPER_ADMIN can update users
-  if ((session.user as any).role !== "SUPER_ADMIN") {
+  if ((session.user as { role: string }).role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
   }
 
@@ -96,14 +96,14 @@ export async function DELETE(
   }
 
   // Only SUPER_ADMIN can delete users
-  if ((session.user as any).role !== "SUPER_ADMIN") {
+  if ((session.user as { role: string }).role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
   }
 
   const { id } = await params;
 
   // Prevent self-deletion
-  if (id === (session.user as any).id) {
+  if (id === (session.user as { id: string }).id) {
     return NextResponse.json(
       { error: "Non puoi eliminare il tuo account" },
       { status: 400 }

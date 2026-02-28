@@ -37,7 +37,7 @@ export default function NewsCreatePage() {
     watch,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm<any>({
+  } = useForm({
     resolver: zodResolver(createNewsSchema),
     defaultValues: {
       title: "",
@@ -76,6 +76,7 @@ export default function NewsCreatePage() {
     }
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- matches TemplateContent callback
   const handleLoadTemplate = (templateContent: any) => {
     if (templateContent.title) setValue("title", templateContent.title);
     if (templateContent.excerpt) setValue("excerpt", templateContent.excerpt);

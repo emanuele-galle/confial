@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports -- tiptap extension types */
 import { Extension, type Editor } from "@tiptap/core";
 import { PluginKey } from "@tiptap/pm/state";
 import Suggestion, { type SuggestionOptions } from "@tiptap/suggestion";
@@ -22,7 +23,7 @@ export interface SlashCommand {
   command: ((editor: any) => void) | "media-picker" | "youtube";
 }
 
-export const slashCommands: SlashCommand[] = [
+const slashCommands: SlashCommand[] = [
   {
     title: "Titolo 1",
     description: "Intestazione principale",
@@ -89,7 +90,7 @@ export const slashCommands: SlashCommand[] = [
   },
 ];
 
-export interface SlashCommandsOptions {
+interface SlashCommandsOptions {
   onMediaPicker?: () => void;
   onYoutube?: () => void;
 }

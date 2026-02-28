@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest) {
   // Mark all unread notifications as read
   const result = await prisma.notification.updateMany({
     where: {
-      userId: (session.user as any).id,
+      userId: (session.user as { id: string }).id,
       read: false,
     },
     data: {

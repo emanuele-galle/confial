@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
   const skip = (page - 1) * limit;
 
   // Build where clause with filters
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic Prisma where clause
   const where: any = {};
 
   // Category filter
@@ -126,7 +127,7 @@ export async function POST(request: NextRequest) {
         filepath,
         fileSize: file.size,
         mimeType: file.type,
-        uploadedById: (session.user as any).id,
+        uploadedById: (session.user as { id: string }).id,
       },
       include: {
         uploadedBy: {

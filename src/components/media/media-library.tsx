@@ -59,6 +59,7 @@ export function MediaLibrary({ mode, onSelect, isOpen = true, onClose }: MediaLi
   const { data, error, isLoading, mutate } = useSWR(apiUrl, fetcher);
 
   // Extract unique folders and tags from all items
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const folders = useMemo(() => {
     if (!data?.items) return [];
     const uniqueFolders = new Set<string>();
@@ -68,6 +69,7 @@ export function MediaLibrary({ mode, onSelect, isOpen = true, onClose }: MediaLi
     return Array.from(uniqueFolders).sort();
   }, [data?.items]);
 
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization
   const allTags = useMemo(() => {
     if (!data?.items) return [];
     const uniqueTags = new Set<string>();
@@ -199,7 +201,7 @@ export function MediaLibrary({ mode, onSelect, isOpen = true, onClose }: MediaLi
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="max-h-[90vh] max-w-[90vw]">
           <DialogHeader>
-            <DialogTitle>Seleziona un'immagine</DialogTitle>
+            <DialogTitle>Seleziona un&apos;immagine</DialogTitle>
           </DialogHeader>
           {content}
         </DialogContent>

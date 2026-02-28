@@ -14,5 +14,5 @@ export const updateUserSchema = z.object({
   role: z.enum(["ADMIN", "SUPER_ADMIN"]).optional(),
 });
 
-export type CreateUserInput = z.infer<typeof createUserSchema>;
-export type UpdateUserInput = z.infer<typeof updateUserSchema>;
+type CreateUserInput = z.infer<typeof createUserSchema>;
+type UpdateUserInput = z.infer<typeof updateUserSchema>;

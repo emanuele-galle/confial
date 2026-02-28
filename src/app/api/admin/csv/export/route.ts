@@ -27,7 +27,8 @@ export async function GET(request: NextRequest) {
     }
 
     // Build where clause for filters
-    const where: any = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic Prisma where clause
+  const where: any = {};
     if (status) {
       where.status = status;
     }

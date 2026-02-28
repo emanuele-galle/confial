@@ -12,6 +12,7 @@ type ValidationResult = {
   invalid: Array<{ row: number; errors: string[] }>;
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity -- complex CSV import logic
 export async function POST(request: NextRequest) {
   const session = await auth();
 

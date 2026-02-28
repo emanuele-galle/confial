@@ -25,8 +25,8 @@ const contatti = [
   {
     icon: Mail,
     title: "Email",
-    value: "failm.nazionale@confial.it",
-    href: "mailto:failm.nazionale@confial.it",
+    value: "failms.nazionale@confial.it",
+    href: "mailto:failms.nazionale@confial.it",
     color: "emerald",
   },
   {
@@ -358,7 +358,7 @@ export default function ContattiPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-20">
           <div className="text-center mb-6 sm:mb-8">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Documenti Utili</h2>
-            <p className="text-gray-600 text-sm">Scarica i moduli per l'adesione a CONFIAL FAILMS</p>
+            <p className="text-gray-600 text-sm">Scarica i moduli per l&apos;adesione a CONFIAL FAILMS</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
@@ -423,8 +423,8 @@ export default function ContattiPage() {
           <div className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-xl max-w-3xl mx-auto">
             <p className="text-sm text-gray-700 text-center">
               Una volta compilati, invia i moduli via email a{" "}
-              <a href="mailto:failm.nazionale@confial.it" className="font-semibold text-[#018856] hover:underline">
-                failm.nazionale@confial.it
+              <a href="mailto:failms.nazionale@confial.it" className="font-semibold text-[#018856] hover:underline">
+                failms.nazionale@confial.it
               </a>
             </p>
           </div>

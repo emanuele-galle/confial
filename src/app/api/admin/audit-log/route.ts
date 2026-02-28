@@ -18,6 +18,7 @@ export async function GET(request: NextRequest) {
   const userId = searchParams.get("userId") || "";
 
   // Build where clause
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic Prisma where clause
   const where: any = {};
 
   if (entityType) {

@@ -45,6 +45,7 @@ export async function PATCH(
 
   const data = validationResult.data;
   if (data.eventDate) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- date type coercion
     (data as any).eventDate = new Date(data.eventDate);
   }
 
@@ -64,11 +65,13 @@ export async function PATCH(
       // Log within same transaction
       await tx.auditLog.create({
         data: {
-          userId: (session.user as any).id,
+          userId: (session.user as { id: string }).id,
           action: "UPDATE",
           entityType: "events",
           entityId: id,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma model to JSON
           oldValues: oldEvent as any,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma model to JSON
           newValues: updatedEvent as any,
           ipAddress: request.headers.get("x-forwarded-for") || "unknown",
           userAgent: request.headers.get("user-agent") || "unknown",
@@ -118,10 +121,11 @@ export async function DELETE(
       // Log within same transaction
       await tx.auditLog.create({
         data: {
-          userId: (session.user as any).id,
+          userId: (session.user as { id: string }).id,
           action: "DELETE",
           entityType: "events",
           entityId: id,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma model to JSON
           oldValues: event as any,
           newValues: null,
           ipAddress: request.headers.get("x-forwarded-for") || "unknown",

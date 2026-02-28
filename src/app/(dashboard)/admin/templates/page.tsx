@@ -25,7 +25,7 @@ interface ContentTemplate {
   description: string | null;
   category: string;
   entityType: string;
-  content: any;
+  content: Record<string, unknown>;
   createdAt: string;
   creator: {
     id: string;

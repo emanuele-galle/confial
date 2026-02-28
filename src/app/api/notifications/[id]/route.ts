@@ -19,7 +19,7 @@ export async function PATCH(
     where: { id },
   });
 
-  if (!notification || notification.userId !== (session.user as any).id) {
+  if (!notification || notification.userId !== (session.user as { id: string }).id) {
     return NextResponse.json(
       { error: "Notifica non trovata" },
       { status: 404 }

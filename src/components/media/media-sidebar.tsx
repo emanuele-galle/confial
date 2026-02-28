@@ -34,6 +34,7 @@ export function MediaSidebar({
     return (value: string) => {
       setSearchValue(value);
       clearTimeout(timeout);
+      // eslint-disable-next-line react-hooks/immutability -- debounce timeout reassignment
       timeout = setTimeout(() => {
         onFilterChange({
           folder: selectedFolder,
@@ -209,7 +210,7 @@ export function MediaSidebar({
             )}
             {searchQuery && (
               <div className="text-gray-600">
-                Cerca: "{searchQuery}"
+                Cerca: &quot;{searchQuery}&quot;
               </div>
             )}
           </div>

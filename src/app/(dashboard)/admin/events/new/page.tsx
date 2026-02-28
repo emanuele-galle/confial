@@ -76,6 +76,7 @@ export default function EventCreatePage() {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- matches TemplateContent callback
   const handleLoadTemplate = (templateContent: any) => {
     if (templateContent.title) {
       setFormData({ ...formData, title: templateContent.title });
@@ -316,7 +317,7 @@ export default function EventCreatePage() {
                   Evento in evidenza
                 </span>
                 <span className="text-xs text-gray-500">
-                  L'evento apparirà nella homepage
+                  L&apos;evento apparirà nella homepage
                 </span>
               </div>
             </label>
@@ -338,7 +339,7 @@ export default function EventCreatePage() {
                   Registrazioni aperte
                 </span>
                 <span className="text-xs text-gray-500">
-                  Gli utenti possono registrarsi all'evento
+                  Gli utenti possono registrarsi all&apos;evento
                 </span>
               </div>
             </label>

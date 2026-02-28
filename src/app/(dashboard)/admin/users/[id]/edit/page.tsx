@@ -56,6 +56,7 @@ export default function UserEditPage() {
 
     try {
       // Build payload - only send password if provided
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic user update payload
       const payload: any = {
         email: formData.email,
         name: formData.name,
@@ -98,7 +99,7 @@ export default function UserEditPage() {
     <div className="max-w-4xl mx-auto space-y-6">
       <div>
         <h1 className="text-3xl font-bold text-gray-800">Modifica Utente</h1>
-        <p className="text-gray-600">Aggiorna i dati dell'utente</p>
+        <p className="text-gray-600">Aggiorna i dati dell&apos;utente</p>
       </div>
 
       <form

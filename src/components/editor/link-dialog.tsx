@@ -35,6 +35,7 @@ export function LinkDialog({ editor, open, onOpenChange }: LinkDialogProps) {
       // Pre-populate if editing existing link
       const linkAttrs = editor.getAttributes("link");
       if (linkAttrs.href) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- sync from editor state
         setUrl(linkAttrs.href);
         setOpenInNewTab(linkAttrs.target === "_blank");
         setRel(linkAttrs.rel || "noopener noreferrer");

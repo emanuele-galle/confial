@@ -15,7 +15,5 @@ export const AdvancedEditor = dynamic(
 );
 
 // Export basic editor for backward compatibility
-export { RichTextEditor } from "./rich-text-editor";
 
 // Export types
-export type { AdvancedEditorProps } from "./advanced-editor";

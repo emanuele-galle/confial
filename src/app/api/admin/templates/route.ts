@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
   const entityType = searchParams.get("entityType");
   const category = searchParams.get("category");
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic Prisma where clause
   const where: any = {};
 
   if (entityType) {

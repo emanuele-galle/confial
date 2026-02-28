@@ -18,7 +18,7 @@ interface ValidationResult {
   valid: number;
   invalid: number;
   errors: Array<{ row: number; errors: string[] }>;
-  preview: Array<Record<string, any>>;
+  preview: Array<Record<string, unknown>>;
 }
 
 interface ProgressData {
@@ -464,7 +464,7 @@ export function CSVImportDialog({ entityType, open, onOpenChange, onSuccess }: P
                 onClick={executeImport}
                 disabled={!validationResult || validationResult.valid === 0}
               >
-                Procedi con l'importazione
+                Procedi con l&apos;importazione
               </Button>
             </>
           )}

@@ -177,7 +177,7 @@ export function ImageUpload({
                   <Upload className="h-8 w-8 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">
-                      Trascina un'immagine o clicca per selezionare
+                      Trascina un&apos;immagine o clicca per selezionare
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
                       PNG, JPG, WebP o GIF (max {maxSizeMB}MB)
@@ -215,7 +215,7 @@ export function ImageUpload({
               </Button>
             </form>
             <p className="text-xs text-muted-foreground">
-              Inserisci l'URL di un'immagine esterna
+              Inserisci l&apos;URL di un&apos;immagine esterna
             </p>
           </TabsContent>
         </Tabs>

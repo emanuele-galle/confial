@@ -86,17 +86,17 @@ export default function SettingsPage() {
             <div className="flex items-center gap-2">
               <span
                 className={`inline-flex items-center gap-1 px-3 py-2 rounded-full text-sm font-medium border ${
-                  (session?.user as any)?.role === "SUPER_ADMIN"
+                  (session?.user as { role?: string })?.role === "SUPER_ADMIN"
                     ? "bg-emerald-100 text-emerald-800 border-emerald-200"
                     : "bg-gray-100 text-gray-700 border-gray-200"
                 }`}
               >
-                {(session?.user as any)?.role === "SUPER_ADMIN" ? (
+                {(session?.user as { role?: string })?.role === "SUPER_ADMIN" ? (
                   <Shield className="h-4 w-4" />
                 ) : (
                   <User className="h-4 w-4" />
                 )}
-                {(session?.user as any)?.role === "SUPER_ADMIN"
+                {(session?.user as { role?: string })?.role === "SUPER_ADMIN"
                   ? "Super Admin"
                   : "Admin"}
               </span>

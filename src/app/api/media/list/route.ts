@@ -34,7 +34,8 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
 
     // Build where clause
-    const where: any = {};
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic Prisma where clause
+  const where: any = {};
 
     if (folder) {
       where.folder = folder;

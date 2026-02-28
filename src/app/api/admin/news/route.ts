@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
   const featured = searchParams.get("featured");
 
   // Build where clause with filters
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic Prisma where clause
   const where: any = {};
 
   // Search filter (title, excerpt, content)
@@ -106,7 +107,7 @@ export async function POST(request: NextRequest) {
       slug,
       ...rest,
       publishedAt: publishedAt ? new Date(publishedAt) : null,
-      authorId: (session.user as any).id,
+      authorId: (session.user as { id: string }).id,
     },
   });
 

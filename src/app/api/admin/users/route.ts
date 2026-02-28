@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Only SUPER_ADMIN can view users
-  if ((session.user as any).role !== "SUPER_ADMIN") {
+  if ((session.user as { role: string }).role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
   }
 
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Only SUPER_ADMIN can create users
-  if ((session.user as any).role !== "SUPER_ADMIN") {
+  if ((session.user as { role: string }).role !== "SUPER_ADMIN") {
     return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
   }
 

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/static-components -- editor toolbar components */
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import { useState } from "react";
@@ -31,7 +32,7 @@ import { EditorBubbleMenu } from "./bubble-menu";
 import { LinkDialog } from "./link-dialog";
 import { MediaPicker } from "./media-picker";
 
-export interface AdvancedEditorProps {
+interface AdvancedEditorProps {
   content: string;
   onChange: (html: string) => void;
   placeholder?: string;

@@ -17,7 +17,7 @@ export const BUCKETS = {
   MEDIA: "confial-media",
 } as const;
 
-export async function ensureBucketsExist() {
+async function ensureBucketsExist() {
   for (const bucketName of Object.values(BUCKETS)) {
     const exists = await minioClient.bucketExists(bucketName);
     if (!exists) {

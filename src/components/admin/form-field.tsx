@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 interface FormFieldProps {
   label: string;
-  error?: any; // Accept any error type from react-hook-form
+  error?: { message?: string };
   required?: boolean;
   children: ReactNode;
   helperText?: string;

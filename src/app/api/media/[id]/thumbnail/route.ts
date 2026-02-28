@@ -41,6 +41,7 @@ export async function GET(
     let image = sharp(buffer);
 
     if (width || height) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- sharp resize options
       const resizeOptions: any = {
         fit,
       };

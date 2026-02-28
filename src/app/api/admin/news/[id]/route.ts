@@ -69,11 +69,13 @@ export async function PATCH(
       // Log within same transaction
       await tx.auditLog.create({
         data: {
-          userId: (session.user as any).id,
+          userId: (session.user as { id: string }).id,
           action: "UPDATE",
           entityType: "news",
           entityId: id,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma model to JSON
           oldValues: oldNews as any,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma model to JSON
           newValues: updatedNews as any,
           ipAddress: request.headers.get("x-forwarded-for") || "unknown",
           userAgent: request.headers.get("user-agent") || "unknown",
@@ -124,10 +126,11 @@ export async function DELETE(
       // Log within same transaction
       await tx.auditLog.create({
         data: {
-          userId: (session.user as any).id,
+          userId: (session.user as { id: string }).id,
           action: "DELETE",
           entityType: "news",
           entityId: id,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Prisma model to JSON
           oldValues: news as any,
           newValues: null,
           ipAddress: request.headers.get("x-forwarded-for") || "unknown",

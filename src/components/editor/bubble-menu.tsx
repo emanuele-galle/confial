@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react-hooks/static-components -- editor toolbar components */
 
 import { useEffect, useState, useRef } from "react";
 import type { Editor } from "@tiptap/react";

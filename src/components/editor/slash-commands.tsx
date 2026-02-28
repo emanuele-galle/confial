@@ -7,8 +7,8 @@ import type { SlashCommand } from "./extensions/slash-commands";
 interface SlashCommandMenuProps {
   items: SlashCommand[];
   command: (item: SlashCommand) => void;
-  editor: any;
-  range: any;
+  editor: Record<string, unknown>;
+  range: Record<string, unknown>;
   clientRect: () => DOMRect | null;
 }
 

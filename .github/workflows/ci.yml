@@ -74,10 +74,10 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd /var/www/projects/confial
+            cd /var/www/projects/failms
             git fetch origin
             git reset --hard origin/main
-            /home/sviluppatore/.claude/scripts/zero-downtime-deploy.sh confial
+            /home/sviluppatore/.claude/scripts/zero-downtime-deploy.sh failms
             echo "Deploy completed: $(git rev-parse --short HEAD)"
 
       - name: Health check
@@ -88,10 +88,10 @@ jobs:
       - name: Notify deployment
         if: always()
         run: |
-          curl -sf -X POST "https://n8n.fodivps1.cloud/webhook/deploy-notify" \
+          curl -sf -X POST "https://n8n.fodivps2.cloud/webhook/deploy-notify" \
             -H "Content-Type: application/json" \
             -d '{
-              "project": "confial",
+              "project": "failms",
               "status": "${{ job.status }}",
               "sha": "${{ github.sha }}",
               "actor": "${{ github.actor }}"

@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
       network: host
-    container_name: confial-app
+    container_name: failms-app
     restart: unless-stopped
     env_file:
       - .env.docker
@@ -35,20 +35,10 @@ services:
       - "traefik.http.routers.confial-http.entrypoints=web"
       - "traefik.http.routers.confial-http.middlewares=redirect-to-https@file"
       - "traefik.http.routers.confial-http.service=confial"
-      # Router legacy fodivps1
-      - "traefik.http.routers.confial-legacy.rule=Host(`confial.fodivps1.cloud`)"
-      - "traefik.http.routers.confial-legacy.entrypoints=websecure"
-      - "traefik.http.routers.confial-legacy.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.confial-legacy.middlewares=confial-legacy-redirect"
-      - "traefik.http.routers.confial-legacy.service=confial"
       # Middleware: www -> non-www
       - "traefik.http.middlewares.confial-www-redirect.redirectregex.regex=^https://www\\.failms\\.org/(.*)"
       - "traefik.http.middlewares.confial-www-redirect.redirectregex.replacement=https://failms.org/$${1}"
       - "traefik.http.middlewares.confial-www-redirect.redirectregex.permanent=true"
-      # Middleware: legacy -> production
-      - "traefik.http.middlewares.confial-legacy-redirect.redirectregex.regex=^https://confial\\.fodivps1\\.cloud/(.*)"
-      - "traefik.http.middlewares.confial-legacy-redirect.redirectregex.replacement=https://failms.org/$${1}"
-      - "traefik.http.middlewares.confial-legacy-redirect.redirectregex.permanent=true"
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000"]
       interval: 30s
@@ -58,7 +48,7 @@ services:
 
   postgres:
     image: postgres:18-alpine
-    container_name: confial-postgres
+    container_name: failms-postgres
     restart: unless-stopped
     ports:
       - "127.0.0.1:5441:5432"

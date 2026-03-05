@@ -42,7 +42,7 @@ export default function CookiePage() {
             <div className="prose prose-gray max-w-none">
               <p className="text-lg text-gray-600 mb-8">
                 Questa Cookie Policy spiega cosa sono i cookie, quali tipologie utilizziamo
-                sul sito confial.fodivps1.cloud e come puoi gestire le tue preferenze.
+                sul sito failms.org e come puoi gestire le tue preferenze.
               </p>
 
               {/* Sections */}

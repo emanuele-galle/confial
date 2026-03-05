@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Homepage -->
   <url>
-    <loc>https://confial.fodivps1.cloud/</loc>
+    <loc>https://failms.org/</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -10,49 +10,49 @@
 
   <!-- Servizi -->
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi</loc>
+    <loc>https://failms.org/servizi</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi/caf</loc>
+    <loc>https://failms.org/servizi/caf</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi/patronato</loc>
+    <loc>https://failms.org/servizi/patronato</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi/legale</loc>
+    <loc>https://failms.org/servizi/legale</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi/inquilinato</loc>
+    <loc>https://failms.org/servizi/inquilinato</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi/consumatori</loc>
+    <loc>https://failms.org/servizi/consumatori</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi/vertenze</loc>
+    <loc>https://failms.org/servizi/vertenze</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/servizi/istituto-studi</loc>
+    <loc>https://failms.org/servizi/istituto-studi</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -60,25 +60,25 @@
 
   <!-- Contrattazione -->
   <url>
-    <loc>https://confial.fodivps1.cloud/contrattazione</loc>
+    <loc>https://failms.org/contrattazione</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/contrattazione/nazionale</loc>
+    <loc>https://failms.org/contrattazione/nazionale</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/contrattazione/secondo-livello</loc>
+    <loc>https://failms.org/contrattazione/secondo-livello</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/contrattazione/aziendale</loc>
+    <loc>https://failms.org/contrattazione/aziendale</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -86,19 +86,19 @@
 
   <!-- Altre pagine -->
   <url>
-    <loc>https://confial.fodivps1.cloud/settori</loc>
+    <loc>https://failms.org/settori</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/chi-siamo</loc>
+    <loc>https://failms.org/chi-siamo</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/contatti</loc>
+    <loc>https://failms.org/contatti</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -106,13 +106,13 @@
 
   <!-- Legal -->
   <url>
-    <loc>https://confial.fodivps1.cloud/privacy</loc>
+    <loc>https://failms.org/privacy</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://confial.fodivps1.cloud/cookie</loc>
+    <loc>https://failms.org/cookie</loc>
     <lastmod>2025-12-10</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

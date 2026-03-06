@@ -39,6 +39,8 @@ services:
       - "traefik.http.middlewares.confial-www-redirect.redirectregex.regex=^https://www\\.failms\\.org/(.*)"
       - "traefik.http.middlewares.confial-www-redirect.redirectregex.replacement=https://failms.org/$${1}"
       - "traefik.http.middlewares.confial-www-redirect.redirectregex.permanent=true"
+    volumes:
+      - nextcache:/app/.next/cache
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000"]
       interval: 30s
@@ -68,6 +70,7 @@ services:
       start_period: 30s
 
 volumes:
+  nextcache:
   postgres-data:
 
 networks:

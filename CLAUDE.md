@@ -6,7 +6,7 @@ Sito web per FAILMS - Federazione Autonoma Italiana Lavoratori Metalmeccanici e 
 
 | | |
 |---|---|
-| **URL** | https://confial.fodivps1.cloud |
+| **URL** | https://failms.org |
 | **Porta** | 3019 |
 | **PM2 Name** | confial |
 | **Database** | confial-postgres:5441 |

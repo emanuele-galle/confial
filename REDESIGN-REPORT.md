@@ -466,7 +466,7 @@ First Load JS: 125 kB
 
 **Progetto:** CONFIAL FAILMS
 **Developer:** Emanuele Galle
-**VPS:** fodivps1.cloud (193.203.190.63)
+**VPS:** muscarivps.cloud (193.203.190.63)
 **Data Implementazione:** 30 Gennaio 2026
 
 **Repository:** `/var/www/projects/confial`

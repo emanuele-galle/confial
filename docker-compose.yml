@@ -23,7 +23,7 @@ services:
       - "traefik.http.routers.confial.entrypoints=websecure"
       - "traefik.http.routers.confial.tls.certresolver=letsencrypt"
       - "traefik.http.routers.confial.middlewares=confial-www-redirect,security-headers@file,compress@file"
-      - "traefik.http.services.confial.loadbalancer.server.port=3000"
+      - "traefik.http.services.confial.loadbalancer.server.port=3020"
       # Router www redirect
       - "traefik.http.routers.confial-www.rule=Host(`www.failms.org`)"
       - "traefik.http.routers.confial-www.entrypoints=websecure"
@@ -42,7 +42,7 @@ services:
     volumes:
       - nextcache:/app/.next/cache
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000"]
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3020"]
       interval: 30s
       timeout: 10s
       retries: 3

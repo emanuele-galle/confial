@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { FileText, ChevronLeft, CheckCircle2, ArrowRight, Target, TrendingUp, Shield, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getStaticPageMetadata } from '@/lib/seo';
+
+export const metadata = getStaticPageMetadata('/contrattazione/nazionale');
 
 const obiettivi = [
   {

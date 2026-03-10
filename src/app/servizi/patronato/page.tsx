@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Shield, ChevronLeft, CheckCircle2, ArrowRight, Phone, Clock, Heart, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getStaticPageMetadata } from '@/lib/seo';
+
+export const metadata = getStaticPageMetadata('/servizi/patronato');
 
 const servizi = [
   {

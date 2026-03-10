@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat, Lato } from "next/font/google";
 import "./globals.css";
 import { ConditionalLayout } from "@/components/layout/conditional-layout";
+import { OrganizationStructuredData } from "@/components/structured-data";
 
 const lato = Lato({
   weight: ["400", "700"],
@@ -25,7 +26,11 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "FAILMS - CONFIAL | Federazione Autonoma Italiana Lavoratori Metalmeccanici e Siderurgici",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://failms.org'),
+  title: {
+    default: "FAILMS - CONFIAL | Federazione Autonoma Italiana Lavoratori Metalmeccanici e Siderurgici",
+    template: "%s | FAILMS CONFIAL",
+  },
   description: "Il sindacato dell'industria che difende i diritti, governa le transizioni e costruisce futuro nei luoghi di lavoro. FAILMS aderisce a CONFIAL - Confederazione Italiana Autonoma Lavoratori.",
   keywords: "FAILMS, CONFIAL, sindacato, metalmeccanici, siderurgici, industria, lavoratori, contrattazione, diritti",
   manifest: "/manifest.json",
@@ -63,6 +68,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={`${lato.variable} ${montserrat.variable}`}>
+      <head>
+        <OrganizationStructuredData />
+      </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased">
         <ConditionalLayout>{children}</ConditionalLayout>
       </body>

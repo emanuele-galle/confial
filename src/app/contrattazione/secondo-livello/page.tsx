@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Building2, ChevronLeft, CheckCircle2, ArrowRight, Briefcase, Clock, Gift, Laptop } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getStaticPageMetadata } from '@/lib/seo';
+
+export const metadata = getStaticPageMetadata('/contrattazione/secondo-livello');
 
 const aree = [
   {

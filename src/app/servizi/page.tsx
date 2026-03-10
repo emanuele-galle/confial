@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { getStaticPageMetadata } from '@/lib/seo';
 import {
   Calculator,
   Shield,
@@ -15,6 +16,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+export const metadata = getStaticPageMetadata('/servizi');
 
 const servizi = [
   {

@@ -13,6 +13,9 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getStaticPageMetadata } from '@/lib/seo';
+
+export const metadata = getStaticPageMetadata('/contrattazione');
 
 const livelli = [
   {

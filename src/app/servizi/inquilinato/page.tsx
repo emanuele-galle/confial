@@ -2,6 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Home, ChevronLeft, CheckCircle2, ArrowRight, Phone, Building, Key, FileCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getStaticPageMetadata } from '@/lib/seo';
+
+export const metadata = getStaticPageMetadata('/servizi/inquilinato');
 
 const servizi = [
   {
